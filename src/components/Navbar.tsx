@@ -1,6 +1,8 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -21,7 +23,7 @@ const Navbar = () => {
   return (
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 px-4 md:px-8 py-4 ${
-        scrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
+        scrolled ? "bg-background/90 backdrop-blur-md shadow-md" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto flex justify-between items-center">
@@ -30,16 +32,16 @@ const Navbar = () => {
         </a>
         
         <div className="hidden md:flex items-center gap-8">
-          <a href="#how-it-works" className="text-sm font-medium transition-colors hover:text-gold">
+          <a href="#how-it-works" className="text-sm font-medium transition-colors hover:text-gold border-b-2 border-transparent hover:border-gold pb-1">
             How It Works
           </a>
-          <a href="#testimonials" className="text-sm font-medium transition-colors hover:text-gold">
+          <a href="#testimonials" className="text-sm font-medium transition-colors hover:text-gold border-b-2 border-transparent hover:border-gold pb-1">
             Testimonials
           </a>
-          <Button variant="outline" className="border-gold text-gold hover:bg-gold hover:text-white">
+          <Button variant="outline" className="border-gold text-gold hover:bg-gold/10 hover:text-white">
             Sign In
           </Button>
-          <Button className="bg-gold hover:bg-gold/90 text-white">Get Styled</Button>
+          <Button className="bg-gold hover:bg-gold/90 text-white font-medium">Get Styled</Button>
         </div>
 
         <Button variant="ghost" className="md:hidden" size="icon">

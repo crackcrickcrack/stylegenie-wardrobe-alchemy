@@ -1,10 +1,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Subscription functionality would go here
+    if (email) {
+      console.log(`Subscribing email: ${email}`);
+      setEmail("");
+      // Here you would typically send this to a backend
+    }
+  };
+
   return (
-    <footer className="bg-stylish-black text-white pt-16 pb-8 px-4">
+    <footer className="bg-stylish-black bg-opacity-95 text-white pt-16 pb-8 px-4 border-t border-gold/10">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           <div>
@@ -34,39 +47,43 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="font-bold uppercase text-sm text-gray-400 mb-4">Company</h4>
+            <h4 className="font-bold uppercase text-sm text-gold mb-4">Company</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">About Us</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">How It Works</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Testimonials</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Press</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Careers</a></li>
+              <li><a href="/about" className="text-gray-300 hover:text-gold transition-colors">About Us</a></li>
+              <li><a href="#how-it-works" className="text-gray-300 hover:text-gold transition-colors">How It Works</a></li>
+              <li><a href="#testimonials" className="text-gray-300 hover:text-gold transition-colors">Testimonials</a></li>
+              <li><a href="/press" className="text-gray-300 hover:text-gold transition-colors">Press</a></li>
+              <li><a href="/careers" className="text-gray-300 hover:text-gold transition-colors">Careers</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-bold uppercase text-sm text-gray-400 mb-4">Support</h4>
+            <h4 className="font-bold uppercase text-sm text-gold mb-4">Support</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Cookie Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-gold transition-colors">Contact Us</a></li>
+              <li><a href="/help" className="text-gray-300 hover:text-gold transition-colors">Help Center</a></li>
+              <li><a href="/privacy" className="text-gray-300 hover:text-gold transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms" className="text-gray-300 hover:text-gold transition-colors">Terms of Service</a></li>
+              <li><a href="/cookie-policy" className="text-gray-300 hover:text-gold transition-colors">Cookie Policy</a></li>
+              <li><a href="/contact" className="text-gray-300 hover:text-gold transition-colors">Contact Us</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-bold uppercase text-sm text-gray-400 mb-4">Subscribe</h4>
+            <h4 className="font-bold uppercase text-sm text-gold mb-4">Subscribe</h4>
             <p className="text-gray-300 mb-4">Get style tips and exclusive offers straight to your inbox.</p>
-            <div className="flex gap-2">
+            <form onSubmit={handleSubscribe} className="flex gap-2">
               <Input 
                 placeholder="Your email" 
                 className="bg-stylish-black border-gray-700 focus:border-gold"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                required
               />
-              <Button className="bg-gold hover:bg-gold/90 text-white">
+              <Button type="submit" className="bg-gold hover:bg-gold/90 text-white">
                 Subscribe
               </Button>
-            </div>
+            </form>
           </div>
         </div>
         
@@ -75,9 +92,9 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} StyleGenie. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-gray-500 text-sm hover:text-gold transition-colors">Privacy</a>
-            <a href="#" className="text-gray-500 text-sm hover:text-gold transition-colors">Terms</a>
-            <a href="#" className="text-gray-500 text-sm hover:text-gold transition-colors">Sitemap</a>
+            <a href="/privacy" className="text-gray-500 text-sm hover:text-gold transition-colors">Privacy</a>
+            <a href="/terms" className="text-gray-500 text-sm hover:text-gold transition-colors">Terms</a>
+            <a href="/sitemap" className="text-gray-500 text-sm hover:text-gold transition-colors">Sitemap</a>
           </div>
         </div>
       </div>
