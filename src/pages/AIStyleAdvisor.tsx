@@ -24,28 +24,20 @@ const AIStyleAdvisor: React.FC = () => {
   const [occasion, setOccasion] = useState<string>('');
   const [bodyType, setBodyType] = useState<string>('');
   const [photo, setPhoto] = useState<string>('');
+  const [photoS3Url, setPhotoS3Url] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        setError('File size should be less than 5MB');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhoto(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handlePhotoUpload = (previewUrl: string | null, s3Url?: string) => {
+    setPhoto(previewUrl || '');
+    setPhotoS3Url(s3Url || '');
   };
 
   const handleRemovePhoto = () => {
     setPhoto('');
+    setPhotoS3Url('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -59,19 +51,6 @@ const AIStyleAdvisor: React.FC = () => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setError('File size should be less than 5MB');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhoto(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const getStyleSuggestions = async () => {
@@ -88,12 +67,12 @@ const AIStyleAdvisor: React.FC = () => {
       const payload = {
         occasion,
         body_type: bodyType,
-        photo: photo || undefined
+        photo: photoS3Url || undefined // Use S3 URL instead of base64
       };
 
       console.log('Sending request with payload:', {
         ...payload,
-        photo: photo ? 'Base64 image data (truncated)' : undefined
+        photo: photoS3Url ? 'S3 URL (truncated)' : undefined
       });
 
       const response = await fetch('https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI', {
@@ -187,7 +166,16 @@ const AIStyleAdvisor: React.FC = () => {
                     ref={fileInputRef}
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
-                    onChange={handlePhotoUpload}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          handlePhotoUpload(reader.result as string);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
                     className="hidden"
                   />
                 </div>
