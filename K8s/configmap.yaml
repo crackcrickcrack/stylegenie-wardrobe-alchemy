@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stylegenie-config
+  namespace: stylegenie
+data:
+  API_URL: "https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI"
+  # Add other environment variables as needed
