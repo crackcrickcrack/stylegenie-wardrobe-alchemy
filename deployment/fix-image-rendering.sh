@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "=== Updating StyleGenieAI Lambda Function with Better Image Generation ==="
+echo "=== Updating StyleGenieAI Lambda Function with AI Response & Stable Diffusion ==="
 
 # Create a temporary directory
 TMP_DIR=$(mktemp -d)
@@ -16,6 +16,8 @@ import boto3
 import os
 import traceback
 import random
+import base64
+import requests
 from datetime import datetime
 
 # Initialize Bedrock client
@@ -42,7 +44,7 @@ def generate_better_placeholder_images(occasion, body_type, item_type, index):
     # Create more specific image text based on the occasion and body type
     categories = {
         "casual": ["casual", "relaxed", "everyday", "weekend"],
-        "formal": ["formal", "elegant", "sophisticated", "dressy"],
+        "formal": ["elegant", "sophisticated", "dressy", "formal"],
         "business": ["business", "professional", "office", "work"],
         "party": ["party", "celebration", "festive", "night-out"],
         "wedding": ["wedding", "ceremony", "formal-event", "celebration"]
@@ -62,11 +64,11 @@ def generate_better_placeholder_images(occasion, body_type, item_type, index):
     
     # Create image URL with specific text
     if item_type == "outfit":
-        return f"https://placehold.co/600x800/png?text={occasion_term}+{body_term}+outfit+{index}"
+        return f"https://placehold.co/600x800/EEE/31343C?text={occasion_term}+{body_term}+outfit+{index}"
     else:  # historical
         decades = ["1950s", "1960s", "1970s", "1980s", "1990s", "2000s"]
         decade = decades[index % len(decades)]
-        return f"https://placehold.co/600x800/png?text={decade}+{occasion_term}+fashion"
+        return f"https://placehold.co/600x800/EEE/31343C?text={decade}+{occasion_term}+fashion"
 
 def get_default_response(occasion="casual", body_type="slim"):
     """Generate a default response structure with better placeholders"""
@@ -123,6 +125,14 @@ def get_default_response(occasion="casual", body_type="slim"):
         ]
     }
 
+# Will be implemented in the future to generate images with Stable Diffusion
+def generate_outfit_image(outfit_description, occasion, body_type):
+    """Generate an image using Stable Diffusion API"""
+    # This is a placeholder for future implementation
+    # For now, return a better placeholder
+    index = random.randint(1, 100)
+    return generate_better_placeholder_images(occasion, body_type, "outfit", index)
+
 def lambda_handler(event, context):
     try:
         # Parse the request
@@ -148,11 +158,6 @@ def lambda_handler(event, context):
             print("Missing required parameters")
             return format_response(400, {"error": "occasion and body_type are required"})
         
-        # For now, return a better default response while we work on Bedrock integration
-        # Return enhanced default response based on occasion and body type
-        default_response = get_default_response(occasion, body_type)
-        return format_response(200, default_response)
-        
         # Prepare prompt for Claude
         prompt = f"""Human: I need some fashion advice for the following scenario:
 Occasion: {occasion}
@@ -167,19 +172,19 @@ Format your response as JSON with the following structure:
 {{
   "outfit_suggestions": [
     {{ 
-      "image_url": "https://placehold.co/600x400/png?text=Outfit+Suggestion+1",
       "description": "Complete description of the outfit"
     }},
     ...
   ],
   "historical_fashion": [
     {{ 
-      "year": "1950s",
-      "image_url": "https://placehold.co/600x400/png?text=1950s+Fashion"
+      "year": "1950s"
     }},
     ...
   ]
-}}"""
+}}
+
+Do not include image_url fields in your response. The system will generate those separately."""
 
         # Invoke Bedrock model
         try:
@@ -233,6 +238,14 @@ Format your response as JSON with the following structure:
                         result['outfit_suggestions'] = default['outfit_suggestions']
                     if 'historical_fashion' not in result:
                         result['historical_fashion'] = default['historical_fashion']
+                else:
+                    # Add image_url to each outfit suggestion
+                    for i, outfit in enumerate(result['outfit_suggestions']):
+                        outfit['image_url'] = generate_better_placeholder_images(occasion, body_type, "outfit", i+1)
+                    
+                    # Add image_url to each historical fashion item
+                    for i, hist_item in enumerate(result['historical_fashion']):
+                        hist_item['image_url'] = generate_better_placeholder_images(occasion, body_type, "historical", i)
                 
                 return format_response(200, result)
             except Exception as e:
@@ -264,5 +277,10 @@ aws lambda update-function-code \
     --zip-file fileb://lambda_function.zip
 
 echo "=== Lambda update completed ==="
-echo "The Lambda function has been updated with better image rendering."
-echo "Please try the Style Advisor page again at http://stylegenie.duckdns.org/ai-style-advisor" 
+echo "The Lambda function has been updated to use real AI responses from Bedrock."
+echo "Placeholder images are improved until Stable Diffusion integration is completed."
+echo "Please try the Style Advisor page again at http://stylegenie.duckdns.org/ai-style-advisor"
+
+# Clean up
+cd ..
+rm -rf $TMP_DIR 
