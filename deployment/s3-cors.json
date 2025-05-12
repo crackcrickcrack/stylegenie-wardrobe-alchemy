@@ -1,0 +1,25 @@
+{
+    "CORSRules": [
+        {
+            "AllowedHeaders": [
+                "*"
+            ],
+            "AllowedMethods": [
+                "PUT",
+                "POST",
+                "GET"
+            ],
+            "AllowedOrigins": [
+                "http://localhost:3000",
+                "https://stylegenie.vercel.app",
+                "https://*.stylegenie.vercel.app",
+                "http://stylegenie.duckdns.org"
+            ],
+            "ExposeHeaders": [
+                "ETag",
+                "Content-Length"
+            ],
+            "MaxAgeSeconds": 3600
+        }
+    ]
+} 
