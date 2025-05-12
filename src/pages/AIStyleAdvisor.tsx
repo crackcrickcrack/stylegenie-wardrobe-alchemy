@@ -22,9 +22,9 @@ interface AIResponse {
 
 // List of potential API endpoints to try
 const API_ENDPOINTS = [
-  '/StyleGenieAI',  // Relative path - try this first
-  'https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI',  // Original endpoint from StylingSection
-  'https://aaicj5k6zb.execute-api.us-east-1.amazonaws.com/prod/style-advisor',  // New endpoint from scripts
+  'https://tjuw95y38e.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI',  // New working API from fix-api-gateway
+  '/StyleGenieAI',  // Relative path
+  'https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI',  // Old endpoint
   'https://api.stylegenie.duckdns.org/StyleGenieAI'  // Custom domain
 ];
 
