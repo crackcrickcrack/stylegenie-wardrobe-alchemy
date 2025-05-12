@@ -10,13 +10,11 @@ RUN npm run build
 
 FROM nginx:alpine
 
-# Install AWS CLI dependencies
+# Install AWS CLI using Alpine packages
 RUN apk add --no-cache \
-    python3 \
-    py3-pip \
+    aws-cli \
     groff \
-    less \
-    && pip3 install --no-cache-dir awscli
+    less
 
 # Copy AWS configuration directory and ensure it exists
 RUN mkdir -p /root/.aws
