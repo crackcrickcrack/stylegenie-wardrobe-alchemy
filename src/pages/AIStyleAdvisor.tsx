@@ -59,7 +59,8 @@ const AIStyleAdvisor: React.FC = () => {
         photo: photoS3Url ? photoS3Url : undefined
       });
 
-      const response = await fetch('https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI', {
+      // Use direct path instead of relative path for deployed environment
+      const response = await fetch('/StyleGenieAI', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
