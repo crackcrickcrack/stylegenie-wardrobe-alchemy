@@ -84,27 +84,43 @@ const AIStyleAdvisor: React.FC = () => {
     setError('');
 
     try {
+      // Prepare the request payload
+      const payload = {
+        occasion,
+        body_type: bodyType,
+        photo: photo || undefined
+      };
+
+      console.log('Sending request with payload:', {
+        ...payload,
+        photo: photo ? 'Base64 image data (truncated)' : undefined
+      });
+
       const response = await fetch('https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          occasion,
-          body_type: bodyType,
-          photo: photo || undefined
-        })
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch style suggestions');
+        const errorData = await response.json().catch(() => null);
+        console.error('API Error Response:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorData
+        });
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
+      console.log('API Response:', data);
       setSuggestions(data);
     } catch (err) {
-      setError('Sorry, we couldn\'t generate suggestions at this time. Please try again.');
-      console.error('Error fetching style suggestions:', err);
+      console.error('Error details:', err);
+      setError(err instanceof Error ? err.message : 'Sorry, we couldn\'t generate suggestions at this time. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -209,7 +225,9 @@ const AIStyleAdvisor: React.FC = () => {
           </Button>
 
           {error && (
-            <p className="text-red-500 text-sm mt-2">{error}</p>
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600 text-sm">{error}</p>
+            </div>
           )}
         </div>
       </Card>
