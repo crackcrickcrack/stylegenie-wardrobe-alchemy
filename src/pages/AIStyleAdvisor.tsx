@@ -20,8 +20,13 @@ interface AIResponse {
   historical_fashion: HistoricalFashion[];
 }
 
-// API endpoint for StyleGenieAI
-const API_ENDPOINT = 'https://aaicj5k6zb.execute-api.us-east-1.amazonaws.com/prod/style-advisor';
+// List of potential API endpoints to try
+const API_ENDPOINTS = [
+  '/StyleGenieAI',  // Relative path - try this first
+  'https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI',  // Original endpoint from StylingSection
+  'https://aaicj5k6zb.execute-api.us-east-1.amazonaws.com/prod/style-advisor',  // New endpoint from scripts
+  'https://api.stylegenie.duckdns.org/StyleGenieAI'  // Custom domain
+];
 
 const AIStyleAdvisor: React.FC = () => {
   const [occasion, setOccasion] = useState<string>('');
@@ -32,11 +37,12 @@ const AIStyleAdvisor: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
   const [apiDebug, setApiDebug] = useState<any>(null);
+  const [workingEndpoint, setWorkingEndpoint] = useState<string | null>(null);
 
   useEffect(() => {
     console.log('AIStyleAdvisor component mounted');
-    // Log the API endpoint being used
-    console.log('API endpoint:', API_ENDPOINT);
+    // Log the API endpoints being used
+    console.log('Potential API endpoints:', API_ENDPOINTS);
   }, []);
 
   const handlePhotoUpload = (previewUrl: string | null, s3Url?: string) => {
@@ -44,6 +50,55 @@ const AIStyleAdvisor: React.FC = () => {
     setPhoto(previewUrl);
     if (s3Url) {
       setPhotoS3Url(s3Url);
+    }
+  };
+
+  // Function to try a specific endpoint
+  const tryEndpoint = async (endpoint: string, payload: any) => {
+    console.log(`Trying endpoint: ${endpoint}`);
+    
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      console.log(`Response status from ${endpoint}:`, response.status);
+      
+      if (!response.ok) {
+        console.log(`Error from ${endpoint}:`, response.status, response.statusText);
+        return null;
+      }
+      
+      const responseText = await response.text();
+      if (!responseText) {
+        console.log(`Empty response from ${endpoint}`);
+        return null;
+      }
+      
+      try {
+        const data = JSON.parse(responseText);
+        // Check if the response has the expected structure
+        if (data.outfit_suggestions && data.historical_fashion) {
+          console.log(`✅ Success from ${endpoint}`);
+          // Update the working endpoint for future use
+          setWorkingEndpoint(endpoint);
+          return data;
+        } else {
+          console.log(`Response from ${endpoint} missing expected fields`);
+          return null;
+        }
+      } catch (e) {
+        console.log(`Error parsing JSON from ${endpoint}:`, e);
+        return null;
+      }
+    } catch (e) {
+      console.log(`Network error with ${endpoint}:`, e);
+      return null;
     }
   };
 
@@ -57,95 +112,70 @@ const AIStyleAdvisor: React.FC = () => {
     setError('');
     setApiDebug(null);
 
-    try {
-      // Prepare the request payload
-      const payload = {
-        occasion,
-        body_type: bodyType,
-        photo: photoS3Url || undefined // Use S3 URL instead of base64
-      };
+    // Prepare the request payload
+    const payload = {
+      occasion,
+      body_type: bodyType,
+      photo: photoS3Url || undefined // Use S3 URL instead of base64
+    };
 
-      console.log('Sending request with payload:', {
-        ...payload,
-        photo: photoS3Url ? photoS3Url : undefined
-      });
+    console.log('Sending request with payload:', {
+      ...payload,
+      photo: photoS3Url ? photoS3Url : undefined
+    });
 
-      // Use the direct API endpoint instead of relative path
-      console.log('Fetching from API endpoint:', API_ENDPOINT);
-      const response = await fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      console.log('Response status:', response.status);
-      console.log('Response headers:', [...response.headers.entries()]);
-
-      if (!response.ok) {
-        let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-        try {
-          const errorData = await response.json();
-          console.error('API Error Response:', errorData);
-          setApiDebug({ status: response.status, error: errorData });
-          if (errorData.error) {
-            errorMessage = errorData.error;
-          }
-        } catch (e) {
-          console.error('Could not parse error response as JSON');
-        }
-        throw new Error(errorMessage);
+    // Try each endpoint in order until one works
+    let successData = null;
+    const endpointsToTry = workingEndpoint 
+      ? [workingEndpoint, ...API_ENDPOINTS.filter(e => e !== workingEndpoint)] 
+      : API_ENDPOINTS;
+    
+    for (const endpoint of endpointsToTry) {
+      const data = await tryEndpoint(endpoint, payload);
+      if (data) {
+        successData = data;
+        break;
       }
+    }
 
-      const responseText = await response.text();
-      console.log('Raw response text:', responseText);
+    if (successData) {
+      // Process and validate the response
+      const data = successData;
+      setApiDebug({ responseData: data, workingEndpoint });
       
-      let data;
-      try {
-        data = JSON.parse(responseText);
-        console.log('API Response:', data);
-        setApiDebug({ responseData: data });
-      } catch (e) {
-        console.error('Error parsing response JSON:', e);
-        throw new Error('Invalid response format from server');
-      }
-
-      // Validate the response structure
-      if (!data.outfit_suggestions || !data.historical_fashion) {
-        console.error('Invalid response structure:', data);
-        throw new Error('The server response is missing required data');
-      }
-
       // Check if image URLs are valid
       console.log('Validating image URLs');
       data.outfit_suggestions.forEach((outfit: OutfitSuggestion, index: number) => {
-        console.log(`Outfit ${index+1} image URL:`, outfit.image_url);
         if (!outfit.image_url) {
           outfit.image_url = `https://placehold.co/600x800/EEE/31343C?text=Outfit+${index+1}`;
         }
       });
 
       data.historical_fashion.forEach((item: HistoricalFashion, index: number) => {
-        console.log(`Historical ${index+1} image URL:`, item.image_url);
         if (!item.image_url) {
           item.image_url = `https://placehold.co/600x800/EEE/31343C?text=Historical+${index+1}`;
         }
       });
 
       setSuggestions(data);
-    } catch (err) {
-      console.error('Error details:', err);
-      setError(err instanceof Error ? err.message : 'Sorry, we couldn\'t generate suggestions at this time. Please try again.');
-    } finally {
-      setLoading(false);
+    } else {
+      // All endpoints failed
+      setError('Could not connect to style advisor service. Please try again later.');
+      setApiDebug({ error: 'All API endpoints failed', triedEndpoints: API_ENDPOINTS });
     }
+    
+    setLoading(false);
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">AI Style Advisor</h1>
+      
+      {workingEndpoint && (
+        <div className="mb-4 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800">
+          Using API endpoint: {workingEndpoint}
+        </div>
+      )}
       
       <Card className="p-6 mb-8">
         <div className="space-y-6">
