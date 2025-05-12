@@ -51,6 +51,29 @@ const AIStyleAdvisor: React.FC = () => {
     }
   };
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError('File size should be less than 5MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhoto(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const getStyleSuggestions = async () => {
     if (!occasion || !bodyType) {
       setError('Please fill in all required fields');
@@ -92,11 +115,11 @@ const AIStyleAdvisor: React.FC = () => {
       <h1 className="text-3xl font-bold mb-8">AI Style Advisor</h1>
       
       <Card className="p-6 mb-8">
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div>
             <label className="block text-sm font-medium mb-2">Occasion</label>
             <Select onValueChange={setOccasion}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select an occasion" />
               </SelectTrigger>
               <SelectContent>
@@ -112,7 +135,7 @@ const AIStyleAdvisor: React.FC = () => {
           <div>
             <label className="block text-sm font-medium mb-2">Body Type</label>
             <Select onValueChange={setBodyType}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select your body type" />
               </SelectTrigger>
               <SelectContent>
@@ -127,10 +150,14 @@ const AIStyleAdvisor: React.FC = () => {
 
           <div>
             <label className="block text-sm font-medium mb-2">Upload Photo (Optional)</label>
-            <div className="mt-2">
+            <div 
+              className="mt-2"
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
               {!photo ? (
                 <div
-                  className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-gold transition-colors"
+                  className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-gold transition-colors bg-gray-50"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <Upload className="mx-auto h-12 w-12 text-gray-400" />
@@ -138,12 +165,12 @@ const AIStyleAdvisor: React.FC = () => {
                     Click to upload or drag and drop
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
-                    PNG, JPG, GIF up to 5MB
+                    PNG, JPG or WEBP (MAX. 5MB)
                   </p>
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept="image/*"
+                    accept="image/png,image/jpeg,image/webp"
                     onChange={handlePhotoUpload}
                     className="hidden"
                   />
@@ -169,7 +196,7 @@ const AIStyleAdvisor: React.FC = () => {
           <Button
             onClick={getStyleSuggestions}
             disabled={loading}
-            className="w-full"
+            className="w-full bg-gold hover:bg-gold/90 text-white font-medium"
           >
             {loading ? (
               <>
@@ -177,7 +204,7 @@ const AIStyleAdvisor: React.FC = () => {
                 Generating Suggestions...
               </>
             ) : (
-              'Get Style Suggestions'
+              'Generate Outfit'
             )}
           </Button>
 
