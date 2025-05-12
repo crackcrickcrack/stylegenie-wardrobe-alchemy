@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Upload, X } from "lucide-react";
@@ -11,10 +11,18 @@ type PhotoUploadProps = {
 const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
   const [error, setError] = useState<string>("");
   const [uploading, setUploading] = useState(false);
+  const [localImage, setLocalImage] = useState<string | null>(image);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Keep local state in sync with props
+  useEffect(() => {
+    setLocalImage(image);
+  }, [image]);
 
   const uploadToS3 = async (file: File): Promise<string> => {
     try {
+      console.log("Starting S3 upload for file:", file.name);
+      
       // First, get a pre-signed URL from your backend
       const response = await fetch('https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/getUploadUrl', {
         method: 'POST',
@@ -28,10 +36,12 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
       });
 
       if (!response.ok) {
+        console.error("Failed to get upload URL:", response.status, response.statusText);
         throw new Error('Failed to get upload URL');
       }
 
       const { uploadUrl, fileUrl } = await response.json();
+      console.log("Got pre-signed URL:", uploadUrl);
 
       // Upload the file to S3 using the pre-signed URL
       const uploadResponse = await fetch(uploadUrl, {
@@ -43,9 +53,11 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
       });
 
       if (!uploadResponse.ok) {
+        console.error("Failed to upload to S3:", uploadResponse.status, uploadResponse.statusText);
         throw new Error('Failed to upload to S3');
       }
 
+      console.log("Successfully uploaded to S3, file URL:", fileUrl);
       return fileUrl;
     } catch (error) {
       console.error('Error uploading to S3:', error);
@@ -53,10 +65,7 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
     }
   };
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const processFile = async (file: File) => {
     // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       setError("File size should be less than 5MB");
@@ -74,24 +83,46 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
     setUploading(true);
 
     try {
-      // Read the file for preview
+      // Read file for preview first
       const reader = new FileReader();
-      reader.onload = async () => {
-        const previewUrl = reader.result as string;
+      
+      reader.onload = async (e) => {
+        const previewUrl = e.target?.result as string;
+        // Update local preview immediately
+        setLocalImage(previewUrl);
         
-        // Upload to S3
-        const s3Url = await uploadToS3(file);
-        
-        // Call onImageChange with both preview and S3 URL
-        onImageChange(previewUrl, s3Url);
+        try {
+          // Try to upload to S3
+          const s3Url = await uploadToS3(file);
+          // Update parent component with both preview and S3 URL
+          onImageChange(previewUrl, s3Url);
+        } catch (err) {
+          console.error("S3 upload failed:", err);
+          // Still keep the preview image even if S3 upload fails
+          onImageChange(previewUrl);
+          setError("Failed to upload to S3, but preview is available");
+        } finally {
+          setUploading(false);
+        }
       };
+      
+      reader.onerror = () => {
+        setError("Failed to read file");
+        setUploading(false);
+      };
+      
       reader.readAsDataURL(file);
     } catch (err) {
-      setError("Failed to upload image. Please try again.");
-      console.error("Upload error:", err);
-    } finally {
+      console.error("File processing error:", err);
+      setError("Failed to process image");
       setUploading(false);
     }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    processFile(file);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -99,51 +130,18 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
     e.stopPropagation();
   };
 
-  const handleDrop = async (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
-
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      setError("File size should be less than 5MB");
-      return;
-    }
-
-    // Validate file type
-    const validTypes = ["image/jpeg", "image/png", "image/webp"];
-    if (!validTypes.includes(file.type)) {
-      setError("Please upload a valid image file (PNG, JPG, or WEBP)");
-      return;
-    }
-
-    setError("");
-    setUploading(true);
-
-    try {
-      // Read the file for preview
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const previewUrl = reader.result as string;
-        
-        // Upload to S3
-        const s3Url = await uploadToS3(file);
-        
-        // Call onImageChange with both preview and S3 URL
-        onImageChange(previewUrl, s3Url);
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
-      setError("Failed to upload image. Please try again.");
-      console.error("Upload error:", err);
-    } finally {
-      setUploading(false);
-    }
+    processFile(file);
   };
 
-  const handleRemovePhoto = () => {
+  const handleRemovePhoto = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLocalImage(null);
     onImageChange(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -158,21 +156,18 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
         className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gold transition-colors cursor-pointer bg-gray-50"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        onClick={() => !image && !uploading && fileInputRef.current?.click()}
+        onClick={() => !localImage && !uploading && fileInputRef.current?.click()}
       >
-        {image ? (
+        {localImage ? (
           <div className="relative">
             <img 
-              src={image} 
+              src={localImage} 
               alt="Uploaded" 
               className="mx-auto max-h-64 rounded object-cover" 
             />
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRemovePhoto();
-              }}
+              onClick={handleRemovePhoto}
               className="absolute top-2 right-2 p-1 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
             >
               <X className="h-5 w-5 text-white" />

@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Loader2, Upload, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import PhotoUpload from "@/components/styling/PhotoUpload";
 
 interface OutfitSuggestion {
   image_url: string;
@@ -23,34 +23,18 @@ interface AIResponse {
 const AIStyleAdvisor: React.FC = () => {
   const [occasion, setOccasion] = useState<string>('');
   const [bodyType, setBodyType] = useState<string>('');
-  const [photo, setPhoto] = useState<string>('');
+  const [photo, setPhoto] = useState<string | null>(null);
   const [photoS3Url, setPhotoS3Url] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePhotoUpload = (previewUrl: string | null, s3Url?: string) => {
-    setPhoto(previewUrl || '');
-    setPhotoS3Url(s3Url || '');
-  };
-
-  const handleRemovePhoto = () => {
-    setPhoto('');
-    setPhotoS3Url('');
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    console.log("Photo upload handler called:", { previewUrl: previewUrl ? "[data]" : null, s3Url });
+    setPhoto(previewUrl);
+    if (s3Url) {
+      setPhotoS3Url(s3Url);
     }
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
   };
 
   const getStyleSuggestions = async () => {
@@ -72,7 +56,7 @@ const AIStyleAdvisor: React.FC = () => {
 
       console.log('Sending request with payload:', {
         ...payload,
-        photo: photoS3Url ? 'S3 URL (truncated)' : undefined
+        photo: photoS3Url ? photoS3Url : undefined
       });
 
       const response = await fetch('https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI', {
@@ -113,7 +97,7 @@ const AIStyleAdvisor: React.FC = () => {
         <div className="space-y-6">
           <div>
             <label className="block text-sm font-medium mb-2">Occasion</label>
-            <Select onValueChange={setOccasion}>
+            <Select onValueChange={setOccasion} value={occasion}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select an occasion" />
               </SelectTrigger>
@@ -129,7 +113,7 @@ const AIStyleAdvisor: React.FC = () => {
 
           <div>
             <label className="block text-sm font-medium mb-2">Body Type</label>
-            <Select onValueChange={setBodyType}>
+            <Select onValueChange={setBodyType} value={bodyType}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select your body type" />
               </SelectTrigger>
@@ -144,57 +128,10 @@ const AIStyleAdvisor: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Upload Photo (Optional)</label>
-            <div 
-              className="mt-2"
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
-              {!photo ? (
-                <div
-                  className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-gold transition-colors bg-gray-50"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                  <p className="mt-2 text-sm text-gray-600">
-                    Click to upload or drag and drop
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    PNG, JPG or WEBP (MAX. 5MB)
-                  </p>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          handlePhotoUpload(reader.result as string);
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }}
-                    className="hidden"
-                  />
-                </div>
-              ) : (
-                <div className="relative">
-                  <img
-                    src={photo}
-                    alt="Uploaded photo"
-                    className="w-full h-64 object-cover rounded-lg"
-                  />
-                  <button
-                    onClick={handleRemovePhoto}
-                    className="absolute top-2 right-2 p-1 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
-                  >
-                    <X className="h-5 w-5 text-white" />
-                  </button>
-                </div>
-              )}
-            </div>
+            <PhotoUpload 
+              image={photo} 
+              onImageChange={handlePhotoUpload} 
+            />
           </div>
 
           <Button
