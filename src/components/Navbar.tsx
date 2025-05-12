@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -27,9 +27,9 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <a href="#" className="text-2xl font-playfair font-bold">
+        <Link to="/" className="text-2xl font-playfair font-bold">
           <span className="mr-1 text-gold">Style</span>Genie
-        </a>
+        </Link>
         
         <div className="hidden md:flex items-center gap-8">
           <a href="#how-it-works" className="text-sm font-medium transition-colors hover:text-gold border-b-2 border-transparent hover:border-gold pb-1">
@@ -38,6 +38,9 @@ const Navbar = () => {
           <a href="#testimonials" className="text-sm font-medium transition-colors hover:text-gold border-b-2 border-transparent hover:border-gold pb-1">
             Testimonials
           </a>
+          <Link to="/ai-style-advisor" className="text-sm font-medium transition-colors hover:text-gold border-b-2 border-transparent hover:border-gold pb-1">
+            AI Style Advisor
+          </Link>
           <Button variant="outline" className="border-gold text-gold hover:bg-gold/10 hover:text-white">
             Sign In
           </Button>
