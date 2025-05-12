@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -49,22 +50,22 @@ const Footer = () => {
           <div>
             <h4 className="font-bold uppercase text-sm text-gold mb-4">Company</h4>
             <ul className="space-y-2">
-              <li><a href="/about" className="text-gray-300 hover:text-gold transition-colors">About Us</a></li>
+              <li><Link to="/about" className="text-gray-300 hover:text-gold transition-colors">About Us</Link></li>
               <li><a href="#how-it-works" className="text-gray-300 hover:text-gold transition-colors">How It Works</a></li>
               <li><a href="#testimonials" className="text-gray-300 hover:text-gold transition-colors">Testimonials</a></li>
-              <li><a href="/press" className="text-gray-300 hover:text-gold transition-colors">Press</a></li>
-              <li><a href="/careers" className="text-gray-300 hover:text-gold transition-colors">Careers</a></li>
+              <li><Link to="/press" className="text-gray-300 hover:text-gold transition-colors">Press</Link></li>
+              <li><Link to="/careers" className="text-gray-300 hover:text-gold transition-colors">Careers</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-bold uppercase text-sm text-gold mb-4">Support</h4>
             <ul className="space-y-2">
-              <li><a href="/help" className="text-gray-300 hover:text-gold transition-colors">Help Center</a></li>
-              <li><a href="/privacy" className="text-gray-300 hover:text-gold transition-colors">Privacy Policy</a></li>
-              <li><a href="/terms" className="text-gray-300 hover:text-gold transition-colors">Terms of Service</a></li>
-              <li><a href="/cookie-policy" className="text-gray-300 hover:text-gold transition-colors">Cookie Policy</a></li>
-              <li><a href="/contact" className="text-gray-300 hover:text-gold transition-colors">Contact Us</a></li>
+              <li><Link to="/help" className="text-gray-300 hover:text-gold transition-colors">Help Center</Link></li>
+              <li><Link to="/privacy" className="text-gray-300 hover:text-gold transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-gray-300 hover:text-gold transition-colors">Terms of Service</Link></li>
+              <li><Link to="/cookie-policy" className="text-gray-300 hover:text-gold transition-colors">Cookie Policy</Link></li>
+              <li><Link to="/contact" className="text-gray-300 hover:text-gold transition-colors">Contact Us</Link></li>
             </ul>
           </div>
           
@@ -92,9 +93,9 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} StyleGenie. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="/privacy" className="text-gray-500 text-sm hover:text-gold transition-colors">Privacy</a>
-            <a href="/terms" className="text-gray-500 text-sm hover:text-gold transition-colors">Terms</a>
-            <a href="/sitemap" className="text-gray-500 text-sm hover:text-gold transition-colors">Sitemap</a>
+            <Link to="/privacy" className="text-gray-500 text-sm hover:text-gold transition-colors">Privacy</Link>
+            <Link to="/terms" className="text-gray-500 text-sm hover:text-gold transition-colors">Terms</Link>
+            <Link to="/sitemap" className="text-gray-500 text-sm hover:text-gold transition-colors">Sitemap</Link>
           </div>
         </div>
       </div>
