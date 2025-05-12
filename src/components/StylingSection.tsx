@@ -301,13 +301,14 @@ const StylingSection = () => {
                         type="file" 
                         accept="image/*" 
                         onChange={handleImageChange}
-                        className="hidden"
+                        className="block w-full opacity-0 absolute inset-0 cursor-pointer"
+                        aria-label="Upload photo"
                       />
                     </>
                   )}
                   <Label 
                     htmlFor="photo" 
-                    className="cursor-pointer block w-full h-full absolute top-0 left-0 opacity-0"
+                    className="sr-only"
                   >
                     Upload Photo
                   </Label>
