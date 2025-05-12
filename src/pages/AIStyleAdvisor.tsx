@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload, X } from "lucide-react";
 
 interface OutfitSuggestion {
   image_url: string;
@@ -27,15 +27,27 @@ const AIStyleAdvisor: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        setError('File size should be less than 5MB');
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhoto(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setPhoto('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -115,12 +127,43 @@ const AIStyleAdvisor: React.FC = () => {
 
           <div>
             <label className="block text-sm font-medium mb-2">Upload Photo (Optional)</label>
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={handlePhotoUpload}
-              className="cursor-pointer"
-            />
+            <div className="mt-2">
+              {!photo ? (
+                <div
+                  className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-gold transition-colors"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                  <p className="mt-2 text-sm text-gray-600">
+                    Click to upload or drag and drop
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    PNG, JPG, GIF up to 5MB
+                  </p>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                    className="hidden"
+                  />
+                </div>
+              ) : (
+                <div className="relative">
+                  <img
+                    src={photo}
+                    alt="Uploaded photo"
+                    className="w-full h-64 object-cover rounded-lg"
+                  />
+                  <button
+                    onClick={handleRemovePhoto}
+                    className="absolute top-2 right-2 p-1 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
+                  >
+                    <X className="h-5 w-5 text-white" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           <Button
