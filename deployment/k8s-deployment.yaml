@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stylegenie-app
+  labels:
+    app: stylegenie
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stylegenie
+  template:
+    metadata:
+      labels:
+        app: stylegenie
+      annotations:
+        eks.amazonaws.com/role-arn: "arn:aws:iam::<YOUR-ACCOUNT-ID>:role/StyleGenieBedrockRole"  # Replace with your IAM role ARN
+    spec:
+      containers:
+      - name: stylegenie-app
+        image: stylegenie/webapp:latest  # Replace with your actual image
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        envFrom:
+        - configMapRef:
+            name: aws-bedrock-config
+        env:
+        - name: NODE_ENV
+          value: "production"
+        volumeMounts:
+        - name: aws-credentials
+          mountPath: "/root/.aws"
+          readOnly: true
+      volumes:
+      - name: aws-credentials
+        secret:
+          secretName: aws-credentials
+          optional: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stylegenie-service
+spec:
+  selector:
+    app: stylegenie
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer 

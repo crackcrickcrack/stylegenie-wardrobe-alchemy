@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-bedrock-config
+data:
+  AWS_REGION: "us-east-1"  # The region where your Bedrock models are available
+  AWS_SDK_LOAD_CONFIG: "true"  # Load config from ~/.aws when available
+  BEDROCK_ENDPOINT: "https://bedrock-runtime.us-east-1.amazonaws.com"  # Bedrock endpoint 
