@@ -1,7 +1,7 @@
-
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Upload, X } from "lucide-react";
 
 type PhotoUploadProps = {
   image: string | null;
@@ -9,10 +9,27 @@ type PhotoUploadProps = {
 };
 
 const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
+  const [error, setError] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size should be less than 5MB");
+      return;
+    }
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      setError("Please upload a valid image file (PNG, JPG, or WEBP)");
+      return;
+    }
+
+    setError("");
     const reader = new FileReader();
     reader.onload = () => {
       onImageChange(reader.result as string);
@@ -20,42 +37,78 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
     reader.readAsDataURL(file);
   };
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size should be less than 5MB");
+      return;
+    }
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      setError("Please upload a valid image file (PNG, JPG, or WEBP)");
+      return;
+    }
+
+    setError("");
+    const reader = new FileReader();
+    reader.onload = () => {
+      onImageChange(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemovePhoto = () => {
+    onImageChange(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setError("");
+  };
+
   return (
     <div className="space-y-2">
       <Label htmlFor="photo">Upload Your Photo</Label>
-      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gold transition-colors cursor-pointer">
+      <div 
+        className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gold transition-colors cursor-pointer bg-gray-50"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onClick={() => !image && fileInputRef.current?.click()}
+      >
         {image ? (
           <div className="relative">
             <img 
               src={image} 
               alt="Uploaded" 
-              className="mx-auto max-h-64 rounded" 
+              className="mx-auto max-h-64 rounded object-cover" 
             />
             <button
-              className="absolute top-2 right-2 bg-white px-2 py-1 rounded text-sm border border-gray-300"
-              onClick={() => onImageChange(null)}
               type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemovePhoto();
+              }}
+              className="absolute top-2 right-2 p-1 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
             >
-              Change
+              <X className="h-5 w-5 text-white" />
             </button>
           </div>
         ) : (
           <>
             <div className="flex flex-col items-center justify-center py-4">
-              <svg 
-                className="w-12 h-12 text-gray-400 mb-3" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                ></path>
-              </svg>
+              <Upload className="w-12 h-12 text-gray-400 mb-3" />
               <p className="mb-2 text-sm text-gray-600">
                 Click to upload or drag and drop
               </p>
@@ -64,22 +117,19 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
               </p>
             </div>
             <Input 
+              ref={fileInputRef}
               id="photo" 
               type="file" 
-              accept="image/*" 
+              accept="image/png,image/jpeg,image/webp" 
               onChange={handleImageChange}
-              className="block w-full opacity-0 absolute inset-0 cursor-pointer"
-              aria-label="Upload photo"
+              className="hidden"
             />
           </>
         )}
-        <Label 
-          htmlFor="photo" 
-          className="sr-only"
-        >
-          Upload Photo
-        </Label>
       </div>
+      {error && (
+        <p className="text-sm text-red-500 mt-1">{error}</p>
+      )}
     </div>
   );
 };
