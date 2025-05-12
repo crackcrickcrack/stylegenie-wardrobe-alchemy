@@ -14,11 +14,11 @@ const CTASection = () => {
       
       <div className="container mx-auto text-center relative z-10 max-w-4xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 font-playfair">
-          Ready to Elevate Your <span className="text-gold">Style</span>?
+          Experience AI-Powered <span className="text-gold">Fashion Styling</span>
         </h2>
         
         <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Join thousands of fashion-forward individuals who have transformed their wardrobe with StyleGenie. Experience the luxury of having a personal stylist at your fingertips.
+          Our AWS Bedrock-powered AI analyzes your photos, preferences, and body type to create truly personalized outfit recommendations. Join thousands of fashion-forward individuals already enhancing their style.
         </p>
         
         <div className="relative">

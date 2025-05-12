@@ -12,13 +12,16 @@ import {
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const StylingSection = () => {
   const [image, setImage] = useState<string | null>(null);
   const [occasion, setOccasion] = useState<string>("");
   const [bodyType, setBodyType] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [outfitSuggestions, setOutfitSuggestions] = useState<any[]>([]);
+  const [historicalFashion, setHistoricalFashion] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +35,7 @@ const StylingSection = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!image) {
@@ -62,25 +65,177 @@ const StylingSection = () => {
       return;
     }
     
-    // Simulate AI processing
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setResult(`For a ${occasion} event and your ${bodyType} body type, we recommend:
+    setError(null);
+    setOutfitSuggestions([]);
+    setHistoricalFashion([]);
+    
+    try {
+      // Create the request body according to the API specification
+      const requestBody = {
+        occasion: occasion.toLowerCase(),
+        body_type: bodyType.toLowerCase(),
+        photo: image // Base64 image string
+      };
       
-      • A tailored ${occasion === "Wedding" ? "navy blue suit with a subtle pattern" : occasion === "Casual" ? "pair of slim fit jeans with a white t-shirt" : occasion === "Party" ? "black shirt with dark jeans" : "charcoal grey suit with a light blue shirt"}
+      // Make the API call
+      const response = await fetch("https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody)
+      });
       
-      • Pair with ${occasion === "Wedding" ? "brown leather oxford shoes" : occasion === "Casual" ? "white sneakers" : occasion === "Party" ? "chelsea boots" : "black cap-toe oxfords"}
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
       
-      • Accessorize with ${occasion === "Wedding" ? "a patterned pocket square and minimalist watch" : occasion === "Casual" ? "a leather strap watch and minimal jewelry" : occasion === "Party" ? "a statement watch and leather bracelet" : "a silk tie and silver cufflinks"}
+      const data = await response.json();
       
-      This outfit will highlight your best features while keeping you appropriate for the occasion. The color palette is chosen to complement your skin tone based on your photo.`);
+      // Update state with the API response data
+      if (data.outfit_suggestions) {
+        setOutfitSuggestions(data.outfit_suggestions);
+      }
+      
+      if (data.historical_fashion) {
+        setHistoricalFashion(data.historical_fashion);
+      }
       
       toast({
         title: "Styling Complete!",
         description: "Your personalized outfit has been generated.",
       });
-    }, 2000);
+    } catch (err) {
+      console.error("Error fetching style suggestions:", err);
+      setError("We couldn't generate suggestions at this time. Please try again.");
+      toast({
+        title: "Error",
+        description: "Failed to get style recommendations. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // If no real response is received, fall back to mock data
+  const renderResults = () => {
+    if (loading) {
+      return (
+        <div className="space-y-4">
+          <h3 className="text-2xl font-medium mb-4 text-gold">Generating your style...</h3>
+          <div className="space-y-4">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+          </div>
+        </div>
+      );
+    }
+    
+    if (error) {
+      return (
+        <div className="text-center text-destructive">
+          <h3 className="text-xl font-medium mb-2">Oops!</h3>
+          <p>{error}</p>
+          <Button 
+            variant="outline" 
+            className="mt-6 border-gold text-gold hover:bg-gold hover:text-white"
+            onClick={() => setError(null)}
+          >
+            Try Again
+          </Button>
+        </div>
+      );
+    }
+    
+    if (outfitSuggestions.length > 0 || historicalFashion.length > 0) {
+      return (
+        <div className="animate-fade-in space-y-6">
+          <h3 className="text-2xl font-medium mb-4 text-gold">Your Personalized Style</h3>
+          
+          {outfitSuggestions.length > 0 && (
+            <div className="space-y-4">
+              <h4 className="text-xl font-medium">Outfit Suggestions</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {outfitSuggestions.map((outfit, index) => (
+                  <div key={index} className="border border-gray-200 p-4 rounded-md">
+                    {outfit.image_url ? (
+                      <img 
+                        src={outfit.image_url} 
+                        alt={outfit.description} 
+                        className="w-full h-40 object-cover rounded-md mb-3"
+                      />
+                    ) : (
+                      <div className="w-full h-40 bg-gray-200 rounded-md mb-3 flex items-center justify-center">
+                        <p className="text-gray-500">No image available</p>
+                      </div>
+                    )}
+                    <p>{outfit.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {historicalFashion.length > 0 && (
+            <div className="space-y-4">
+              <h4 className="text-xl font-medium">Historical Fashion Journey</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {historicalFashion.map((item, index) => (
+                  <div key={index} className="border border-gray-200 p-4 rounded-md">
+                    {item.image_url ? (
+                      <img 
+                        src={item.image_url} 
+                        alt={`Fashion from ${item.year}`} 
+                        className="w-full h-32 object-cover rounded-md mb-2"
+                      />
+                    ) : (
+                      <div className="w-full h-32 bg-gray-200 rounded-md mb-2 flex items-center justify-center">
+                        <p className="text-gray-500">No image available</p>
+                      </div>
+                    )}
+                    <p className="text-center font-medium">Year: {item.year}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <Button 
+            variant="outline" 
+            className="mt-4 border-gold text-gold hover:bg-gold hover:text-white"
+          >
+            Save This Style
+          </Button>
+        </div>
+      );
+    }
+    
+    // Default empty state
+    return (
+      <div className="text-center text-gray-500">
+        <div className="mb-4">
+          <svg 
+            className="w-16 h-16 mx-auto text-gray-300" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth="1" 
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            ></path>
+          </svg>
+        </div>
+        <h3 className="text-xl font-medium mb-2">Your Style Will Appear Here</h3>
+        <p>Upload a photo and fill in your preferences to receive AI-generated outfit suggestions.</p>
+      </div>
+    );
   };
 
   return (
@@ -112,6 +267,7 @@ const StylingSection = () => {
                         size="sm"
                         className="absolute top-2 right-2 bg-white"
                         onClick={() => setImage(null)}
+                        type="button"
                       >
                         Change
                       </Button>
@@ -187,6 +343,7 @@ const StylingSection = () => {
                     <SelectItem value="Curvy">Curvy</SelectItem>
                     <SelectItem value="Tall">Tall</SelectItem>
                     <SelectItem value="Plus Size">Plus Size</SelectItem>
+                    <SelectItem value="Slim">Slim</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -201,42 +358,8 @@ const StylingSection = () => {
             </form>
           </Card>
           
-          <Card className={`p-6 border border-gray-200 min-h-[400px] flex flex-col ${result ? "justify-start" : "justify-center"}`}>
-            {result ? (
-              <div className="animate-fade-in">
-                <h3 className="text-2xl font-medium mb-4 text-gold">Your Personalized Style</h3>
-                <div className="prose">
-                  <p className="whitespace-pre-line">{result}</p>
-                </div>
-                <Button 
-                  variant="outline" 
-                  className="mt-6 border-gold text-gold hover:bg-gold hover:text-white"
-                >
-                  Save This Style
-                </Button>
-              </div>
-            ) : (
-              <div className="text-center text-gray-500">
-                <div className="mb-4">
-                  <svg 
-                    className="w-16 h-16 mx-auto text-gray-300" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth="1" 
-                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                    ></path>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-medium mb-2">Your Style Will Appear Here</h3>
-                <p>Upload a photo and fill in your preferences to receive AI-generated outfit suggestions.</p>
-              </div>
-            )}
+          <Card className="p-6 border border-gray-200 min-h-[400px] flex flex-col">
+            {renderResults()}
           </Card>
         </div>
       </div>
