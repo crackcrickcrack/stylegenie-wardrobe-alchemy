@@ -24,7 +24,7 @@ const PhotoUpload = ({ image, onImageChange }: PhotoUploadProps) => {
       console.log("Starting S3 upload for file:", file.name);
       
       // First, get a pre-signed URL from your backend
-      const response = await fetch('https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/getUploadUrl', {
+      const response = await fetch('https://zy522ot005.execute-api.us-east-1.amazonaws.com/prod/getUploadUrl', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
