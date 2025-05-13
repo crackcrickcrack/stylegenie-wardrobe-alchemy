@@ -1,0 +1,33 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Short body type silhouette -->
+  <g transform="translate(80, 30) scale(0.95, 0.9)">
+    <!-- Head -->
+    <circle cx="30" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M24 37 L23 47 L37 47 L36 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - shorter body -->
+    <path d="M12 49 C12 49, 10 52, 8 65 L10 115 L50 115 L52 65 C52 65, 50 52, 48 49" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms - shorter -->
+    <path d="M8 65 C8 65, 0 85, 0 100 L3 135" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M52 65 C52 65, 60 85, 60 100 L57 135" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Waist - shorter -->
+    <path d="M10 115 L8 155 L52 155 L50 115" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs - shorter -->
+    <path d="M8 155 L3 230" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M52 155 L57 230" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Measurement arrow to indicate height -->
+    <line x1="-15" y1="20" x2="-15" y2="230" stroke="#6D28D9" stroke-width="1" stroke-dasharray="4"/>
+    <line x1="-20" y1="20" x2="-10" y2="20" stroke="#6D28D9" stroke-width="1"/>
+    <line x1="-20" y1="230" x2="-10" y2="230" stroke="#6D28D9" stroke-width="1"/>
+    <text x="-35" y="125" font-family="Arial" font-size="10" text-anchor="middle" fill="#6D28D9" transform="rotate(-90, -35, 125)">Shorter height</text>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="280" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Short</text>
+</svg> 

@@ -1,0 +1,33 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rectangle body type silhouette -->
+  <g transform="translate(70, 10)">
+    <!-- Head -->
+    <circle cx="30" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M24 37 L23 50 L37 50 L36 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - straight sides -->
+    <path d="M12 52 C12 52, 10 55, 8 70 L10 130 L50 130 L52 70 C52 70, 50 55, 48 52" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms -->
+    <path d="M8 70 C8 70, 0 90, 0 110 L3 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M52 70 C52 70, 60 90, 60 110 L57 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Waist - minimal curve -->
+    <path d="M10 130 L8 180 L52 180 L50 130" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Hips - Similar width to shoulders -->
+    <path d="M8 180 L6 230 L54 230 L52 180" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs -->
+    <path d="M10 230 L5 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M50 230 L55 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Rectangle measurements -->
+    <rect x="3" y="65" width="54" height="165" stroke="#6D28D9" stroke-width="1" stroke-dasharray="4" fill="none"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Rectangle</text>
+</svg> 

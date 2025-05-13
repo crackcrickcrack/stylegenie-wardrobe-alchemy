@@ -1,0 +1,33 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tall body type silhouette -->
+  <g transform="translate(75, 5) scale(0.85, 1.1)">
+    <!-- Head -->
+    <circle cx="30" cy="15" r="15" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck - longer -->
+    <path d="M24 29 L23 45 L37 45 L36 29" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - longer torso -->
+    <path d="M12 47 C12 47, 10 50, 8 65 L10 135 L50 135 L52 65 C52 65, 50 50, 48 47" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms - longer -->
+    <path d="M8 65 C8 65, 0 85, 0 105 L3 170" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M52 65 C52 65, 60 85, 60 105 L57 170" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Waist - longer -->
+    <path d="M10 135 L8 195 L52 195 L50 135" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs - longer -->
+    <path d="M8 195 L3 280" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M52 195 L57 280" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Measurement arrow to indicate height -->
+    <line x1="-15" y1="15" x2="-15" y2="280" stroke="#6D28D9" stroke-width="1" stroke-dasharray="4"/>
+    <line x1="-20" y1="15" x2="-10" y2="15" stroke="#6D28D9" stroke-width="1"/>
+    <line x1="-20" y1="280" x2="-10" y2="280" stroke="#6D28D9" stroke-width="1"/>
+    <text x="-35" y="150" font-family="Arial" font-size="10" text-anchor="middle" fill="#6D28D9" transform="rotate(-90, -35, 150)">Taller height</text>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Tall</text>
+</svg> 

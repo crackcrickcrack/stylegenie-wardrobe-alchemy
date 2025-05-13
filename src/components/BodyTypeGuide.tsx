@@ -33,6 +33,48 @@ const bodyTypes = [
     name: "Plus Size",
     image: "/images/body-types/plus-size-body-type.svg",
     description: "Features fuller proportions throughout the body. May carry weight evenly or in specific areas like bust, midsection, or hips."
+  },
+  {
+    id: "tall",
+    name: "Tall",
+    image: "/images/body-types/tall-body-type.svg",
+    description: "Taller than average height (typically 5'8\" and above for women, 6'2\" and above for men). Can have any body shape, but with longer proportions."
+  },
+  {
+    id: "short",
+    name: "Short",
+    image: "/images/body-types/short-body-type.svg",
+    description: "Below average height but with proportions different from petite. May have any body shape, but with shorter limbs and torso."
+  },
+  {
+    id: "hourglass",
+    name: "Hourglass",
+    image: "/images/body-types/hourglass-body-type.svg",
+    description: "Characterized by a well-defined waist with bust and hip measurements that are roughly equal. The shoulders are typically in line with the hips."
+  },
+  {
+    id: "pear",
+    name: "Pear",
+    image: "/images/body-types/pear-body-type.svg",
+    description: "Hip measurements are larger than bust measurements, with a defined waist. Weight is primarily carried in the lower body including hips, thighs, and buttocks."
+  },
+  {
+    id: "apple",
+    name: "Apple",
+    image: "/images/body-types/apple-body-type.svg",
+    description: "Weight is primarily carried in the midsection and upper body, with slimmer legs and hips. The waist is less defined with a rounder appearance."
+  },
+  {
+    id: "rectangle",
+    name: "Rectangle",
+    image: "/images/body-types/rectangle-body-type.svg",
+    description: "Shoulders, waist, and hips are approximately the same width, creating a straight silhouette. Less curvature at the waist compared to other body types."
+  },
+  {
+    id: "inverted-triangle",
+    name: "Inverted Triangle",
+    image: "/images/body-types/inverted-triangle-body-type.svg",
+    description: "Shoulders and bust are broader or fuller than the hips. Typically has a wider upper body with a narrow waist and slim legs."
   }
 ];
 
@@ -63,7 +105,7 @@ const BodyTypeGuide: React.FC<BodyTypeGuideProps> = ({ onSelectBodyType }) => {
           <span className="sr-only">View body type guide</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold mb-4">Body Type Guide</DialogTitle>
           <p className="text-gray-600">
@@ -71,35 +113,35 @@ const BodyTypeGuide: React.FC<BodyTypeGuideProps> = ({ onSelectBodyType }) => {
           </p>
         </DialogHeader>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
           {bodyTypes.map((bodyType) => (
             <div 
               key={bodyType.id}
               className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
               onClick={() => handleSelect(bodyType.id)}
             >
-              <div className="p-4 bg-purple-50 h-48 flex items-center justify-center">
+              <div className="p-3 bg-purple-50 h-40 flex items-center justify-center">
                 <img 
                   src={bodyType.image} 
                   alt={`${bodyType.name} body type`} 
                   className="h-full object-contain"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = `https://via.placeholder.com/200x300?text=${bodyType.name}`;
+                    (e.target as HTMLImageElement).src = `https://via.placeholder.com/150x200?text=${bodyType.name}`;
                   }}
                 />
               </div>
-              <div className="p-4">
-                <h3 className="font-bold text-lg text-purple-700 mb-2">{bodyType.name}</h3>
-                <p className="text-sm text-gray-600">{bodyType.description}</p>
+              <div className="p-3">
+                <h3 className="font-bold text-lg text-purple-700 mb-1">{bodyType.name}</h3>
+                <p className="text-xs text-gray-600 line-clamp-3 mb-2">{bodyType.description}</p>
                 <Button 
                   variant="ghost" 
-                  className="mt-3 w-full text-purple-600 border border-purple-200 hover:bg-purple-50"
+                  className="mt-1 w-full text-purple-600 border border-purple-200 hover:bg-purple-50 text-sm py-1 h-auto"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleSelect(bodyType.id);
                   }}
                 >
-                  Select this body type
+                  Select
                 </Button>
               </div>
             </div>

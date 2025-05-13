@@ -1,0 +1,27 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Apple body type silhouette -->
+  <g transform="translate(70, 10)">
+    <!-- Head -->
+    <circle cx="30" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M24 37 L23 50 L37 50 L36 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - wider at top -->
+    <path d="M10 52 C10 52, 8 55, 7 70 C6 85, 7 100, 10 110 C12 120, 15 130, 15 130 L45 130 C45 130, 48 120, 50 110 C53 100, 54 85, 53 70 C52 55, 50 52, 50 52" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms -->
+    <path d="M7 70 C7 70, 0 90, 0 110 L3 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M53 70 C53 70, 60 90, 60 110 L57 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Midsection - wider in middle -->
+    <path d="M15 130 C15 130, 0 135, -5 155 C-10 175, -5 195, 0 210 C5 225, 15 230, 30 230 C45 230, 55 225, 60 210 C65 195, 70 175, 65 155 C60 135, 45 130, 45 130" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs - slimmer -->
+    <path d="M20 230 L15 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M40 230 L45 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Apple</text>
+</svg> 

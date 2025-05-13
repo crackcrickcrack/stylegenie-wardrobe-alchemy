@@ -339,10 +339,23 @@ const AIStyleAdvisor: React.FC = () => {
                   <SelectContent>
                     <SelectItem value="date night">Date Night</SelectItem>
                     <SelectItem value="wedding">Wedding</SelectItem>
+                    <SelectItem value="wedding guest">Wedding Guest</SelectItem>
+                    <SelectItem value="cocktail party">Cocktail Party</SelectItem>
+                    <SelectItem value="formal gala">Formal Gala</SelectItem>
                     <SelectItem value="party">Party</SelectItem>
                     <SelectItem value="casual">Casual</SelectItem>
-                    <SelectItem value="business">Business</SelectItem>
-                    <SelectItem value="formal">Formal</SelectItem>
+                    <SelectItem value="business casual">Business Casual</SelectItem>
+                    <SelectItem value="business formal">Business Formal</SelectItem>
+                    <SelectItem value="job interview">Job Interview</SelectItem>
+                    <SelectItem value="beach vacation">Beach Vacation</SelectItem>
+                    <SelectItem value="travel">Travel</SelectItem>
+                    <SelectItem value="outdoor activities">Outdoor Activities</SelectItem>
+                    <SelectItem value="gym workout">Gym Workout</SelectItem>
+                    <SelectItem value="dinner">Dinner</SelectItem>
+                    <SelectItem value="brunch">Brunch</SelectItem>
+                    <SelectItem value="festival">Festival</SelectItem>
+                    <SelectItem value="concert">Concert</SelectItem>
+                    <SelectItem value="graduation">Graduation</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -356,6 +369,7 @@ const AIStyleAdvisor: React.FC = () => {
                   <SelectContent>
                     <SelectItem value="male">Male</SelectItem>
                     <SelectItem value="female">Female</SelectItem>
+                    <SelectItem value="non-binary">Non-Binary</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -373,6 +387,13 @@ const AIStyleAdvisor: React.FC = () => {
                       <SelectItem value="athletic">Athletic</SelectItem>
                       <SelectItem value="petite">Petite</SelectItem>
                       <SelectItem value="plus-size">Plus Size</SelectItem>
+                      <SelectItem value="tall">Tall</SelectItem>
+                      <SelectItem value="short">Short</SelectItem>
+                      <SelectItem value="hourglass">Hourglass</SelectItem>
+                      <SelectItem value="pear">Pear</SelectItem>
+                      <SelectItem value="apple">Apple</SelectItem>
+                      <SelectItem value="rectangle">Rectangle</SelectItem>
+                      <SelectItem value="inverted-triangle">Inverted Triangle</SelectItem>
                     </SelectContent>
                   </Select>
                   <BodyTypeGuide onSelectBodyType={setBodyType} />

@@ -1,0 +1,30 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hourglass body type silhouette -->
+  <g transform="translate(70, 10)">
+    <!-- Head -->
+    <circle cx="30" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M24 37 L23 50 L37 50 L36 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - wider at top -->
+    <path d="M10 52 C10 52, 5 55, 3 70 C1 85, 3 100, 5 110 C7 120, 12 130, 15 130 L45 130 C48 130, 53 120, 55 110 C57 100, 59 85, 57 70 C55 55, 50 52, 50 52" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms -->
+    <path d="M3 70 C3 70, -4 90, -5 110 L-2 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M57 70 C57 70, 64 90, 65 110 L62 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Waist - very defined narrow waist -->
+    <path d="M15 130 C15 130, 12 135, 10 140 C7 145, 5 150, 8 160 C11 170, 15 175, 20 180 L40 180 C45 175, 49 170, 52 160 C55 150, 53 145, 50 140 C48 135, 45 130, 45 130" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Hips - wider at bottom to match top -->
+    <path d="M20 180 C20 180, 10 185, 5 195 C0 205, 3 215, 5 225 C10 235, 15 240, 30 240 C45 240, 50 235, 55 225 C57 215, 60 205, 55 195 C50 185, 40 180, 40 180" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs -->
+    <path d="M15 240 L5 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M45 240 L55 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Hourglass</text>
+</svg> 

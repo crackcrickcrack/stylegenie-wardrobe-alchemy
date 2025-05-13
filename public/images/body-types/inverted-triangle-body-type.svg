@@ -1,0 +1,33 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Inverted Triangle body type silhouette -->
+  <g transform="translate(65, 10)">
+    <!-- Head -->
+    <circle cx="35" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M29 37 L28 50 L42 50 L41 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - very broad shoulders -->
+    <path d="M0 52 C0 52, -5 60, -7 75 C-9 90, -5 105, 0 120 C5 130, 10 135, 15 140 L55 140 C60 135, 65 130, 70 120 C75 105, 79 90, 77 75 C75 60, 70 52, 70 52" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms - wider at top -->
+    <path d="M-7 75 C-7 75, -15 95, -17 115 L-10 165" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M77 75 C77 75, 85 95, 87 115 L80 165" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Waist - tapered inward -->
+    <path d="M15 140 C15 140, 10 150, 8 160 C6 170, 10 180, 15 185 C20 190, 25 190, 35 190 C45 190, 50 190, 55 185 C60 180, 64 170, 62 160 C60 150, 55 140, 55 140" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Hips - narrower hips -->
+    <path d="M20 190 L15 245 L55 245 L50 190" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs -->
+    <path d="M20 245 L15 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M50 245 L55 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Triangle shape indicator -->
+    <path d="M-7 75 L77 75 L35 245 Z" stroke="#6D28D9" stroke-width="1" stroke-dasharray="4" fill="none"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Inverted Triangle</text>
+</svg> 

@@ -1,0 +1,30 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pear body type silhouette -->
+  <g transform="translate(70, 10)">
+    <!-- Head -->
+    <circle cx="30" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M24 37 L23 50 L37 50 L36 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - narrower at top -->
+    <path d="M15 52 C15 52, 13 55, 12 70 C11 85, 12 100, 15 110 C16 120, 18 130, 20 130 L40 130 C42 130, 44 120, 45 110 C48 100, 49 85, 48 70 C47 55, 45 52, 45 52" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms -->
+    <path d="M12 70 C12 70, 5 90, 5 110 L8 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M48 70 C48 70, 55 90, 55 110 L52 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Waist - defined narrow waist -->
+    <path d="M20 130 C20 130, 15 140, 13 150 C11 160, 13 170, 15 175 C17 180, 20 185, 25 185 L35 185 C40 185, 43 180, 45 175 C47 170, 49 160, 47 150 C45 140, 40 130, 40 130" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Hips and thighs - significantly wider at bottom -->
+    <path d="M25 185 C25 185, 5 190, 0 210 C-5 230, 0 245, 10 250 C20 255, 30 255, 40 255 C50 255, 60 255, 70 250 C80 245, 85 230, 80 210 C75 190, 55 185, 55 185 L35 185 L25 185" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs -->
+    <path d="M15 255 L5 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M65 255 L75 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Pear</text>
+</svg> 
