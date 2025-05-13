@@ -11,6 +11,10 @@ import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import ContactUs from "./pages/ContactUs";
 import AIStyleAdvisor from "./pages/AIStyleAdvisor";
+import Pricing from "./pages/Pricing";
+import Blog from "./pages/Blog";
+import APIDocumentation from "./pages/APIDocumentation";
+import Careers from "./pages/Careers";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +32,10 @@ const App = () => (
           <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/ai-style-advisor" element={<AIStyleAdvisor />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/api" element={<APIDocumentation />} />
+          <Route path="/careers" element={<Careers />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
