@@ -46,8 +46,8 @@ const FeaturesSection = () => {
           </p>
         </div>
         
-        <div className="grid lg:grid-cols-2 gap-16 mb-16">
-          <div>
+        <div className="flex flex-col lg:flex-row gap-16 mb-16">
+          <div className="w-full lg:w-1/2">
             <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-lg mb-8">
               <img 
                 src={modelFeatureImage1} 
@@ -81,16 +81,17 @@ const FeaturesSection = () => {
             </div>
           </div>
           
-          <div className="flex flex-col justify-center">
-            <div className="grid md:grid-cols-2 gap-6">
+          <div className="w-full lg:w-1/2 flex flex-col justify-center">
+            <h3 className="text-2xl font-bold mb-8 text-gray-800 lg:hidden">Our Features</h3>
+            <div className="grid sm:grid-cols-2 gap-6">
               {features.map((feature, index) => (
                 <Card key={index} className="border-none bg-white shadow-md hover:shadow-lg transition-all duration-300">
                   <CardContent className="p-6">
                     <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-5">
                       {feature.icon}
                     </div>
-                    <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                    <p className="text-gray-600">{feature.description}</p>
+                    <h3 className="text-lg font-bold mb-3">{feature.title}</h3>
+                    <p className="text-gray-600 text-sm">{feature.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -99,27 +100,27 @@ const FeaturesSection = () => {
         </div>
         
         <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-10 text-white">
-          <div className="text-center mb-8">
+          <div className="text-center mb-10">
             <h3 className="text-2xl md:text-3xl font-bold mb-4">Transform your style today</h3>
             <p className="mb-6 max-w-2xl mx-auto">Join thousands of users who have discovered their perfect style with StyleGenie</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <p className="text-3xl font-bold">90%</p>
-              <p className="text-sm opacity-80">Time saved</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto">
+            <div className="text-center p-4">
+              <p className="text-3xl font-bold mb-2">90%</p>
+              <p className="text-sm opacity-90">Time saved</p>
             </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold">45%</p>
-              <p className="text-sm opacity-80">Better style confidence</p>
+            <div className="text-center p-4">
+              <p className="text-3xl font-bold mb-2">45%</p>
+              <p className="text-sm opacity-90">Better style confidence</p>
             </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold">1000+</p>
-              <p className="text-sm opacity-80">Outfit combinations</p>
+            <div className="text-center p-4">
+              <p className="text-3xl font-bold mb-2">1000+</p>
+              <p className="text-sm opacity-90">Outfit combinations</p>
             </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold">24/7</p>
-              <p className="text-sm opacity-80">Style assistance</p>
+            <div className="text-center p-4">
+              <p className="text-3xl font-bold mb-2">24/7</p>
+              <p className="text-sm opacity-90">Style assistance</p>
             </div>
           </div>
         </div>
