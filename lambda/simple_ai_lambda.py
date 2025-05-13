@@ -96,8 +96,7 @@ def upload_to_s3(image_data, prefix="fashion"):
             Bucket=S3_BUCKET,
             Key=filename,
             Body=image_bytes,
-            ContentType='image/png',
-            ACL='public-read'
+            ContentType='image/png'
         )
         
         # Return S3 URL
