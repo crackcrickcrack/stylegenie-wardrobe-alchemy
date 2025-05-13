@@ -1,5 +1,7 @@
 import json
 import boto3
+import base64
+from datetime import datetime
 
 # Initialize clients
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
@@ -79,11 +81,40 @@ def generate_outfit_description(body_type, occasion):
         print(f"Error generating outfit description: {str(e)}")
         return "A stylish outfit suitable for the occasion"
 
+def upload_to_s3(image_data, prefix="fashion"):
+    """Upload base64 image to S3 and return the URL"""
+    try:
+        # Decode base64 image
+        image_bytes = base64.b64decode(image_data)
+        
+        # Generate unique filename
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        filename = f"{prefix}-{timestamp}.png"
+        
+        # Upload to S3
+        s3_client.put_object(
+            Bucket=S3_BUCKET,
+            Key=filename,
+            Body=image_bytes,
+            ContentType='image/png',
+            ACL='public-read'
+        )
+        
+        # Return S3 URL
+        return f"https://{S3_BUCKET}.s3.amazonaws.com/{filename}"
+    except Exception as e:
+        print(f"Error uploading to S3: {str(e)}")
+        return f"https://placehold.co/600x400/png?text=S3+Upload+Error"
+
 def generate_outfit_image(outfit_description, body_type, occasion):
     """Generate outfit image using Stability AI SDXL"""
     try:
         # Create image prompt
         image_prompt = f"Fashion outfit: {outfit_description}. Style for {occasion} occasion, {body_type} body type. Professional fashion photography, detailed clothing, high quality."
+        
+        # Truncate prompt if it's too long
+        if len(image_prompt) > 500:
+            image_prompt = image_prompt[:500]
         
         # Call Stability AI
         response = bedrock.invoke_model(
@@ -100,9 +131,8 @@ def generate_outfit_image(outfit_description, body_type, occasion):
         response_body = json.loads(response['body'].read())
         if 'artifacts' in response_body and len(response_body['artifacts']) > 0:
             image_data = response_body['artifacts'][0]['base64']
-            return f"https://placehold.co/600x400/png?text=Generated+Fashion+Image"
-            # In a production environment, you would upload to S3 here
-            # return upload_to_s3(image_data)
+            # Upload to S3 and get the URL
+            return upload_to_s3(image_data, f"outfit-{body_type}-{occasion}")
         else:
             return "https://placehold.co/600x400/png?text=No+Image+Generated"
     except Exception as e:

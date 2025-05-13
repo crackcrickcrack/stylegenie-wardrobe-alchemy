@@ -25,6 +25,12 @@ aws lambda update-function-configuration \
   --timeout 60 \
   --memory-size 2048
 
+# Add permissions to the Lambda role
+echo "Adding S3 permissions to Lambda role..."
+aws iam attach-role-policy \
+  --role-name LambdaBedrockExecutionRole \
+  --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+
 echo "Cleaning up temporary files..."
 rm lambda_function.py lambda_function.zip
 
