@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stylegenie-frontend
+  labels:
+    app: stylegenie
+    tier: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stylegenie
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: stylegenie
+        tier: frontend
+    spec:
+      containers:
+      - name: stylegenie-frontend
+        image: your-registry.com/stylegenie/frontend:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 3
+        env:
+        - name: API_ENDPOINT
+          value: "https://zkbluoyybf.execute-api.us-east-1.amazonaws.com/prod/StyleGenieAI" 
