@@ -26,6 +26,14 @@ echo "Created CORS configuration file"
 echo "Applying CORS configuration to bucket: $S3_BUCKET"
 aws s3api put-bucket-cors --bucket $S3_BUCKET --cors-configuration file://cors.json
 
+# Disable public access block settings
+echo "Disabling public access block settings for bucket: $S3_BUCKET"
+aws s3api put-public-access-block --bucket $S3_BUCKET --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
+
+# Wait a few seconds for the changes to propagate
+echo "Waiting for settings to propagate..."
+sleep 5
+
 # Make bucket publicly readable (for image access)
 echo "Setting bucket policy to allow public read access"
 cat > bucket-policy.json << EOF
@@ -51,4 +59,8 @@ rm cors.json bucket-policy.json
 echo "=== S3 CORS Configuration Complete ==="
 echo ""
 echo "Your S3 bucket is now configured to allow image access from your website."
-echo "Images should now load correctly in the StyleGenie application." 
+echo "Images should now load correctly in the StyleGenie application."
+echo ""
+echo "NOTE: This script has disabled public access blocking settings for this bucket."
+echo "This allows public read access to images, which is required for your application."
+echo "However, make sure your application only uploads appropriate content to this bucket." 
