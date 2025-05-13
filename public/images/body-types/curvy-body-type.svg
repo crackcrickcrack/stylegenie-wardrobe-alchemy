@@ -1,0 +1,27 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Curvy body type silhouette -->
+  <g transform="translate(70, 10)">
+    <!-- Head -->
+    <circle cx="30" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M24 37 L23 50 L37 50 L36 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body with more curves -->
+    <path d="M13 52 C13 52, 10 55, 7 70 C7 72, 3 90, 5 105 C7 120, 15 125, 15 130 L45 130 C45 125, 53 120, 55 105 C57 90, 53 72, 53 70 C53 70, 50 55, 47 52" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms -->
+    <path d="M7 70 C7 70, 0 90, 0 110 L3 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M53 70 C53 70, 60 90, 60 110 L57 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Waist and hips with curve -->
+    <path d="M15 130 C15 130, 5 140, 3 150 C1 160, 0 170, 5 180 C10 190, 20 195, 30 195 C40 195, 50 190, 55 180 C60 170, 59 160, 57 150 C55 140, 45 130, 45 130" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs -->
+    <path d="M13 190 L5 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M47 190 L55 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Curvy</text>
+</svg> 

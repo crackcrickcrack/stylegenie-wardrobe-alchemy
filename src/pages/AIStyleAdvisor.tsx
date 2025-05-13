@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight } from "lucide-react";
+import BodyTypeGuide from "@/components/BodyTypeGuide";
 
 // Model images for the banner gallery
 const modelImages = [
@@ -359,18 +360,22 @@ const AIStyleAdvisor: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-700">Body Type</label>
-                <Select onValueChange={setBodyType} value={bodyType}>
-                  <SelectTrigger className="w-full border-purple-200 focus:ring-purple-500 focus:border-purple-500 rounded-xl">
-                    <SelectValue placeholder="Select your body type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="slim">Slim</SelectItem>
-                    <SelectItem value="curvy">Curvy</SelectItem>
-                    <SelectItem value="athletic">Athletic</SelectItem>
-                    <SelectItem value="petite">Petite</SelectItem>
-                    <SelectItem value="plus-size">Plus Size</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="flex items-center">
+                  <Select onValueChange={setBodyType} value={bodyType}>
+                    <SelectTrigger className="w-full border-purple-200 focus:ring-purple-500 focus:border-purple-500 rounded-xl">
+                      <SelectValue placeholder="Select your body type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="slim">Slim</SelectItem>
+                      <SelectItem value="curvy">Curvy</SelectItem>
+                      <SelectItem value="athletic">Athletic</SelectItem>
+                      <SelectItem value="petite">Petite</SelectItem>
+                      <SelectItem value="plus-size">Plus Size</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <BodyTypeGuide onSelectBodyType={setBodyType} />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">Not sure? Click the info icon to view body type examples</p>
               </div>
 
               <div>

@@ -1,0 +1,27 @@
+<svg width="200" height="300" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Plus Size body type silhouette -->
+  <g transform="translate(65, 10)">
+    <!-- Head -->
+    <circle cx="35" cy="20" r="18" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Neck -->
+    <path d="M28 37 L27 50 L43 50 L42 37" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Shoulders and upper body - fuller proportions -->
+    <path d="M5 52 C5 52, 0 60, -2 70 C-4 90, 0 110, 5 120 C10 130, 20 140, 20 140 L50 140 C50 140, 60 130, 65 120 C70 110, 74 90, 72 70 C70 60, 65 52, 65 52" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Arms - fuller -->
+    <path d="M-2 70 C-2 70, -8 90, -10 110 L-6 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M72 70 C72 70, 78 90, 80 110 L76 160" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Midsection -->
+    <path d="M20 140 C20 140, 5 145, 0 160 C-5 175, -5 190, 0 200 C5 210, 15 215, 35 215 C55 215, 65 210, 70 200 C75 190, 75 175, 70 160 C65 145, 50 140, 50 140" fill="#6D28D9" opacity="0.2" stroke="#6D28D9" stroke-width="2"/>
+    
+    <!-- Legs -->
+    <path d="M15 215 L5 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+    <path d="M55 215 L65 270" fill="none" stroke="#6D28D9" stroke-width="2"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="100" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#6D28D9">Plus Size</text>
+</svg> 
