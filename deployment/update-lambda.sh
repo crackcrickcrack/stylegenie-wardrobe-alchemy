@@ -20,7 +20,7 @@ aws lambda update-function-code \
 echo "Updating Lambda configuration..."
 aws lambda update-function-configuration \
   --function-name StyleGenieAI \
-  --timeout 30 \
+  --timeout 60 \
   --memory-size 2048
 
 echo "Cleaning up temporary files..."
@@ -29,6 +29,6 @@ rm lambda_function.py lambda_function.zip
 echo "=== Lambda Update Complete ==="
 echo ""
 echo "Test the Lambda function with the AWS CLI:"
-echo "aws lambda invoke --function-name StyleGenieAI --payload '{\"occasion\": \"casual\", \"body_type\": \"slim\"}' output.json"
+echo "aws lambda invoke --function-name StyleGenieAI --payload '{\"occasion\": \"casual\", \"body_type\": \"slim\"}' --cli-binary-format raw-in-base64-out output.json"
 echo ""
 echo "Or test via API Gateway if configured." 
