@@ -1,8 +1,10 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const testimonials = [
   {
@@ -51,14 +53,33 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const visibleTestimonials = testimonials.slice(currentIndex, currentIndex + 3);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [visibleTestimonials, setVisibleTestimonials] = useState<typeof testimonials>([]);
+
+  useEffect(() => {
+    // Simulate loading testimonials
+    const timer = setTimeout(() => {
+      setVisibleTestimonials(testimonials.slice(currentIndex, currentIndex + 3));
+      setIsLoaded(true);
+      toast({
+        title: "Testimonials loaded",
+        description: "Our customer testimonials are now visible",
+      });
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
 
   const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 3 >= testimonials.length ? 0 : prev + 3));
+    const newIndex = (currentIndex + 3 >= testimonials.length) ? 0 : currentIndex + 3;
+    setCurrentIndex(newIndex);
+    setVisibleTestimonials(testimonials.slice(newIndex, newIndex + 3));
   };
 
   const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 3 < 0 ? Math.max(0, testimonials.length - 3) : prev - 3));
+    const newIndex = (currentIndex - 3 < 0) ? Math.max(0, testimonials.length - 3) : currentIndex - 3;
+    setCurrentIndex(newIndex);
+    setVisibleTestimonials(testimonials.slice(newIndex, newIndex + 3));
   };
 
   return (
@@ -98,32 +119,58 @@ const TestimonialsSection = () => {
           </Button>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {visibleTestimonials.map((testimonial, index) => (
-            <Card key={index} className="border-none shadow-md transition-all duration-300 hover:shadow-lg bg-white overflow-hidden">
-              <CardContent className="p-0">
-                <div className="p-8">
-                  <div className="text-purple-400 mb-4">
-                    <Quote className="h-8 w-8" />
-                  </div>
-                  <p className="text-gray-700 mb-8 leading-relaxed">{testimonial.content}</p>
-                  
-                  <div className="flex items-center">
-                    <Avatar className="h-12 w-12 border-2 border-purple-100">
-                      <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                      <AvatarFallback className="bg-purple-100 text-purple-700">{testimonial.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div className="ml-4">
-                      <h3 className="font-semibold text-gray-900">{testimonial.name}</h3>
-                      <p className="text-sm text-gray-500">{testimonial.role}, {testimonial.company}</p>
+        {!isLoaded ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3].map((_, index) => (
+              <Card key={index} className="border-none shadow-md bg-white overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="p-8">
+                    <div className="text-purple-400 mb-4">
+                      <Quote className="h-8 w-8" />
+                    </div>
+                    <div className="h-24 bg-gray-100 animate-pulse rounded-md mb-8"></div>
+                    
+                    <div className="flex items-center">
+                      <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse"></div>
+                      <div className="ml-4">
+                        <div className="h-4 w-32 bg-gray-200 animate-pulse rounded mb-2"></div>
+                        <div className="h-3 w-24 bg-gray-100 animate-pulse rounded"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="h-1 w-full bg-gradient-to-r from-purple-600 to-indigo-600"></div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  <div className="h-1 w-full bg-gradient-to-r from-purple-600 to-indigo-600"></div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {visibleTestimonials.map((testimonial, index) => (
+              <Card key={index} className="border-none shadow-md transition-all duration-300 hover:shadow-lg bg-white overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="p-8">
+                    <div className="text-purple-400 mb-4">
+                      <Quote className="h-8 w-8" />
+                    </div>
+                    <p className="text-gray-700 mb-8 leading-relaxed">{testimonial.content}</p>
+                    
+                    <div className="flex items-center">
+                      <Avatar className="h-12 w-12 border-2 border-purple-100">
+                        <AvatarImage src={testimonial.image} alt={testimonial.name} />
+                        <AvatarFallback className="bg-purple-100 text-purple-700">{testimonial.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div className="ml-4">
+                        <h3 className="font-semibold text-gray-900">{testimonial.name}</h3>
+                        <p className="text-sm text-gray-500">{testimonial.role}, {testimonial.company}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-1 w-full bg-gradient-to-r from-purple-600 to-indigo-600"></div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
         
         <div className="flex justify-center mt-10 gap-2">
           {[...Array(Math.ceil(testimonials.length / 3))].map((_, i) => (
@@ -132,7 +179,10 @@ const TestimonialsSection = () => {
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 Math.floor(currentIndex / 3) === i ? "bg-purple-600 w-6" : "bg-gray-300"
               }`}
-              onClick={() => setCurrentIndex(i * 3)}
+              onClick={() => {
+                setCurrentIndex(i * 3);
+                setVisibleTestimonials(testimonials.slice(i * 3, i * 3 + 3));
+              }}
               aria-label={`Go to testimonial set ${i + 1}`}
             ></button>
           ))}
