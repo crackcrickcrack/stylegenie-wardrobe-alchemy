@@ -2,7 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Loader2, Sparkles, Camera, Wand2, Share2 } from "lucide-react";
+import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight } from "lucide-react";
+
+// Model images for the banner gallery
+const modelImages = [
+  "https://images.unsplash.com/photo-1618375531912-867984bdfd87?q=80&w=300&h=400&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1611042553365-9b153c7e4ca5?q=80&w=300&h=400&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1603217192634-61068e4d4bf9?q=80&w=300&h=400&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?q=80&w=300&h=400&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=300&h=400&auto=format&fit=crop",
+];
 
 interface OutfitSuggestion {
   image_url: string;
@@ -152,6 +161,12 @@ const AIStyleAdvisor: React.FC = () => {
       });
 
       setSuggestions(data);
+      
+      // Scroll to results
+      const resultsElement = document.getElementById('results-section');
+      if (resultsElement) {
+        resultsElement.scrollIntoView({ behavior: 'smooth' });
+      }
     } else {
       // All endpoints failed
       setError('Could not connect to style advisor service. Please try again later.');
@@ -171,15 +186,70 @@ const AIStyleAdvisor: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50">
+      {/* Hero Banner with Model Images */}
+      <div className="relative bg-gradient-to-r from-purple-600 to-indigo-600 py-20 overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-pattern-grid"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-white">
+              <h1 className="text-5xl font-bold mb-6 leading-tight">
+                Elevate Your <em className="font-bold not-italic">Style</em> with AI
+              </h1>
+              
+              <p className="text-white/80 text-lg mb-6 max-w-lg">
+                Our AI-powered style advisor analyzes your body type and occasion to create perfect outfit combinations personalized just for you.
+              </p>
+              
+              <div className="flex items-center text-white/70 text-sm gap-6 mb-8">
+                <div className="flex items-center gap-2">
+                  <span className="w-4 h-4 bg-white/20 rounded-full flex items-center justify-center">
+                    <span className="w-2 h-2 bg-white rounded-full"></span>
+                  </span>
+                  <span>Personalized Recommendations</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-4 h-4 bg-white/20 rounded-full flex items-center justify-center">
+                    <span className="w-2 h-2 bg-white rounded-full"></span>
+                  </span>
+                  <span>AI-Generated Outfits</span>
+                </div>
+              </div>
+              
+              <Button className="bg-white text-purple-600 hover:bg-white/90 rounded-xl px-6 py-6 h-auto text-lg font-medium flex items-center gap-2">
+                Start Your Style Journey <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+            
+            <div className="hidden lg:block relative">
+              <div className="grid grid-cols-3 gap-2 rotate-3">
+                {modelImages.slice(0, 3).map((src, index) => (
+                  <div key={index} className={`overflow-hidden rounded-xl shadow-lg ${index % 2 === 0 ? 'translate-y-6' : ''}`}>
+                    <img 
+                      src={src} 
+                      alt={`Fashion model ${index+1}`} 
+                      className="w-full h-[220px] object-cover hover:scale-105 transition-transform duration-700"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=300&auto=format&fit=crop";
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+              
+              <div className="absolute -bottom-4 -right-4 bg-white p-4 rounded-xl shadow-lg z-10">
+                <p className="text-sm font-medium text-purple-700">AI-Powered Style</p>
+                <p className="text-xs text-gray-500">Personalized in seconds</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl font-bold mb-3 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
-            Create <em className="font-bold not-italic">stunning</em> outfits with AI
-          </h1>
-          <p className="text-gray-600 text-center mb-16 text-lg max-w-2xl mx-auto">
-            StyleGenie is perfect for fashion enthusiasts who value quality, speed, and personalization. Bring your style to life in seconds.
-          </p>
-          
           {/* How it works section */}
           <div className="mb-20">
             <h2 className="text-3xl font-bold text-center mb-12">
@@ -219,6 +289,28 @@ const AIStyleAdvisor: React.FC = () => {
             </div>
           </div>
           
+          {/* Gallery of style inspiration */}
+          <div className="mb-20">
+            <h2 className="text-3xl font-bold text-center mb-8">
+              Style <em className="text-purple-600 font-bold not-italic">Inspiration</em>
+            </h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
+              {modelImages.map((src, index) => (
+                <div key={index} className="overflow-hidden rounded-xl aspect-[3/4] shadow-sm">
+                  <img 
+                    src={src} 
+                    alt={`Style inspiration ${index+1}`} 
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=300&auto=format&fit=crop";
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          
           {workingEndpoint && (
             <div className="mb-4 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800">
               Using API endpoint: {workingEndpoint}
@@ -238,6 +330,7 @@ const AIStyleAdvisor: React.FC = () => {
                     <SelectValue placeholder="Select an occasion" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="date night">Date Night</SelectItem>
                     <SelectItem value="wedding">Wedding</SelectItem>
                     <SelectItem value="party">Party</SelectItem>
                     <SelectItem value="casual">Casual</SelectItem>
@@ -324,7 +417,7 @@ const AIStyleAdvisor: React.FC = () => {
           </div>
 
           {suggestions && (
-            <div className="space-y-12">
+            <div id="results-section" className="space-y-12">
               <div>
                 <h2 className="text-3xl font-bold mb-3 text-center">
                   Your <em className="text-purple-600 font-bold not-italic">Personalized</em> Outfits

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const modelImages = [
   "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=300&h=400&auto=format&fit=crop",
@@ -11,8 +12,10 @@ const modelImages = [
 ];
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   const handleGetStarted = () => {
-    window.location.href = "/ai-style-advisor";
+    navigate("/ai-style-advisor");
   };
 
   return (
@@ -44,14 +47,15 @@ const HeroSection = () => {
                 Try StyleGenie Now
               </Button>
               
-              <Button 
-                onClick={() => window.location.href="/ai-style-advisor"}
-                size="lg" 
-                variant="outline"
-                className="border-purple-200 text-purple-700 hover:bg-purple-50 text-lg px-8 py-6 rounded-xl flex items-center gap-2" 
-              >
-                Learn More <ArrowRight className="h-4 w-4" />
-              </Button>
+              <Link to="/ai-style-advisor">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="border-purple-200 text-purple-700 hover:bg-purple-50 text-lg px-8 py-6 rounded-xl flex items-center gap-2" 
+                >
+                  Learn More <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
             
             <div className="flex flex-wrap items-center gap-4 text-gray-500 text-sm">

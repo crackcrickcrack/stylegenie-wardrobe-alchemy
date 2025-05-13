@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Sparkles, Smartphone } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CTASection = () => {
+  const navigate = useNavigate();
+
   const handleGetStarted = () => {
-    window.location.href = "/ai-style-advisor";
+    navigate("/ai-style-advisor");
   };
 
   return (
