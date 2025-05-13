@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import OccasionSelector from "./OccasionSelector";
 import BodyTypeSelector from "./BodyTypeSelector";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Loader2 } from "lucide-react";
 
 type StylingFormProps = {
   occasion: string;
@@ -37,12 +37,12 @@ const StylingForm = ({
       <div className="pt-4">
         <Button 
           type="submit" 
-          className="w-full bg-gold hover:bg-gold/90 text-white h-12 rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all"
+          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white h-14 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all text-lg font-medium"
           disabled={loading}
         >
           {loading ? (
             <>
-              <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              <Loader2 className="h-5 w-5 animate-spin" />
               Generating Your Perfect Outfit...
             </>
           ) : (

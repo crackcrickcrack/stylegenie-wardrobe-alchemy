@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import OutfitSuggestionsList from "./OutfitSuggestionsList";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
-import EmptyState from "./EmptyState";
 import { OutfitSuggestion } from "./types";
+import { Wand2 } from "lucide-react";
 
 type StylingResultsProps = {
   loading: boolean;
@@ -43,8 +43,16 @@ const StylingResults = ({
     );
   }
   
-  // Default empty state
-  return <EmptyState />;
+  // Inline empty state styled like AIStyleAdvisor
+  return (
+    <div className="text-center text-gray-600 flex flex-col items-center justify-center h-full">
+      <div className="mb-6">
+        <Wand2 className="h-16 w-16 text-purple-400" />
+      </div>
+      <h3 className="text-xl font-medium mb-2">Your Style Will Appear Here</h3>
+      <p className="max-w-xs">Select your preferences and click "Generate" to receive AI outfit suggestions</p>
+    </div>
+  );
 };
 
 export default StylingResults;
