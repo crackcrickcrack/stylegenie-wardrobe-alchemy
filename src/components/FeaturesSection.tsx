@@ -29,98 +29,93 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="how-it-works" className="py-24 px-4 bg-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[20%] right-[5%] w-80 h-80 rounded-full bg-purple-600/5 blur-3xl"></div>
-        <div className="absolute bottom-[10%] left-[10%] w-80 h-80 rounded-full bg-indigo-600/5 blur-3xl"></div>
-      </div>
-      
-      <div className="container mx-auto z-10 relative">
+    <section className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            AI solutions to <em className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 not-italic">boost</em> your style
+            AI solutions to <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">boost</span> your style
           </h2>
-          
           <p className="text-gray-600 max-w-2xl mx-auto">
             Powered by advanced AI, we analyze thousands of style combinations to find your perfect look
           </p>
         </div>
-        
-        <div className="flex flex-col lg:flex-row gap-16 mb-16">
-          <div className="w-full lg:w-1/2">
-            <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-lg mb-8">
+
+        {/* Before & After Images */}
+        <div className="mb-20">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="relative rounded-xl overflow-hidden shadow-lg">
               <img 
                 src={modelFeatureImage1} 
-                alt="StyleGenie in action" 
-                className="w-full h-full object-cover"
+                alt="Before StyleGenie" 
+                className="w-full h-[300px] object-cover"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent flex items-end">
-                <div className="p-6">
-                  <div className="text-white text-sm font-medium">Before StyleGenie</div>
-                </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/30 to-transparent p-4">
+                <p className="text-white font-medium">Before StyleGenie</p>
               </div>
             </div>
             
-            <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-lg">
+            <div className="relative rounded-xl overflow-hidden shadow-lg">
               <img 
                 src={modelFeatureImage2} 
-                alt="StyleGenie result" 
-                className="w-full h-full object-cover"
+                alt="After StyleGenie" 
+                className="w-full h-[300px] object-cover"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1603217192634-61068e4d4bf9?q=80&w=600&auto=format&fit=crop";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent flex items-end">
-                <div className="p-6">
-                  <div className="text-white text-sm font-medium">After StyleGenie</div>
-                </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/30 to-transparent p-4">
+                <p className="text-white font-medium">After StyleGenie</p>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Features Grid */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold">StyleGenie Features</h2>
+          </div>
           
-          <div className="w-full lg:w-1/2 flex flex-col justify-center">
-            <h3 className="text-2xl font-bold mb-8 text-gray-800 lg:hidden">Our Features</h3>
-            <div className="grid sm:grid-cols-2 gap-6">
-              {features.map((feature, index) => (
-                <Card key={index} className="border-none bg-white shadow-md hover:shadow-lg transition-all duration-300">
-                  <CardContent className="p-6">
-                    <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-5">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-lg font-bold mb-3">{feature.title}</h3>
-                    <p className="text-gray-600 text-sm">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-md">
+                <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
+              </div>
+            ))}
           </div>
         </div>
-        
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-10 text-white">
-          <div className="text-center mb-10">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">Transform your style today</h3>
-            <p className="mb-6 max-w-2xl mx-auto">Join thousands of users who have discovered their perfect style with StyleGenie</p>
+
+        {/* Stats Section */}
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-10 text-white">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold mb-3">Transform your style today</h3>
+            <p className="max-w-2xl mx-auto">Join thousands of users who have discovered their perfect style with StyleGenie</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto">
-            <div className="text-center p-4">
-              <p className="text-3xl font-bold mb-2">90%</p>
-              <p className="text-sm opacity-90">Time saved</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            <div className="flex flex-col items-center">
+              <p className="text-3xl font-bold mb-1">90%</p>
+              <p className="text-sm">Time saved</p>
             </div>
-            <div className="text-center p-4">
-              <p className="text-3xl font-bold mb-2">45%</p>
-              <p className="text-sm opacity-90">Better style confidence</p>
+            <div className="flex flex-col items-center">
+              <p className="text-3xl font-bold mb-1">45%</p>
+              <p className="text-sm">Better style confidence</p>
             </div>
-            <div className="text-center p-4">
-              <p className="text-3xl font-bold mb-2">1000+</p>
-              <p className="text-sm opacity-90">Outfit combinations</p>
+            <div className="flex flex-col items-center">
+              <p className="text-3xl font-bold mb-1">1000+</p>
+              <p className="text-sm">Outfit combinations</p>
             </div>
-            <div className="text-center p-4">
-              <p className="text-3xl font-bold mb-2">24/7</p>
-              <p className="text-sm opacity-90">Style assistance</p>
+            <div className="flex flex-col items-center">
+              <p className="text-3xl font-bold mb-1">24/7</p>
+              <p className="text-sm">Style assistance</p>
             </div>
           </div>
         </div>
