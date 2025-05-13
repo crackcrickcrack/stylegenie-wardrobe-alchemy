@@ -31,6 +31,7 @@ const AIStyleAdvisor: React.FC = () => {
   const [occasion, setOccasion] = useState<string>('');
   const [gender, setGender] = useState<string>('');
   const [bodyType, setBodyType] = useState<string>('');
+  const [country, setCountry] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
@@ -130,7 +131,8 @@ const AIStyleAdvisor: React.FC = () => {
     const payload = {
       occasion,
       body_type: bodyType,
-      gender
+      gender,
+      country: country || 'global' // Default to 'global' if no country is selected
     };
 
     console.log('Sending request with payload:', payload);
@@ -369,6 +371,33 @@ const AIStyleAdvisor: React.FC = () => {
                     <SelectItem value="plus-size">Plus Size</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Country</label>
+                <Select onValueChange={setCountry} value={country}>
+                  <SelectTrigger className="w-full border-purple-200 focus:ring-purple-500 focus:border-purple-500 rounded-xl">
+                    <SelectValue placeholder="Select your country (optional)" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="global">Global Style</SelectItem>
+                    <SelectItem value="us">United States</SelectItem>
+                    <SelectItem value="uk">United Kingdom</SelectItem>
+                    <SelectItem value="france">France</SelectItem>
+                    <SelectItem value="italy">Italy</SelectItem>
+                    <SelectItem value="japan">Japan</SelectItem>
+                    <SelectItem value="korea">South Korea</SelectItem>
+                    <SelectItem value="india">India</SelectItem>
+                    <SelectItem value="australia">Australia</SelectItem>
+                    <SelectItem value="canada">Canada</SelectItem>
+                    <SelectItem value="brazil">Brazil</SelectItem>
+                    <SelectItem value="germany">Germany</SelectItem>
+                    <SelectItem value="spain">Spain</SelectItem>
+                    <SelectItem value="mexico">Mexico</SelectItem>
+                    <SelectItem value="china">China</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500 mt-1">Select your country to get region-specific style recommendations</p>
               </div>
 
               <div className="pt-4">
