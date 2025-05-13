@@ -1,25 +1,21 @@
-
 import { Button } from "@/components/ui/button";
 import OutfitSuggestionsList from "./OutfitSuggestionsList";
-import HistoricalFashionList from "./HistoricalFashionList";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
 import EmptyState from "./EmptyState";
-import { OutfitSuggestion, HistoricalFashionItem } from "./types";
+import { OutfitSuggestion } from "./types";
 
 type StylingResultsProps = {
   loading: boolean;
   error: string | null;
   outfitSuggestions: OutfitSuggestion[];
-  historicalFashion: HistoricalFashionItem[];
   onClearError: () => void;
 };
 
 const StylingResults = ({ 
   loading, 
   error, 
-  outfitSuggestions, 
-  historicalFashion,
+  outfitSuggestions,
   onClearError
 }: StylingResultsProps) => {
   if (loading) {
@@ -30,13 +26,12 @@ const StylingResults = ({
     return <ErrorState errorMessage={error} onRetry={onClearError} />;
   }
   
-  if (outfitSuggestions.length > 0 || historicalFashion.length > 0) {
+  if (outfitSuggestions.length > 0) {
     return (
       <div className="animate-enter space-y-6">
         <h3 className="text-2xl font-medium mb-4 text-crimson">Your Personalized Style</h3>
         
         <OutfitSuggestionsList suggestions={outfitSuggestions} />
-        <HistoricalFashionList items={historicalFashion} />
         
         <Button 
           variant="outline" 

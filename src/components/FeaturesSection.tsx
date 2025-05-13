@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 
 const features = [
@@ -9,7 +8,7 @@ const features = [
       </svg>
     ),
     title: "Personalized Recommendations",
-    description: "Our AI analyzes your body type, skin tone, and style preferences to create perfectly tailored outfit suggestions."
+    description: "Our AI analyzes your body type and style preferences to create perfectly tailored outfit suggestions."
   },
   {
     icon: (
@@ -28,8 +27,8 @@ const features = [
         <path d="M12 5l7 7-7 7"></path>
       </svg>
     ),
-    title: "Style Evolution",
-    description: "Explore how your style can evolve. Try different looks and discover new fashion possibilities tailored for you."
+    title: "Interactive Style Viewing",
+    description: "Click on any outfit to see it in full detail with a beautiful popup that showcases every aspect of your new look."
   },
   {
     icon: (

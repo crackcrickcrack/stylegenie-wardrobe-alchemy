@@ -1,32 +1,20 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import StylingForm from "./styling/StylingForm";
 import StylingResults from "./styling/StylingResults";
-import { OutfitSuggestion, HistoricalFashionItem } from "./styling/types";
+import { OutfitSuggestion } from "./styling/types";
 
 const StylingSection = () => {
-  const [image, setImage] = useState<string | null>(null);
   const [occasion, setOccasion] = useState<string>("");
   const [bodyType, setBodyType] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [outfitSuggestions, setOutfitSuggestions] = useState<OutfitSuggestion[]>([]);
-  const [historicalFashion, setHistoricalFashion] = useState<HistoricalFashionItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!image) {
-      toast({
-        title: "Missing image",
-        description: "Please upload a photo to continue",
-        variant: "destructive",
-      });
-      return;
-    }
 
     if (!occasion) {
       toast({
@@ -49,14 +37,12 @@ const StylingSection = () => {
     setLoading(true);
     setError(null);
     setOutfitSuggestions([]);
-    setHistoricalFashion([]);
     
     try {
       // Create the request body according to the API specification
       const requestBody = {
         occasion: occasion.toLowerCase(),
-        body_type: bodyType.toLowerCase(),
-        photo: image // Base64 image string
+        body_type: bodyType.toLowerCase()
       };
       
       // Make the API call
@@ -79,10 +65,6 @@ const StylingSection = () => {
         setOutfitSuggestions(data.outfit_suggestions);
       }
       
-      if (data.historical_fashion) {
-        setHistoricalFashion(data.historical_fashion);
-      }
-      
       toast({
         title: "Styling Complete!",
         description: "Your personalized outfit has been generated.",
@@ -101,36 +83,41 @@ const StylingSection = () => {
   };
 
   return (
-    <section id="styling-section" className="py-20 px-4 bg-white">
-      <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">
-          Get Styled in <span className="text-gold">Seconds</span>
-        </h2>
+    <section id="styling-section" className="py-24 px-4 bg-gradient-to-b from-white to-gray-50 relative">
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-gold/5 blur-3xl"></div>
+        <div className="absolute top-1/2 -left-40 w-80 h-80 rounded-full bg-gold/5 blur-3xl"></div>
+      </div>
+    
+      <div className="container mx-auto relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Get Styled in <span className="text-gold">Seconds</span>
+          </h2>
+          
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            Our AI analyzes your body type and occasion to create the perfect outfit recommendation tailored just for you.
+          </p>
+        </div>
         
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
-          Our AI analyzes your photo, body type, and occasion to create the perfect outfit recommendation tailored just for you.
-        </p>
-        
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          <Card className="p-6 border border-gray-200">
+        <div className="grid md:grid-cols-2 gap-10 items-start max-w-6xl mx-auto">
+          <Card className="p-8 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow bg-white/95 backdrop-blur-sm">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800">Your Style Preferences</h3>
             <StylingForm
-              image={image}
               occasion={occasion}
               bodyType={bodyType}
               loading={loading}
-              onImageChange={setImage}
               onOccasionChange={setOccasion}
               onBodyTypeChange={setBodyType}
               onSubmit={handleSubmit}
             />
           </Card>
           
-          <Card className="p-6 border border-gray-200 min-h-[400px] flex flex-col">
+          <Card className="p-8 border border-gray-200 rounded-xl shadow-sm bg-white/95 backdrop-blur-sm min-h-[400px] flex flex-col">
             <StylingResults
               loading={loading}
               error={error}
               outfitSuggestions={outfitSuggestions}
-              historicalFashion={historicalFashion}
               onClearError={() => setError(null)}
             />
           </Card>
