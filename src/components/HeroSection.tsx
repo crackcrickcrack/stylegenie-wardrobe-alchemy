@@ -12,7 +12,7 @@ const modelImages = [
 
 const HeroSection = () => {
   const handleGetStarted = () => {
-    document.getElementById("styling-section")?.scrollIntoView({ behavior: "smooth" });
+    window.location.href = "/ai-style-advisor";
   };
 
   return (

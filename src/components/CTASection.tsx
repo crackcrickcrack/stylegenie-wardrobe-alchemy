@@ -3,7 +3,7 @@ import { Sparkles, Smartphone } from "lucide-react";
 
 const CTASection = () => {
   const handleGetStarted = () => {
-    document.getElementById("styling-section")?.scrollIntoView({ behavior: "smooth" });
+    window.location.href = "/ai-style-advisor";
   };
 
   return (
