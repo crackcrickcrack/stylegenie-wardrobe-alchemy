@@ -22,10 +22,7 @@ interface AIResponse {
 
 // List of potential API endpoints to try
 const API_ENDPOINTS = [
-  'https://tjuw95y38e.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI',  // New working API from fix-api-gateway
-  '/StyleGenieAI',  // Relative path
-  'https://1hywq9b8na.execute-api.us-east-1.amazonaws.com/stage/StyleGenieAI',  // Old endpoint
-  'https://api.stylegenie.duckdns.org/StyleGenieAI'  // Custom domain
+  'https://zkbluoyybf.execute-api.us-east-1.amazonaws.com/prod/StyleGenieAI'  // New working API endpoint
 ];
 
 const AIStyleAdvisor: React.FC = () => {
