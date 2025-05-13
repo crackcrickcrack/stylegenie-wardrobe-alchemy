@@ -79,9 +79,36 @@ const AIStyleAdvisor: React.FC = () => {
       
       try {
         const data = JSON.parse(responseText);
-        // Check if the response has the expected structure
-        if (data.outfit_suggestions && data.historical_fashion) {
-          console.log(`✅ Success from ${endpoint}`);
+        console.log("API Response:", data);
+        
+        // Handle the new API response format
+        if (data.outfit_description && data.image_url) {
+          console.log(`✅ Success from ${endpoint} with new format`);
+          
+          // Convert the new format to the expected structure
+          const convertedData = {
+            outfit_suggestions: [
+              {
+                description: data.outfit_description,
+                image_url: data.image_url
+              }
+            ],
+            historical_fashion: [
+              {
+                year: "Modern Interpretation",
+                image_url: data.image_url
+              }
+            ]
+          };
+          
+          // Update the working endpoint for future use
+          setWorkingEndpoint(endpoint);
+          return convertedData;
+        }
+        
+        // Check if the response has the original expected structure
+        else if (data.outfit_suggestions && data.historical_fashion) {
+          console.log(`✅ Success from ${endpoint} with original format`);
           // Update the working endpoint for future use
           setWorkingEndpoint(endpoint);
           return data;
