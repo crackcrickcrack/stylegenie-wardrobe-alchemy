@@ -29,6 +29,7 @@ const API_ENDPOINTS = [
 
 const AIStyleAdvisor: React.FC = () => {
   const [occasion, setOccasion] = useState<string>('');
+  const [gender, setGender] = useState<string>('');
   const [bodyType, setBodyType] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -116,7 +117,7 @@ const AIStyleAdvisor: React.FC = () => {
   };
 
   const getStyleSuggestions = async () => {
-    if (!occasion || !bodyType) {
+    if (!occasion || !bodyType || !gender) {
       setError('Please fill in all required fields');
       return;
     }
@@ -128,7 +129,8 @@ const AIStyleAdvisor: React.FC = () => {
     // Prepare the request payload
     const payload = {
       occasion,
-      body_type: bodyType
+      body_type: bodyType,
+      gender
     };
 
     console.log('Sending request with payload:', payload);
@@ -336,6 +338,19 @@ const AIStyleAdvisor: React.FC = () => {
                     <SelectItem value="casual">Casual</SelectItem>
                     <SelectItem value="business">Business</SelectItem>
                     <SelectItem value="formal">Formal</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Gender</label>
+                <Select onValueChange={setGender} value={gender}>
+                  <SelectTrigger className="w-full border-purple-200 focus:ring-purple-500 focus:border-purple-500 rounded-xl">
+                    <SelectValue placeholder="Select your gender" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

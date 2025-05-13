@@ -57,7 +57,7 @@ const FeaturesSection = () => {
                   (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent flex items-end">
                 <div className="p-6">
                   <div className="text-white text-sm font-medium">Before StyleGenie</div>
                 </div>
@@ -73,7 +73,7 @@ const FeaturesSection = () => {
                   (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1603217192634-61068e4d4bf9?q=80&w=600&auto=format&fit=crop";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent flex items-end">
                 <div className="p-6">
                   <div className="text-white text-sm font-medium">After StyleGenie</div>
                 </div>
@@ -81,38 +81,43 @@ const FeaturesSection = () => {
             </div>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            {features.map((feature, index) => (
-              <Card key={index} className="border-none bg-white shadow-md hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-5">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="flex flex-col justify-center">
+            <div className="grid md:grid-cols-2 gap-6">
+              {features.map((feature, index) => (
+                <Card key={index} className="border-none bg-white shadow-md hover:shadow-lg transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-5">
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                    <p className="text-gray-600">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
         
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-10 text-white text-center">
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">Transform your style today</h3>
-          <p className="mb-6 max-w-2xl mx-auto">Join thousands of users who have discovered their perfect style with StyleGenie</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white">
-            <div>
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-10 text-white">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Transform your style today</h3>
+            <p className="mb-6 max-w-2xl mx-auto">Join thousands of users who have discovered their perfect style with StyleGenie</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
               <p className="text-3xl font-bold">90%</p>
               <p className="text-sm opacity-80">Time saved</p>
             </div>
-            <div>
+            <div className="text-center">
               <p className="text-3xl font-bold">45%</p>
               <p className="text-sm opacity-80">Better style confidence</p>
             </div>
-            <div>
+            <div className="text-center">
               <p className="text-3xl font-bold">1000+</p>
               <p className="text-sm opacity-80">Outfit combinations</p>
             </div>
-            <div>
+            <div className="text-center">
               <p className="text-3xl font-bold">24/7</p>
               <p className="text-sm opacity-80">Style assistance</p>
             </div>
