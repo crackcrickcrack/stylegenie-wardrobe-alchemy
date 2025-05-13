@@ -2,22 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
-import PhotoUpload from "@/components/styling/PhotoUpload";
+import { Loader2, Sparkles, Camera, Wand2, Share2 } from "lucide-react";
 
 interface OutfitSuggestion {
   image_url: string;
   description: string;
 }
 
-interface HistoricalFashion {
-  year: string;
-  image_url: string;
-}
-
 interface AIResponse {
   outfit_suggestions: OutfitSuggestion[];
-  historical_fashion: HistoricalFashion[];
 }
 
 // List of potential API endpoints to try
@@ -28,27 +21,18 @@ const API_ENDPOINTS = [
 const AIStyleAdvisor: React.FC = () => {
   const [occasion, setOccasion] = useState<string>('');
   const [bodyType, setBodyType] = useState<string>('');
-  const [photo, setPhoto] = useState<string | null>(null);
-  const [photoS3Url, setPhotoS3Url] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
   const [apiDebug, setApiDebug] = useState<any>(null);
   const [workingEndpoint, setWorkingEndpoint] = useState<string | null>(null);
+  const [selectedOutfit, setSelectedOutfit] = useState<OutfitSuggestion | null>(null);
 
   useEffect(() => {
     console.log('AIStyleAdvisor component mounted');
     // Log the API endpoints being used
     console.log('Potential API endpoints:', API_ENDPOINTS);
   }, []);
-
-  const handlePhotoUpload = (previewUrl: string | null, s3Url?: string) => {
-    console.log("Photo upload handler called:", { previewUrl: previewUrl ? "[data]" : null, s3Url });
-    setPhoto(previewUrl);
-    if (s3Url) {
-      setPhotoS3Url(s3Url);
-    }
-  };
 
   // Function to try a specific endpoint
   const tryEndpoint = async (endpoint: string, payload: any) => {
@@ -92,12 +76,6 @@ const AIStyleAdvisor: React.FC = () => {
                 description: data.outfit_description,
                 image_url: data.image_url
               }
-            ],
-            historical_fashion: [
-              {
-                year: "Modern Interpretation",
-                image_url: data.image_url
-              }
             ]
           };
           
@@ -107,11 +85,13 @@ const AIStyleAdvisor: React.FC = () => {
         }
         
         // Check if the response has the original expected structure
-        else if (data.outfit_suggestions && data.historical_fashion) {
+        else if (data.outfit_suggestions) {
           console.log(`✅ Success from ${endpoint} with original format`);
           // Update the working endpoint for future use
           setWorkingEndpoint(endpoint);
-          return data;
+          // Remove historical_fashion if it exists
+          const { historical_fashion, ...rest } = data;
+          return rest;
         } else {
           console.log(`Response from ${endpoint} missing expected fields`);
           return null;
@@ -139,14 +119,10 @@ const AIStyleAdvisor: React.FC = () => {
     // Prepare the request payload
     const payload = {
       occasion,
-      body_type: bodyType,
-      photo: photoS3Url || undefined // Use S3 URL instead of base64
+      body_type: bodyType
     };
 
-    console.log('Sending request with payload:', {
-      ...payload,
-      photo: photoS3Url ? photoS3Url : undefined
-    });
+    console.log('Sending request with payload:', payload);
 
     // Try each endpoint in order until one works
     let successData = null;
@@ -175,12 +151,6 @@ const AIStyleAdvisor: React.FC = () => {
         }
       });
 
-      data.historical_fashion.forEach((item: HistoricalFashion, index: number) => {
-        if (!item.image_url) {
-          item.image_url = `https://placehold.co/600x800/EEE/31343C?text=Historical+${index+1}`;
-        }
-      });
-
       setSuggestions(data);
     } else {
       // All endpoints failed
@@ -191,134 +161,337 @@ const AIStyleAdvisor: React.FC = () => {
     setLoading(false);
   };
 
+  const handleOpenOutfit = (outfit: OutfitSuggestion) => {
+    setSelectedOutfit(outfit);
+  };
+
+  const handleCloseOutfit = () => {
+    setSelectedOutfit(null);
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">AI Style Advisor</h1>
-      
-      {workingEndpoint && (
-        <div className="mb-4 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800">
-          Using API endpoint: {workingEndpoint}
-        </div>
-      )}
-      
-      <Card className="p-6 mb-8">
-        <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Occasion</label>
-            <Select onValueChange={setOccasion} value={occasion}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select an occasion" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="wedding">Wedding</SelectItem>
-                <SelectItem value="party">Party</SelectItem>
-                <SelectItem value="casual">Casual</SelectItem>
-                <SelectItem value="business">Business</SelectItem>
-                <SelectItem value="formal">Formal</SelectItem>
-              </SelectContent>
-            </Select>
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50">
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-5xl font-bold mb-3 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+            Create <em className="font-bold not-italic">stunning</em> outfits with AI
+          </h1>
+          <p className="text-gray-600 text-center mb-16 text-lg max-w-2xl mx-auto">
+            StyleGenie is perfect for fashion enthusiasts who value quality, speed, and personalization. Bring your style to life in seconds.
+          </p>
+          
+          {/* How it works section */}
+          <div className="mb-20">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              How <em className="text-purple-600 font-bold not-italic">StyleGenie</em> works
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
+                    <span className="text-purple-700 font-bold text-xl">1</span>
+                  </div>
+                </div>
+                <h3 className="font-semibold text-xl mb-2">Choose</h3>
+                <p className="text-gray-600">Select your body type and occasion</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
+                    <span className="text-purple-700 font-bold text-xl">2</span>
+                  </div>
+                </div>
+                <h3 className="font-semibold text-xl mb-2">Transform</h3>
+                <p className="text-gray-600">Our AI generates personalized outfits</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
+                    <span className="text-purple-700 font-bold text-xl">3</span>
+                  </div>
+                </div>
+                <h3 className="font-semibold text-xl mb-2">Share</h3>
+                <p className="text-gray-600">Save your favorites and share them</p>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Body Type</label>
-            <Select onValueChange={setBodyType} value={bodyType}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select your body type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="slim">Slim</SelectItem>
-                <SelectItem value="curvy">Curvy</SelectItem>
-                <SelectItem value="athletic">Athletic</SelectItem>
-                <SelectItem value="petite">Petite</SelectItem>
-                <SelectItem value="plus-size">Plus Size</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <PhotoUpload 
-              image={photo} 
-              onImageChange={handlePhotoUpload} 
-            />
-          </div>
-
-          <Button
-            onClick={getStyleSuggestions}
-            disabled={loading}
-            className="w-full bg-gold hover:bg-gold/90 text-white font-medium"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Generating Suggestions...
-              </>
-            ) : (
-              'Generate Outfit'
-            )}
-          </Button>
-
-          {error && (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{error}</p>
+          
+          {workingEndpoint && (
+            <div className="mb-4 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800">
+              Using API endpoint: {workingEndpoint}
             </div>
           )}
           
-          {apiDebug && (
-            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mt-4">
-              <p className="text-sm font-medium mb-2">API Debug Info:</p>
-              <pre className="text-xs overflow-auto max-h-40">{JSON.stringify(apiDebug, null, 2)}</pre>
+          <div className="grid md:grid-cols-2 gap-10 mb-16 bg-white p-8 rounded-2xl shadow-lg">
+            <div className="space-y-8">
+              <h2 className="text-2xl font-bold text-gray-800 border-b border-purple-100 pb-4">
+                Your Style Preferences
+              </h2>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Occasion</label>
+                <Select onValueChange={setOccasion} value={occasion}>
+                  <SelectTrigger className="w-full border-purple-200 focus:ring-purple-500 focus:border-purple-500 rounded-xl">
+                    <SelectValue placeholder="Select an occasion" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="wedding">Wedding</SelectItem>
+                    <SelectItem value="party">Party</SelectItem>
+                    <SelectItem value="casual">Casual</SelectItem>
+                    <SelectItem value="business">Business</SelectItem>
+                    <SelectItem value="formal">Formal</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Body Type</label>
+                <Select onValueChange={setBodyType} value={bodyType}>
+                  <SelectTrigger className="w-full border-purple-200 focus:ring-purple-500 focus:border-purple-500 rounded-xl">
+                    <SelectValue placeholder="Select your body type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="slim">Slim</SelectItem>
+                    <SelectItem value="curvy">Curvy</SelectItem>
+                    <SelectItem value="athletic">Athletic</SelectItem>
+                    <SelectItem value="petite">Petite</SelectItem>
+                    <SelectItem value="plus-size">Plus Size</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="pt-4">
+                <Button
+                  onClick={getStyleSuggestions}
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white h-14 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all text-lg font-medium"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Generating Your Perfect Outfit...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="h-5 w-5" />
+                      Generate My Perfect Outfit
+                    </>
+                  )}
+                </Button>
+                
+                <p className="text-xs text-gray-500 text-center mt-3">
+                  Our AI will create personalized outfit recommendations based on your selections
+                </p>
+              </div>
+
+              {error && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-600 text-sm">{error}</p>
+                </div>
+              )}
+            </div>
+            
+            <div className="bg-gradient-to-br from-purple-100 to-indigo-50 rounded-2xl p-6 flex items-center justify-center">
+              {!suggestions && !loading ? (
+                <div className="text-center text-gray-600 flex flex-col items-center justify-center">
+                  <div className="mb-6">
+                    <Wand2 className="h-16 w-16 text-purple-400" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Your Style Will Appear Here</h3>
+                  <p className="max-w-xs">Select your preferences and click "Generate" to receive AI outfit suggestions</p>
+                </div>
+              ) : loading ? (
+                <div className="text-center py-12">
+                  <div className="relative mx-auto mb-6">
+                    <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                      <Sparkles className="h-6 w-6 text-purple-600 animate-pulse" />
+                    </div>
+                  </div>
+                  <p className="text-purple-800 font-medium">Creating your perfect outfit...</p>
+                  <p className="text-sm text-purple-600 mt-2">This may take a few seconds</p>
+                </div>
+              ) : (
+                <div className="text-center p-4">
+                  <p className="text-purple-700 font-medium text-lg">✨ Your outfits are ready!</p>
+                  <p className="text-sm text-purple-600 mt-2">Scroll down to see your personalized suggestions</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {suggestions && (
+            <div className="space-y-12">
+              <div>
+                <h2 className="text-3xl font-bold mb-3 text-center">
+                  Your <em className="text-purple-600 font-bold not-italic">Personalized</em> Outfits
+                </h2>
+                <p className="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
+                  Here are the perfect outfit suggestions created just for you by our AI. Click on any outfit to see more details.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {suggestions.outfit_suggestions.map((outfit, index) => (
+                    <div 
+                      key={index} 
+                      className="group relative bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+                      onClick={() => handleOpenOutfit(outfit)}
+                    >
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full shadow-sm">
+                          Perfect Match
+                        </span>
+                      </div>
+                      
+                      <div className="relative h-80 overflow-hidden">
+                        <img
+                          src={outfit.image_url}
+                          alt={outfit.description}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          onError={(e) => {
+                            console.error(`Error loading image: ${outfit.image_url}`);
+                            (e.target as HTMLImageElement).src = `https://placehold.co/600x800/EEE/31343C?text=Outfit+${index+1}`;
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 via-purple-700/20 to-transparent flex items-end">
+                          <div className="p-5 w-full">
+                            <p className="text-white font-medium line-clamp-2 text-lg">
+                              {outfit.description.split('.')[0]}.
+                            </p>
+                            <div className="h-1 w-20 bg-purple-400 mt-3 rounded-full"></div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="p-5 bg-white">
+                        <p className="text-sm text-gray-600 line-clamp-2">
+                          {outfit.description.split('.').slice(1).join('.').trim()}
+                        </p>
+                        <div className="flex items-center mt-4 justify-between">
+                          <p className="text-xs text-purple-600 font-medium flex items-center">
+                            <span className="mr-1">Click to view details</span>
+                          </p>
+                          <button className="p-2 bg-purple-50 rounded-full">
+                            <Share2 className="h-4 w-4 text-purple-600" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Customer stats */}
+              <div className="py-16 bg-white rounded-2xl shadow-sm">
+                <h2 className="text-3xl font-bold text-center mb-12">
+                  With StyleGenie, our customers achieve
+                </h2>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-purple-600">90%</p>
+                    <p className="text-gray-600 mt-2">Time saved on outfit selection</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-purple-600">+45%</p>
+                    <p className="text-gray-600 mt-2">Increase in style confidence</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-purple-600">+20%</p>
+                    <p className="text-gray-600 mt-2">Reduced shopping returns</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-purple-600">1000+</p>
+                    <p className="text-gray-600 mt-2">Outfit combinations</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Image Popup Dialog */}
+          {selectedOutfit && (
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={handleCloseOutfit}>
+              <div className="relative max-w-4xl w-full p-1 max-h-[90vh]" onClick={e => e.stopPropagation()}>
+                <button
+                  onClick={handleCloseOutfit}
+                  className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+                
+                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                  <div className="grid md:grid-cols-2">
+                    <div className="bg-purple-50 p-2">
+                      {selectedOutfit.image_url && (
+                        <img
+                          src={selectedOutfit.image_url}
+                          alt={selectedOutfit.description}
+                          className="w-full h-full object-contain max-h-[70vh]"
+                        />
+                      )}
+                    </div>
+                    
+                    <div className="p-8 flex flex-col">
+                      <div className="mb-6">
+                        <div className="w-12 h-1 bg-purple-500 mb-4 rounded-full"></div>
+                        <h3 className="text-2xl font-bold mb-4">Outfit Details</h3>
+                        <p className="text-gray-700 leading-relaxed">{selectedOutfit.description}</p>
+                      </div>
+                      
+                      <div className="mb-6">
+                        <h4 className="text-sm font-medium text-gray-500 mb-2">Perfect For</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {['Casual', 'Evening', 'Work', 'Special Occasion'].map((tag, i) => (
+                            <span key={i} className="px-3 py-1 bg-purple-50 text-purple-700 text-xs rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className="mb-6">
+                        <h4 className="text-sm font-medium text-gray-500 mb-2">Style Tips</h4>
+                        <ul className="text-sm text-gray-700 space-y-2">
+                          <li className="flex items-start">
+                            <span className="text-purple-500 mr-2">•</span> 
+                            Accessorize with minimal jewelry for a balanced look
+                          </li>
+                          <li className="flex items-start">
+                            <span className="text-purple-500 mr-2">•</span> 
+                            Pair with neutral shoes to keep the focus on the outfit
+                          </li>
+                          <li className="flex items-start">
+                            <span className="text-purple-500 mr-2">•</span> 
+                            Consider a light jacket if attending an evening event
+                          </li>
+                        </ul>
+                      </div>
+                      
+                      <div className="mt-auto">
+                        <div className="flex gap-4">
+                          <Button className="flex-1 bg-purple-600 hover:bg-purple-700 text-white">
+                            Save Outfit
+                          </Button>
+                          <Button className="bg-white border border-purple-200 text-purple-700 hover:bg-purple-50">
+                            <Share2 className="h-4 w-4 mr-2" /> Share
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
-      </Card>
-
-      {suggestions && (
-        <div className="space-y-8">
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">Outfit Suggestions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {suggestions.outfit_suggestions.map((outfit, index) => (
-                <Card key={index} className="p-4">
-                  <div className="mb-2 bg-gray-100 rounded-lg overflow-hidden" style={{ height: "250px" }}>
-                    <img
-                      src={outfit.image_url}
-                      alt={outfit.description}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        console.error(`Error loading image: ${outfit.image_url}`);
-                        (e.target as HTMLImageElement).src = `https://placehold.co/600x800/EEE/31343C?text=Outfit+${index+1}`;
-                      }}
-                    />
-                  </div>
-                  <p className="text-sm">{outfit.description}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">Historical Fashion Insights</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {suggestions.historical_fashion.map((item, index) => (
-                <Card key={index} className="p-4">
-                  <div className="mb-2 bg-gray-100 rounded-lg overflow-hidden" style={{ height: "200px" }}>
-                    <img
-                      src={item.image_url}
-                      alt={`Fashion from ${item.year}`}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        console.error(`Error loading image: ${item.image_url}`);
-                        (e.target as HTMLImageElement).src = `https://placehold.co/600x800/EEE/31343C?text=${item.year}+Fashion`;
-                      }}
-                    />
-                  </div>
-                  <p className="text-sm font-medium">Year: {item.year}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
