@@ -40,24 +40,29 @@ else
   echo "Checking requested model access:"
   
   # Check for Claude Instant
-  CLAUDE_ACCESS=$(aws bedrock list-foundation-models --query "modelSummaries[?modelId=='anthropic.claude-instant-v1']" --output json)
-  if [ "$(echo $CLAUDE_ACCESS | jq 'length')" -gt 0 ]; then
+  CLAUDE_ACCESS=$(aws bedrock list-foundation-models --query "modelSummaries[?modelId=='anthropic.claude-instant-v1'].modelId" --output text)
+  if [ -n "$CLAUDE_ACCESS" ]; then
     echo "✅ anthropic.claude-instant-v1 is available"
   else
     echo "❌ anthropic.claude-instant-v1 is NOT available - request access in AWS console"
   fi
   
   # Check for Stability AI SDXL
-  SDXL_ACCESS=$(aws bedrock list-foundation-models --query "modelSummaries[?modelId=='stability.stable-diffusion-xl-v1']" --output json)
-  if [ "$(echo $SDXL_ACCESS | jq 'length')" -gt 0 ]; then
+  SDXL_ACCESS=$(aws bedrock list-foundation-models --query "modelSummaries[?modelId=='stability.stable-diffusion-xl-v1'].modelId" --output text)
+  if [ -n "$SDXL_ACCESS" ]; then
     echo "✅ stability.stable-diffusion-xl-v1 is available"
   else
     echo "❌ stability.stable-diffusion-xl-v1 is NOT available - request access in AWS console"
+    echo "   You need to request access at: https://console.aws.amazon.com/bedrock/home#/modelaccess"
   fi
   
   echo ""
-  echo "Available Bedrock models:"
-  aws bedrock list-foundation-models --query 'modelSummaries[?contains(modelId, `anthropic`) || contains(modelId, `stability`)].modelId' --output text
+  echo "All available Anthropic models:"
+  aws bedrock list-foundation-models --query 'modelSummaries[?contains(modelId, `anthropic`)].modelId' --output text
+  
+  echo ""
+  echo "All available Stability models:"
+  aws bedrock list-foundation-models --query 'modelSummaries[?contains(modelId, `stability`)].modelId' --output text || echo "No Stability AI models found"
 fi
 
 echo ""
