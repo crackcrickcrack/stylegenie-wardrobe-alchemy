@@ -33,6 +33,7 @@ const AIStyleAdvisor: React.FC = () => {
   const [gender, setGender] = useState<string>('');
   const [bodyType, setBodyType] = useState<string>('');
   const [country, setCountry] = useState<string>('');
+  const [ageRange, setAgeRange] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
@@ -133,7 +134,8 @@ const AIStyleAdvisor: React.FC = () => {
       occasion,
       body_type: bodyType,
       gender,
-      country: country || 'global' // Default to 'global' if no country is selected
+      country: country || 'global', // Default to 'global' if no country is selected
+      age_range: ageRange || 'adult' // Default to 'adult' if no age range is selected
     };
 
     console.log('Sending request with payload:', payload);
@@ -403,6 +405,23 @@ const AIStyleAdvisor: React.FC = () => {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-gray-500 mt-1">Select your country to get region-specific style recommendations</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Age Range</label>
+                <Select onValueChange={setAgeRange} value={ageRange}>
+                  <SelectTrigger className="w-full border-purple-200 focus:ring-purple-500 focus:border-purple-500 rounded-xl">
+                    <SelectValue placeholder="Select your age range (optional)" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="teen">Teen (13-19)</SelectItem>
+                    <SelectItem value="young-adult">Young Adult (20-29)</SelectItem>
+                    <SelectItem value="adult">Adult (30-45)</SelectItem>
+                    <SelectItem value="mature">Mature Adult (46-60)</SelectItem>
+                    <SelectItem value="senior">Senior (60+)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500 mt-1">Age-appropriate style suggestions will be tailored to your selection</p>
               </div>
 
               <div className="pt-4">
