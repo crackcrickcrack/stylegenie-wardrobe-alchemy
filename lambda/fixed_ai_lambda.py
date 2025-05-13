@@ -1,7 +1,8 @@
 import json
 import boto3
 import base64
-import uuid
+import os
+from datetime import datetime
 
 # Initialize Bedrock client
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
@@ -37,7 +38,8 @@ def upload_image_to_s3(image_data, prefix):
         image_bytes = base64.b64decode(image_data)
         
         # Generate unique filename
-        filename = f"{prefix}-{uuid.uuid4()}.png"
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        filename = f"{prefix}-{timestamp}.png"
         
         # Upload to S3
         s3.put_object(
