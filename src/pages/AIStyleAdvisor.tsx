@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight, ZoomIn, ZoomOut, X } from "lucide-react";
+import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight, ZoomIn, ZoomOut } from "lucide-react";
 import BodyTypeGuide from "@/components/BodyTypeGuide";
 
 // Model images for the banner gallery
@@ -41,6 +41,8 @@ const [apiDebug, setApiDebug] = useState<any>(null);
 const [workingEndpoint, setWorkingEndpoint] = useState<string | null>(null);
 const [selectedOutfit, setSelectedOutfit] = useState<OutfitSuggestion | null>(null);
 const [isZoomed, setIsZoomed] = useState<boolean>(false);
+const modalContentRef = useRef<HTMLDivElement>(null);
+const imageContainerRef = useRef<HTMLDivElement>(null);
 
 useEffect(() => {
 console.log('AIStyleAdvisor component mounted');
@@ -187,6 +189,16 @@ setLoading(false);
 const handleOpenOutfit = (outfit: OutfitSuggestion) => {
 setSelectedOutfit(outfit);
 setIsZoomed(false); // Reset zoom state when opening a new outfit
+// Reset scroll position when opening a new outfit
+setTimeout(() => {
+if (modalContentRef.current) {
+modalContentRef.current.scrollTop = 0;
+}
+if (imageContainerRef.current) {
+imageContainerRef.current.scrollTop = 0;
+imageContainerRef.current.scrollLeft = 0;
+}
+}, 10);
 };
 
 const handleCloseOutfit = () => {
@@ -196,6 +208,15 @@ setIsZoomed(false); // Reset zoom state when closing
 
 const toggleZoom = () => {
 setIsZoomed(!isZoomed);
+// Reset scroll position when toggling zoom
+if (imageContainerRef.current && !isZoomed) {
+setTimeout(() => {
+if (imageContainerRef.current) {
+imageContainerRef.current.scrollTop = 0;
+imageContainerRef.current.scrollLeft = 0;
+}
+}, 10);
+}
 };
 
 return (
@@ -604,53 +625,62 @@ With StyleGenie, our customers achieve
 {/* Image Popup Dialog */}
 {selectedOutfit && (
 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={handleCloseOutfit}>
-<div className="relative max-w-4xl w-full p-1 max-h-[90vh] overflow-hidden" onClick={e => e.stopPropagation()}>
+<div className="relative max-w-4xl w-full p-1 max-h-[90vh]" onClick={e => e.stopPropagation()}>
 <button
 onClick={handleCloseOutfit}
 className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors"
 >
-<X className="h-5 w-5" />
+<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+<line x1="18" y1="6" x2="6" y2="18"></line>
+<line x1="6" y1="6" x2="18" y2="18"></line>
+</svg>
 </button>
 
-<div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh]">
-<div className="grid md:grid-cols-2 max-h-[90vh] overflow-hidden">
-<div className="bg-purple-50 p-2 flex items-center justify-center max-h-[90vh] overflow-hidden relative">
+<div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] flex flex-col">
+<div className="grid md:grid-cols-2 h-full">
+<div 
+ref={imageContainerRef}
+className={`bg-purple-50 p-2 flex items-center justify-center relative overflow-auto ${isZoomed ? 'max-h-[70vh]' : ''}`}
+style={{ 
+maxHeight: isZoomed ? '70vh' : 'none',
+}}
+>
 {selectedOutfit.image_url && (
-<div className="relative flex items-center justify-center w-full h-full">
 <img
 src={selectedOutfit.image_url}
 alt={selectedOutfit.description}
-className={`transition-all duration-300 ${isZoomed 
-? "w-auto h-auto max-w-none max-h-none cursor-zoom-out" 
-: "w-full h-auto object-contain max-h-[70vh] cursor-zoom-in"}`}
+className={`transition-all duration-300 ${
+isZoomed 
+? 'w-auto h-auto max-w-none cursor-zoom-out' 
+: 'w-full h-full object-contain max-h-[70vh] cursor-zoom-in'
+}`}
 onClick={(e) => {
 e.stopPropagation();
 toggleZoom();
 }}
 />
-<button 
+)}
+<button
 onClick={(e) => {
 e.stopPropagation();
 toggleZoom();
 }}
-className="absolute bottom-4 right-4 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-colors"
-aria-label={isZoomed ? "Zoom out" : "Zoom in"}
+className="absolute bottom-4 right-4 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full transition-colors"
 >
-{isZoomed ? (
-<ZoomOut className="h-5 w-5 text-purple-700" />
-) : (
-<ZoomIn className="h-5 w-5 text-purple-700" />
-)}
+{isZoomed ? <ZoomOut className="h-5 w-5" /> : <ZoomIn className="h-5 w-5" />}
 </button>
 </div>
-)}
-</div>
 
-<div className="p-8 flex flex-col max-h-[90vh] overflow-y-auto">
+<div className="p-8 flex flex-col overflow-hidden">
+<div 
+ref={modalContentRef}
+className="overflow-y-auto pr-2 flex-grow"
+style={{ maxHeight: 'calc(85vh - 120px)' }}
+>
 <div className="mb-6">
 <div className="w-12 h-1 bg-purple-500 mb-4 rounded-full"></div>
 <h3 className="text-2xl font-bold mb-4">Outfit Details</h3>
-<p className="text-gray-700 leading-relaxed">{selectedOutfit.description}</p>
+<p className="text-gray-700 leading-relaxed whitespace-pre-line">{selectedOutfit.description}</p>
 </div>
 
 <div className="mb-6">
@@ -682,7 +712,28 @@ Consider a light jacket if attending an evening event
 </ul>
 </div>
 
-<div className="mt-auto">
+<div className="mb-6">
+<h4 className="text-sm font-medium text-gray-500 mb-2">Color Palette</h4>
+<div className="flex gap-2">
+<div className="w-6 h-6 rounded-full bg-indigo-600"></div>
+<div className="w-6 h-6 rounded-full bg-purple-400"></div>
+<div className="w-6 h-6 rounded-full bg-gray-700"></div>
+<div className="w-6 h-6 rounded-full bg-white border border-gray-200"></div>
+</div>
+</div>
+
+<div className="mb-6">
+<h4 className="text-sm font-medium text-gray-500 mb-2">Seasonal Appropriateness</h4>
+<div className="flex gap-2">
+<span className="px-3 py-1 bg-green-50 text-green-700 text-xs rounded-full">Spring</span>
+<span className="px-3 py-1 bg-yellow-50 text-yellow-700 text-xs rounded-full">Summer</span>
+<span className="px-3 py-1 bg-orange-50 text-orange-700 text-xs rounded-full">Fall</span>
+<span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full">Winter</span>
+</div>
+</div>
+</div>
+
+<div className="mt-4 pt-4 border-t border-gray-100">
 <div className="flex gap-4">
 <Button className="flex-1 bg-purple-600 hover:bg-purple-700 text-white">
 Save Outfit
