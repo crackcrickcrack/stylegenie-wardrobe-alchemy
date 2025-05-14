@@ -1,11 +1,13 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Sparkles, Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +21,13 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Scroll to top when route changes
+    window.scrollTo(0, 0);
+    // Close mobile menu when navigating
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -43,7 +52,7 @@ const Navbar = () => {
           <Link to="/ai-style-advisor" className="text-sm font-medium text-gray-700 transition-colors hover:text-purple-600">
             AI Style Advisor
           </Link>
-          <Link to="/#testimonials" className="text-sm font-medium text-gray-700 transition-colors hover:text-purple-600">
+          <Link to="/testimonials" className="text-sm font-medium text-gray-700 transition-colors hover:text-purple-600">
             Testimonials
           </Link>
           <Link to="/pricing" className="text-sm font-medium text-gray-700 transition-colors hover:text-purple-600">
@@ -84,7 +93,7 @@ const Navbar = () => {
               AI Style Advisor
             </Link>
             <Link 
-              to="/#testimonials" 
+              to="/testimonials" 
               className="text-gray-700 py-2 hover:text-purple-600"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -113,4 +122,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
