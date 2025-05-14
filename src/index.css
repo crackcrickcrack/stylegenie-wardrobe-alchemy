@@ -96,4 +96,18 @@
   .animate-enter {
     @apply animate-fade-in animate-scale-in;
   }
+  
+  /* Enhanced text contrast classes */
+  .text-high-contrast {
+    @apply text-white font-medium;
+  }
+  
+  .text-medium-contrast {
+    @apply text-gray-100 font-normal;
+  }
+  
+  /* Enhanced visibility classes */
+  .visible-container {
+    @apply pb-20 mb-20;
+  }
 }
