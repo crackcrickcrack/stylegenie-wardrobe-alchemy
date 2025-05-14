@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight, ZoomIn, ZoomOut } from "lucide-react";
+import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight, ZoomIn, ZoomOut, X } from "lucide-react";
 import BodyTypeGuide from "@/components/BodyTypeGuide";
 
 // Model images for the banner gallery
@@ -40,7 +40,7 @@ const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
 const [apiDebug, setApiDebug] = useState<any>(null);
 const [workingEndpoint, setWorkingEndpoint] = useState<string | null>(null);
 const [selectedOutfit, setSelectedOutfit] = useState<OutfitSuggestion | null>(null);
-const [imageZoomed, setImageZoomed] = useState<boolean>(false);
+const [isZoomed, setIsZoomed] = useState<boolean>(false);
 const imageContainerRef = useRef<HTMLDivElement>(null);
 
 useEffect(() => {
@@ -49,9 +49,17 @@ console.log('AIStyleAdvisor component mounted');
 console.log('Potential API endpoints:', API_ENDPOINTS);
 }, []);
 
-// Reset zoom state when a new outfit is selected
 useEffect(() => {
-setImageZoomed(false);
+// Prevent body scrolling when modal is open
+if (selectedOutfit) {
+document.body.style.overflow = 'hidden';
+} else {
+document.body.style.overflow = '';
+}
+
+return () => {
+document.body.style.overflow = '';
+};
 }, [selectedOutfit]);
 
 // Function to try a specific endpoint
@@ -192,23 +200,20 @@ setLoading(false);
 
 const handleOpenOutfit = (outfit: OutfitSuggestion) => {
 setSelectedOutfit(outfit);
+setIsZoomed(false); // Reset zoom state when opening a new outfit
 };
 
 const handleCloseOutfit = () => {
 setSelectedOutfit(null);
-setImageZoomed(false);
+setIsZoomed(false);
 };
 
-const toggleImageZoom = () => {
-setImageZoomed(!imageZoomed);
+const toggleZoom = () => {
+setIsZoomed(!isZoomed);
 // Reset scroll position when toggling zoom
-if (imageContainerRef.current) {
-setTimeout(() => {
 if (imageContainerRef.current) {
 imageContainerRef.current.scrollTop = 0;
 imageContainerRef.current.scrollLeft = 0;
-}
-}, 50);
 }
 };
 
@@ -615,95 +620,122 @@ With StyleGenie, our customers achieve
 </div>
 )}
 
-{/* Image Popup Dialog */}
+{/* Full-screen Image Popup Dialog */}
 {selectedOutfit && (
-<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={handleCloseOutfit}>
-<div className="relative max-w-4xl w-full p-1 max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
+<div 
+className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center" 
+onClick={handleCloseOutfit}
+>
+<div 
+className="relative w-full h-full flex flex-col md:flex-row" 
+onClick={e => e.stopPropagation()}
+>
+{/* Close button */}
 <button
 onClick={handleCloseOutfit}
-className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors"
+className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors"
+aria-label="Close"
 >
-<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-<line x1="18" y1="6" x2="6" y2="18"></line>
-<line x1="6" y1="6" x2="18" y2="18"></line>
-</svg>
+<X className="h-6 w-6" />
 </button>
 
-<div className="grid md:grid-cols-2 h-full">
-<div className="bg-purple-50 p-2 relative flex items-center justify-center">
+{/* Image section */}
+<div 
+className="w-full md:w-1/2 h-1/2 md:h-full bg-black/30 flex items-center justify-center p-4"
+>
 <div 
 ref={imageContainerRef}
-className={`relative ${imageZoomed ? 'overflow-auto max-h-[70vh] w-full' : 'overflow-hidden'}`}
-style={{ maxHeight: imageZoomed ? '70vh' : 'none' }}
+className={`relative max-h-full ${isZoomed ? 'overflow-auto' : 'overflow-hidden'}`}
+onClick={(e) => {
+e.stopPropagation();
+toggleZoom();
+}}
 >
 {selectedOutfit.image_url && (
 <img
 src={selectedOutfit.image_url}
 alt={selectedOutfit.description}
-className={`${imageZoomed ? 'max-w-none w-auto h-auto cursor-zoom-out' : 'w-full h-full object-contain max-h-[70vh] cursor-zoom-in'}`}
-onClick={(e) => {
-e.stopPropagation();
-toggleImageZoom();
-}}
+className={`
+${isZoomed ? 'max-w-none w-auto h-auto' : 'max-w-full max-h-full object-contain'}
+${isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}
+`}
 />
 )}
+
+{/* Zoom button */}
 <button
 onClick={(e) => {
 e.stopPropagation();
-toggleImageZoom();
+toggleZoom();
 }}
-className="absolute bottom-4 right-4 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full transition-colors"
+className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
 >
-{imageZoomed ? <ZoomOut className="h-5 w-5" /> : <ZoomIn className="h-5 w-5" />}
+{isZoomed ? <ZoomOut className="h-5 w-5" /> : <ZoomIn className="h-5 w-5" />}
 </button>
 </div>
 </div>
 
-<div className="p-8 flex flex-col overflow-y-auto max-h-[70vh]">
-<div className="mb-6">
+{/* Details section */}
+<div className="w-full md:w-1/2 h-1/2 md:h-full bg-white overflow-y-auto p-8">
+<div className="max-w-2xl mx-auto">
 <div className="w-12 h-1 bg-purple-500 mb-4 rounded-full"></div>
-<h3 className="text-2xl font-bold mb-4">Outfit Details</h3>
-<p className="text-gray-700 leading-relaxed">{selectedOutfit.description}</p>
-</div>
+<h3 className="text-3xl font-bold mb-6">Outfit Details</h3>
+<p className="text-gray-700 leading-relaxed text-lg mb-8">{selectedOutfit.description}</p>
 
-<div className="mb-6">
-<h4 className="text-sm font-medium text-gray-500 mb-2">Perfect For</h4>
+<div className="mb-8">
+<h4 className="text-lg font-medium text-gray-900 mb-3">Perfect For</h4>
 <div className="flex flex-wrap gap-2">
 {['Casual', 'Evening', 'Work', 'Special Occasion'].map((tag, i) => (
-<span key={i} className="px-3 py-1 bg-purple-50 text-purple-700 text-xs rounded-full">
+<span key={i} className="px-4 py-2 bg-purple-50 text-purple-700 text-sm rounded-full">
 {tag}
 </span>
 ))}
 </div>
 </div>
 
-<div className="mb-6">
-<h4 className="text-sm font-medium text-gray-500 mb-2">Style Tips</h4>
-<ul className="text-sm text-gray-700 space-y-2">
+<div className="mb-8">
+<h4 className="text-lg font-medium text-gray-900 mb-3">Style Tips</h4>
+<ul className="text-gray-700 space-y-4">
 <li className="flex items-start">
-<span className="text-purple-500 mr-2">•</span> 
-Accessorize with minimal jewelry for a balanced look
+<span className="text-purple-500 mr-2 text-xl">•</span> 
+<span>Accessorize with minimal jewelry for a balanced look</span>
 </li>
 <li className="flex items-start">
-<span className="text-purple-500 mr-2">•</span> 
-Pair with neutral shoes to keep the focus on the outfit
+<span className="text-purple-500 mr-2 text-xl">•</span> 
+<span>Pair with neutral shoes to keep the focus on the outfit</span>
 </li>
 <li className="flex items-start">
-<span className="text-purple-500 mr-2">•</span> 
-Consider a light jacket if attending an evening event
+<span className="text-purple-500 mr-2 text-xl">•</span> 
+<span>Consider a light jacket if attending an evening event</span>
 </li>
 </ul>
 </div>
 
-<div className="mt-auto">
+<div className="mb-8">
+<h4 className="text-lg font-medium text-gray-900 mb-3">Where to Shop</h4>
+<ul className="text-gray-700 space-y-4">
+<li className="flex items-start">
+<span className="text-purple-500 mr-2 text-xl">•</span> 
+<span>Top: Zara, H&M, Uniqlo</span>
+</li>
+<li className="flex items-start">
+<span className="text-purple-500 mr-2 text-xl">•</span> 
+<span>Bottom: Levi's, Madewell, Gap</span>
+</li>
+<li className="flex items-start">
+<span className="text-purple-500 mr-2 text-xl">•</span> 
+<span>Accessories: Mango, & Other Stories</span>
+</li>
+</ul>
+</div>
+
 <div className="flex gap-4">
-<Button className="flex-1 bg-purple-600 hover:bg-purple-700 text-white">
+<Button className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg">
 Save Outfit
 </Button>
-<Button className="bg-white border border-purple-200 text-purple-700 hover:bg-purple-50">
-<Share2 className="h-4 w-4 mr-2" /> Share
+<Button className="bg-white border border-purple-200 text-purple-700 hover:bg-purple-50 py-6 text-lg">
+<Share2 className="h-5 w-5 mr-2" /> Share
 </Button>
-</div>
 </div>
 </div>
 </div>
