@@ -1,4 +1,3 @@
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,20 +38,5 @@
 }
 
 .read-the-docs {
-  color: #aaa; /* Improved from #888 to #aaa for better contrast */
-}
-
-/* Additional contrast improvements */
-.text-muted {
-  @apply text-gray-300; /* Improved from potential lower contrast value */
-}
-
-/* Enhanced focus states for improved accessibility */
-.focus-visible:focus-visible {
-  @apply outline-2 outline-offset-2 outline-gold;
-}
-
-/* Improved hover states */
-.hover-effect:hover {
-  @apply bg-opacity-90 transition-all;
+  color: #888;
 }

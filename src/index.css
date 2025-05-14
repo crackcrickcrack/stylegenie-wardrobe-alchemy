@@ -23,7 +23,7 @@
     --secondary-foreground: 0 0% 7%;
 
     --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 80%; /* Improved from 70% to 80% for better contrast */
+    --muted-foreground: 0 0% 70%;
 
     --accent: 50 100% 50%; /* gold */
     --accent-foreground: 0 0% 7%;
@@ -37,7 +37,6 @@
 
     --radius: 0.5rem;
     
-    /* Sidebar variables - improved contrast */
     --sidebar-background: 0 0% 10%; /* #1a1a1a */
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 348 89% 47%; /* crimson */
@@ -64,16 +63,6 @@
 
   html {
     scroll-behavior: smooth;
-  }
-  
-  /* Improved link contrast */
-  a:not(.btn) {
-    @apply text-gold hover:text-gold/90 transition-colors;
-  }
-  
-  /* Improved text elements for light backgrounds */
-  .light-bg {
-    @apply text-gray-800;
   }
 }
 
@@ -106,36 +95,5 @@
   
   .animate-enter {
     @apply animate-fade-in animate-scale-in;
-  }
-  
-  /* Improved button states */
-  .btn {
-    @apply relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none;
-  }
-  
-  .btn-disabled {
-    @apply opacity-70 cursor-not-allowed;
-  }
-  
-  /* Enhanced text containers for better readability */
-  .content-container {
-    @apply max-w-3xl mx-auto bg-stylish-black/80 rounded-lg shadow-xl p-8 mb-16;
-  }
-  
-  /* Improved text contrast for various backgrounds */
-  .on-dark {
-    @apply text-white;
-  }
-  
-  .on-light {
-    @apply text-gray-800;
-  }
-  
-  .on-gold {
-    @apply text-gray-900;
-  }
-  
-  .on-primary {
-    @apply text-white;
   }
 }
