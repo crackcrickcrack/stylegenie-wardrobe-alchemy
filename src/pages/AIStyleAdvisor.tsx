@@ -40,8 +40,7 @@ const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
 const [apiDebug, setApiDebug] = useState<any>(null);
 const [workingEndpoint, setWorkingEndpoint] = useState<string | null>(null);
 const [selectedOutfit, setSelectedOutfit] = useState<OutfitSuggestion | null>(null);
-const [isZoomed, setIsZoomed] = useState<boolean>(false);
-const modalContentRef = useRef<HTMLDivElement>(null);
+const [imageZoomed, setImageZoomed] = useState<boolean>(false);
 const imageContainerRef = useRef<HTMLDivElement>(null);
 
 useEffect(() => {
@@ -49,6 +48,11 @@ console.log('AIStyleAdvisor component mounted');
 // Log the API endpoints being used
 console.log('Potential API endpoints:', API_ENDPOINTS);
 }, []);
+
+// Reset zoom state when a new outfit is selected
+useEffect(() => {
+setImageZoomed(false);
+}, [selectedOutfit]);
 
 // Function to try a specific endpoint
 const tryEndpoint = async (endpoint: string, payload: any) => {
@@ -188,34 +192,23 @@ setLoading(false);
 
 const handleOpenOutfit = (outfit: OutfitSuggestion) => {
 setSelectedOutfit(outfit);
-setIsZoomed(false); // Reset zoom state when opening a new outfit
-// Reset scroll position when opening a new outfit
-setTimeout(() => {
-if (modalContentRef.current) {
-modalContentRef.current.scrollTop = 0;
-}
-if (imageContainerRef.current) {
-imageContainerRef.current.scrollTop = 0;
-imageContainerRef.current.scrollLeft = 0;
-}
-}, 10);
 };
 
 const handleCloseOutfit = () => {
 setSelectedOutfit(null);
-setIsZoomed(false); // Reset zoom state when closing
+setImageZoomed(false);
 };
 
-const toggleZoom = () => {
-setIsZoomed(!isZoomed);
+const toggleImageZoom = () => {
+setImageZoomed(!imageZoomed);
 // Reset scroll position when toggling zoom
-if (imageContainerRef.current && !isZoomed) {
+if (imageContainerRef.current) {
 setTimeout(() => {
 if (imageContainerRef.current) {
 imageContainerRef.current.scrollTop = 0;
 imageContainerRef.current.scrollLeft = 0;
 }
-}, 10);
+}, 50);
 }
 };
 
@@ -625,7 +618,7 @@ With StyleGenie, our customers achieve
 {/* Image Popup Dialog */}
 {selectedOutfit && (
 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={handleCloseOutfit}>
-<div className="relative max-w-4xl w-full p-1 max-h-[90vh]" onClick={e => e.stopPropagation()}>
+<div className="relative max-w-4xl w-full p-1 max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
 <button
 onClick={handleCloseOutfit}
 className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors"
@@ -636,51 +629,41 @@ className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white h
 </svg>
 </button>
 
-<div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] flex flex-col">
 <div className="grid md:grid-cols-2 h-full">
+<div className="bg-purple-50 p-2 relative flex items-center justify-center">
 <div 
 ref={imageContainerRef}
-className={`bg-purple-50 p-2 flex items-center justify-center relative overflow-auto ${isZoomed ? 'max-h-[70vh]' : ''}`}
-style={{ 
-maxHeight: isZoomed ? '70vh' : 'none',
-}}
+className={`relative ${imageZoomed ? 'overflow-auto max-h-[70vh] w-full' : 'overflow-hidden'}`}
+style={{ maxHeight: imageZoomed ? '70vh' : 'none' }}
 >
 {selectedOutfit.image_url && (
 <img
 src={selectedOutfit.image_url}
 alt={selectedOutfit.description}
-className={`transition-all duration-300 ${
-isZoomed 
-? 'w-auto h-auto max-w-none cursor-zoom-out' 
-: 'w-full h-full object-contain max-h-[70vh] cursor-zoom-in'
-}`}
+className={`${imageZoomed ? 'max-w-none w-auto h-auto cursor-zoom-out' : 'w-full h-full object-contain max-h-[70vh] cursor-zoom-in'}`}
 onClick={(e) => {
 e.stopPropagation();
-toggleZoom();
+toggleImageZoom();
 }}
 />
 )}
 <button
 onClick={(e) => {
 e.stopPropagation();
-toggleZoom();
+toggleImageZoom();
 }}
 className="absolute bottom-4 right-4 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full transition-colors"
 >
-{isZoomed ? <ZoomOut className="h-5 w-5" /> : <ZoomIn className="h-5 w-5" />}
+{imageZoomed ? <ZoomOut className="h-5 w-5" /> : <ZoomIn className="h-5 w-5" />}
 </button>
 </div>
+</div>
 
-<div className="p-8 flex flex-col overflow-hidden">
-<div 
-ref={modalContentRef}
-className="overflow-y-auto pr-2 flex-grow"
-style={{ maxHeight: 'calc(85vh - 120px)' }}
->
+<div className="p-8 flex flex-col overflow-y-auto max-h-[70vh]">
 <div className="mb-6">
 <div className="w-12 h-1 bg-purple-500 mb-4 rounded-full"></div>
 <h3 className="text-2xl font-bold mb-4">Outfit Details</h3>
-<p className="text-gray-700 leading-relaxed whitespace-pre-line">{selectedOutfit.description}</p>
+<p className="text-gray-700 leading-relaxed">{selectedOutfit.description}</p>
 </div>
 
 <div className="mb-6">
@@ -712,28 +695,7 @@ Consider a light jacket if attending an evening event
 </ul>
 </div>
 
-<div className="mb-6">
-<h4 className="text-sm font-medium text-gray-500 mb-2">Color Palette</h4>
-<div className="flex gap-2">
-<div className="w-6 h-6 rounded-full bg-indigo-600"></div>
-<div className="w-6 h-6 rounded-full bg-purple-400"></div>
-<div className="w-6 h-6 rounded-full bg-gray-700"></div>
-<div className="w-6 h-6 rounded-full bg-white border border-gray-200"></div>
-</div>
-</div>
-
-<div className="mb-6">
-<h4 className="text-sm font-medium text-gray-500 mb-2">Seasonal Appropriateness</h4>
-<div className="flex gap-2">
-<span className="px-3 py-1 bg-green-50 text-green-700 text-xs rounded-full">Spring</span>
-<span className="px-3 py-1 bg-yellow-50 text-yellow-700 text-xs rounded-full">Summer</span>
-<span className="px-3 py-1 bg-orange-50 text-orange-700 text-xs rounded-full">Fall</span>
-<span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full">Winter</span>
-</div>
-</div>
-</div>
-
-<div className="mt-4 pt-4 border-t border-gray-100">
+<div className="mt-auto">
 <div className="flex gap-4">
 <Button className="flex-1 bg-purple-600 hover:bg-purple-700 text-white">
 Save Outfit
@@ -741,7 +703,6 @@ Save Outfit
 <Button className="bg-white border border-purple-200 text-purple-700 hover:bg-purple-50">
 <Share2 className="h-4 w-4 mr-2" /> Share
 </Button>
-</div>
 </div>
 </div>
 </div>
