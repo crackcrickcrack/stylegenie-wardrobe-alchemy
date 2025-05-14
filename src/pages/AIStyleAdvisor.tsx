@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight } from "lucide-react";
+import { Loader2, Sparkles, Camera, Wand2, Share2, ArrowRight, ZoomIn, ZoomOut, X } from "lucide-react";
 import BodyTypeGuide from "@/components/BodyTypeGuide";
 
 // Model images for the banner gallery
@@ -40,6 +40,7 @@ const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
 const [apiDebug, setApiDebug] = useState<any>(null);
 const [workingEndpoint, setWorkingEndpoint] = useState<string | null>(null);
 const [selectedOutfit, setSelectedOutfit] = useState<OutfitSuggestion | null>(null);
+const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
 useEffect(() => {
 console.log('AIStyleAdvisor component mounted');
@@ -185,10 +186,16 @@ setLoading(false);
 
 const handleOpenOutfit = (outfit: OutfitSuggestion) => {
 setSelectedOutfit(outfit);
+setIsZoomed(false); // Reset zoom state when opening a new outfit
 };
 
 const handleCloseOutfit = () => {
 setSelectedOutfit(null);
+setIsZoomed(false); // Reset zoom state when closing
+};
+
+const toggleZoom = () => {
+setIsZoomed(!isZoomed);
 };
 
 return (
@@ -602,21 +609,40 @@ With StyleGenie, our customers achieve
 onClick={handleCloseOutfit}
 className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors"
 >
-<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-<line x1="18" y1="6" x2="6" y2="18"></line>
-<line x1="6" y1="6" x2="18" y2="18"></line>
-</svg>
+<X className="h-5 w-5" />
 </button>
 
 <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh]">
 <div className="grid md:grid-cols-2 max-h-[90vh] overflow-hidden">
-<div className="bg-purple-50 p-2 flex items-center justify-center max-h-[90vh] overflow-hidden">
+<div className="bg-purple-50 p-2 flex items-center justify-center max-h-[90vh] overflow-hidden relative">
 {selectedOutfit.image_url && (
+<div className="relative flex items-center justify-center w-full h-full">
 <img
 src={selectedOutfit.image_url}
 alt={selectedOutfit.description}
-className="w-full h-auto object-contain max-h-[70vh]"
+className={`transition-all duration-300 ${isZoomed 
+? "w-auto h-auto max-w-none max-h-none cursor-zoom-out" 
+: "w-full h-auto object-contain max-h-[70vh] cursor-zoom-in"}`}
+onClick={(e) => {
+e.stopPropagation();
+toggleZoom();
+}}
 />
+<button 
+onClick={(e) => {
+e.stopPropagation();
+toggleZoom();
+}}
+className="absolute bottom-4 right-4 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-colors"
+aria-label={isZoomed ? "Zoom out" : "Zoom in"}
+>
+{isZoomed ? (
+<ZoomOut className="h-5 w-5 text-purple-700" />
+) : (
+<ZoomIn className="h-5 w-5 text-purple-700" />
+)}
+</button>
+</div>
 )}
 </div>
 
