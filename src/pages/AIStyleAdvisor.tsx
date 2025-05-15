@@ -34,6 +34,7 @@ const AIStyleAdvisor: React.FC = () => {
   const [bodyType, setBodyType] = useState<string>('');
   const [country, setCountry] = useState<string>('');
   const [ageRange, setAgeRange] = useState<string>('');
+  const [extraDetails, setExtraDetails] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [suggestions, setSuggestions] = useState<AIResponse | null>(null);
@@ -134,8 +135,9 @@ const AIStyleAdvisor: React.FC = () => {
       occasion,
       body_type: bodyType,
       gender,
-      country: country || 'global', // Default to 'global' if no country is selected
-      age_range: ageRange || 'adult' // Default to 'adult' if no age range is selected
+      country: country || 'global',
+      age_range: ageRange || 'adult',
+      extra_details: extraDetails
     };
 
     console.log('Sending request with payload:', payload);
@@ -189,6 +191,15 @@ const AIStyleAdvisor: React.FC = () => {
 
   const handleCloseOutfit = () => {
     setSelectedOutfit(null);
+  };
+
+  const handleExtraDetailsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const words = value.split(/\s+/).filter(word => word.length > 0);
+    
+    if (words.length <= 50) {
+      setExtraDetails(value);
+    }
   };
 
   return (
@@ -443,6 +454,19 @@ const AIStyleAdvisor: React.FC = () => {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-gray-500 mt-1">Age-appropriate style suggestions will be tailored to your selection</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Extra Details (Optional)</label>
+                <textarea
+                  value={extraDetails}
+                  onChange={handleExtraDetailsChange}
+                  placeholder="Enter any additional preferences or requirements (max 50 words, separate with commas)"
+                  className="w-full h-24 px-4 py-2 border border-purple-200 rounded-xl focus:ring-purple-500 focus:border-purple-500 resize-none"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {extraDetails.split(/\s+/).filter(word => word.length > 0).length}/50 words
+                </p>
               </div>
 
               <div className="pt-4">
