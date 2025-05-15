@@ -2,39 +2,42 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, Coffee, Globe, Heart, Sparkles, Users } from "lucide-react";
+import { ArrowRight, Coffee, Globe, Heart, Sparkles, Users, Briefcase, Building2, Trophy, Zap } from "lucide-react";
 
 const ValueCard = ({ icon, title, description }) => {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm">
-      <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+    <div className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-purple-100">
+      <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 transition-transform duration-300">
         {icon}
       </div>
-      <h3 className="text-xl font-bold mb-2 text-gray-900">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <h3 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-purple-600 transition-colors">{title}</h3>
+      <p className="text-gray-600 leading-relaxed">{description}</p>
     </div>
   );
 };
 
 const JobCard = ({ title, department, location, type, description }) => {
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      <div className="p-6">
-        <div className="flex flex-wrap gap-2 mb-3">
-          <span className="text-xs font-medium bg-purple-100 text-purple-700 rounded-full px-2.5 py-0.5">
+    <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-purple-100">
+      <div className="p-8">
+        <div className="flex flex-wrap gap-2 mb-4">
+          <span className="text-xs font-medium bg-purple-100 text-purple-700 rounded-full px-3 py-1">
             {department}
           </span>
-          <span className="text-xs font-medium bg-gray-100 text-gray-700 rounded-full px-2.5 py-0.5">
+          <span className="text-xs font-medium bg-gray-100 text-gray-700 rounded-full px-3 py-1">
             {location}
           </span>
-          <span className="text-xs font-medium bg-blue-100 text-blue-700 rounded-full px-2.5 py-0.5">
+          <span className="text-xs font-medium bg-blue-100 text-blue-700 rounded-full px-3 py-1">
             {type}
           </span>
         </div>
-        <h3 className="text-xl font-bold mb-2 hover:text-purple-600 transition-colors">{title}</h3>
-        <p className="text-gray-600 mb-4 line-clamp-3">{description}</p>
-        <Link to={`/careers/${title.toLowerCase().replace(/\s+/g, '-')}`} className="text-purple-600 font-medium inline-flex items-center hover:text-purple-700">
-          View position <ArrowRight className="ml-1 h-4 w-4" />
+        <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-600 transition-colors">{title}</h3>
+        <p className="text-gray-600 mb-6 line-clamp-3">{description}</p>
+        <Link 
+          to={`/careers/${title.toLowerCase().replace(/\s+/g, '-')}`} 
+          className="inline-flex items-center text-purple-600 font-medium hover:text-purple-700 group-hover:translate-x-1 transition-transform"
+        >
+          View position <ArrowRight className="ml-2 h-5 w-5" />
         </Link>
       </div>
     </div>
@@ -43,19 +46,30 @@ const JobCard = ({ title, department, location, type, description }) => {
 
 const TestimonialCard = ({ name, role, quote, image }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6">
-      <div className="flex items-center mb-4">
+    <div className="bg-white rounded-2xl shadow-sm p-8 border border-purple-100 hover:shadow-md transition-all duration-300">
+      <div className="flex items-center mb-6">
         <img 
           src={image} 
           alt={name}
-          className="w-12 h-12 rounded-full object-cover mr-4"
+          className="w-16 h-16 rounded-2xl object-cover mr-4 shadow-md"
         />
         <div>
-          <h4 className="font-bold text-gray-900">{name}</h4>
-          <p className="text-sm text-gray-500">{role}</p>
+          <h4 className="font-bold text-gray-900 text-lg">{name}</h4>
+          <p className="text-sm text-purple-600">{role}</p>
         </div>
       </div>
-      <p className="text-gray-600 italic">"{quote}"</p>
+      <p className="text-gray-600 italic text-lg leading-relaxed">"{quote}"</p>
+    </div>
+  );
+};
+
+const BenefitCard = ({ icon, title }) => {
+  return (
+    <div className="flex items-center space-x-4 bg-white p-4 rounded-xl border border-purple-100">
+      <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+        {icon}
+      </div>
+      <span className="text-gray-700 font-medium">{title}</span>
     </div>
   );
 };
@@ -63,22 +77,22 @@ const TestimonialCard = ({ name, role, quote, image }) => {
 const Careers = () => {
   const values = [
     {
-      icon: <Sparkles className="h-6 w-6 text-purple-600" />,
+      icon: <Sparkles className="h-7 w-7 text-white" />,
       title: "Innovation First",
       description: "We push the boundaries of AI and fashion technology to create products that transform how people approach personal style."
     },
     {
-      icon: <Users className="h-6 w-6 text-purple-600" />,
+      icon: <Users className="h-7 w-7 text-white" />,
       title: "Team Collaboration",
       description: "We believe in the power of diverse perspectives and collaborative problem-solving to create exceptional experiences."
     },
     {
-      icon: <Heart className="h-6 w-6 text-purple-600" />,
+      icon: <Heart className="h-7 w-7 text-white" />,
       title: "User-Centered",
       description: "Every decision we make starts and ends with our users. We're committed to creating products people truly love."
     },
     {
-      icon: <Globe className="h-6 w-6 text-purple-600" />,
+      icon: <Globe className="h-7 w-7 text-white" />,
       title: "Global Impact",
       description: "We're building technology that makes personal styling accessible to everyone, regardless of location or background."
     }
@@ -151,16 +165,16 @@ const Careers = () => {
   ];
 
   const benefits = [
-    "Competitive salary and equity packages",
-    "Flexible remote work policy",
-    "Unlimited PTO with 15-day minimum",
-    "Comprehensive health, dental, and vision insurance",
-    "401(k) matching program",
-    "Annual learning and development stipend",
-    "Home office setup allowance",
-    "Monthly wellness stipend",
-    "Team retreats twice a year",
-    "Parental leave policy"
+    { icon: <Trophy className="h-5 w-5 text-purple-600" />, title: "Competitive salary and equity packages" },
+    { icon: <Globe className="h-5 w-5 text-purple-600" />, title: "Flexible remote work policy" },
+    { icon: <Coffee className="h-5 w-5 text-purple-600" />, title: "Unlimited PTO with 15-day minimum" },
+    { icon: <Heart className="h-5 w-5 text-purple-600" />, title: "Comprehensive health, dental, and vision insurance" },
+    { icon: <Building2 className="h-5 w-5 text-purple-600" />, title: "401(k) matching program" },
+    { icon: <Zap className="h-5 w-5 text-purple-600" />, title: "Annual learning and development stipend" },
+    { icon: <Briefcase className="h-5 w-5 text-purple-600" />, title: "Home office setup allowance" },
+    { icon: <Heart className="h-5 w-5 text-purple-600" />, title: "Monthly wellness stipend" },
+    { icon: <Users className="h-5 w-5 text-purple-600" />, title: "Team retreats twice a year" },
+    { icon: <Heart className="h-5 w-5 text-purple-600" />, title: "Parental leave policy" }
   ];
 
   return (
@@ -173,136 +187,81 @@ const Careers = () => {
           <div className="absolute top-0 left-0 w-full h-full bg-pattern-grid"></div>
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Join Our Mission</h1>
-          <p className="text-xl text-purple-100 max-w-2xl mx-auto mb-8">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-8">Join Our Mission</h1>
+          <p className="text-xl text-purple-100 max-w-3xl mx-auto mb-12 leading-relaxed">
             Help us revolutionize personal styling with AI technology that makes fashion more accessible, sustainable, and personalized.
           </p>
-          <Button className="bg-white text-purple-600 hover:bg-purple-50 text-lg px-6 py-3">
+          <Button className="bg-white text-purple-600 hover:bg-purple-50 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
             View Open Positions
           </Button>
         </div>
       </div>
       
       {/* Our Values */}
-      <div className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Values</span></h2>
-          <p className="text-lg text-gray-600">
+      <div className="container mx-auto px-4 py-24">
+        <div className="max-w-4xl mx-auto text-center mb-20">
+          <h2 className="text-4xl font-bold mb-6">Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Values</span></h2>
+          <p className="text-xl text-gray-600 leading-relaxed">
             At StyleGenie, our values guide everything we do, from how we build products to how we interact with each other.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {values.map((value, index) => (
             <ValueCard key={index} {...value} />
           ))}
         </div>
       </div>
-      
-      {/* Team Culture Spotlight */}
-      <div className="bg-white py-20">
+
+      {/* Benefits Section */}
+      <div className="bg-gradient-to-b from-white to-purple-50 py-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="md:flex items-center">
-              <div className="md:w-1/2 mb-8 md:mb-0 md:pr-12">
-                <h2 className="text-3xl font-bold mb-6">Life at <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">StyleGenie</span></h2>
-                <p className="text-gray-600 mb-6">
-                  We're building a team of passionate individuals who believe in the power of technology to transform how people express themselves through fashion.
-                </p>
-                <p className="text-gray-600 mb-6">
-                  Our culture celebrates innovation, diversity, and work-life balance. We believe that the best products come from teams where everyone feels empowered to contribute their unique perspectives.
-                </p>
-                <div className="flex items-center space-x-4">
-                  <Coffee className="h-6 w-6 text-purple-600" />
-                  <p className="text-gray-700 font-medium">Remote-first with collaborative hubs in SF, NY, and London</p>
-                </div>
-              </div>
-              <div className="md:w-1/2">
-                <div className="grid grid-cols-2 gap-4">
-                  <img 
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="Team collaboration"
-                    className="rounded-lg object-cover h-40"
-                  />
-                  <img 
-                    src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="Team workshop"
-                    className="rounded-lg object-cover h-40"
-                  />
-                  <img 
-                    src="https://images.unsplash.com/photo-1560523160-754a9e25c68f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="Team retreat"
-                    className="rounded-lg object-cover h-40"
-                  />
-                  <img 
-                    src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="Remote work"
-                    className="rounded-lg object-cover h-40"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Employee Testimonials */}
-      <div className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">From Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Team</span></h2>
-          <p className="text-lg text-gray-600">
-            Hear from the people who make StyleGenie an amazing place to work.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} {...testimonial} />
-          ))}
-        </div>
-      </div>
-      
-      {/* Benefits */}
-      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-20 text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Benefits & Perks</h2>
-            <p className="text-lg text-purple-100">
-              We believe in taking care of our team with comprehensive benefits that support your health, wealth, and happiness.
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-6">Perks & Benefits</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              We believe in taking care of our team. Here's what you can expect when you join us.
             </p>
           </div>
           
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {benefits.map((benefit, index) => (
-              <div key={index} className="flex items-center">
-                <div className="w-2 h-2 bg-purple-300 rounded-full mr-3"></div>
-                <span>{benefit}</span>
-              </div>
+              <BenefitCard key={index} {...benefit} />
             ))}
           </div>
         </div>
       </div>
-      
+
       {/* Open Positions */}
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto px-4 py-24">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Open <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Positions</span></h2>
-          <p className="text-lg text-gray-600">
+          <h2 className="text-4xl font-bold mb-6">Open Positions</h2>
+          <p className="text-xl text-gray-600 leading-relaxed">
             Join our team and help shape the future of AI-powered fashion styling.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {openings.map((job, index) => (
-            <JobCard key={index} {...job} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {openings.map((opening, index) => (
+            <JobCard key={index} {...opening} />
           ))}
         </div>
-        
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-6">Don't see a position that matches your skills?</p>
-          <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white">
-            Send General Application
-          </Button>
+      </div>
+
+      {/* Testimonials */}
+      <div className="bg-gradient-to-b from-purple-50 to-white py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-6">Life at StyleGenie</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              Hear from our team about what makes working at StyleGenie special.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard key={index} {...testimonial} />
+            ))}
+          </div>
         </div>
       </div>
       
