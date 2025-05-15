@@ -37,7 +37,7 @@ const blogPosts = {
     author: "Elena Martinez",
     date: "October 12, 2023",
     category: "Fashion Tech",
-    imageUrl: "https://images.unsplash.com/photo-1573612664822-d7d347da7b80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     tags: ["AI", "Fashion Technology", "Innovation", "Sustainable Fashion"]
   },
   "styling-tips-body-types": {
@@ -113,7 +113,7 @@ const blogPosts = {
     author: "Michael Wong",
     date: "September 28, 2023",
     category: "Styling Tips",
-    imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     tags: ["Body Types", "Styling Tips", "Fashion Advice", "Wardrobe Essentials"]
   },
   "sustainable-fashion-ai": {
@@ -138,7 +138,7 @@ const blogPosts = {
     author: "Sarah Chen",
     date: "September 15, 2023",
     category: "Sustainability",
-    imageUrl: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     tags: ["Sustainability", "Ethical Fashion", "AI Technology", "Environmental Impact"]
   },
   "color-theory-fashion": {
@@ -167,7 +167,7 @@ const blogPosts = {
     author: "David Kim",
     date: "August 22, 2023",
     category: "Color Theory",
-    imageUrl: "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     tags: ["Color Theory", "Fashion Psychology", "Personal Style", "AI Analysis"]
   },
   "future-fashion-photography-ai": {
@@ -196,7 +196,7 @@ const blogPosts = {
     author: "Emma Thompson",
     date: "August 10, 2023",
     category: "Photography",
-    imageUrl: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     tags: ["AI Models", "Fashion Photography", "Digital Innovation", "Virtual Fashion"]
   },
   "seasonal-wardrobe-transitions": {
@@ -254,7 +254,7 @@ const blogPosts = {
     author: "Sophie Anderson",
     date: "July 25, 2023",
     category: "Seasonal Style",
-    imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     tags: ["Seasonal Style", "Wardrobe Planning", "Fashion Tips", "AI Styling"]
   },
   "dress-for-success-ai-styling": {
@@ -325,7 +325,7 @@ const blogPosts = {
     author: "James Wilson",
     date: "July 10, 2023",
     category: "Professional Style",
-    imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     tags: ["Professional Style", "Career Development", "Business Fashion", "AI Styling"]
   }
 };
@@ -340,9 +340,9 @@ const BlogPost = () => {
         <Navbar />
         <div className="container mx-auto px-4 pt-32 pb-20">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl font-bold mb-4">Article Not Found</h1>
-            <p className="text-gray-600 mb-8">The article you're looking for doesn't exist or has been moved.</p>
-            <Link to="/blog" className="text-purple-600 flex items-center justify-center gap-2 hover:text-purple-700">
+            <h1 className="text-3xl font-bold mb-4 text-gray-800">Article Not Found</h1>
+            <p className="text-gray-700 mb-8">The article you're looking for doesn't exist or has been moved.</p>
+            <Link to="/blog" className="text-purple-700 flex items-center justify-center gap-2 hover:text-purple-800">
               <ArrowLeft className="h-4 w-4" /> Back to Blog
             </Link>
           </div>
@@ -356,48 +356,47 @@ const BlogPost = () => {
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50">
       <Navbar />
       
-      <div className="w-full h-64 md:h-80 lg:h-96 bg-gradient-to-r from-purple-600 to-indigo-600 relative overflow-hidden">
+      <div className="w-full h-96 bg-gradient-to-r from-purple-700 to-indigo-800 relative overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src={post.imageUrl} 
             alt={post.title}
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-40"
           />
         </div>
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div className="container mx-auto px-4 h-full flex items-end pb-8">
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="container mx-auto px-4 h-full flex items-end pb-12">
           <div className="max-w-3xl text-white">
             <Link to="/blog" className="inline-flex items-center text-purple-100 hover:text-white mb-4">
               <ArrowLeft className="h-4 w-4 mr-2" /> Back to Blog
             </Link>
-            <h1 className="text-3xl md:text-4xl font-bold">{post.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
+            <div className="flex flex-wrap gap-4 items-center text-sm text-purple-100">
+              <div className="flex items-center gap-1">
+                <User className="h-4 w-4" />
+                <span>{post.author}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Calendar className="h-4 w-4" />
+                <span>{post.date}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Tag className="h-4 w-4" />
+                <span>{post.category}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
-          <div className="flex flex-wrap gap-4 items-center text-sm text-gray-500 mb-8 pb-8 border-b">
-            <div className="flex items-center gap-1">
-              <User className="h-4 w-4" />
-              <span>{post.author}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              <span>{post.date}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Tag className="h-4 w-4" />
-              <span>{post.category}</span>
-            </div>
+          <div className="prose prose-lg max-w-none prose-headings:text-gray-800 prose-p:text-gray-700 prose-a:text-purple-700 prose-a:no-underline hover:prose-a:text-purple-800 prose-img:rounded-xl prose-img:shadow-lg" dangerouslySetInnerHTML={{ __html: post.content }}>
           </div>
           
-          <div className="prose max-w-none prose-headings:text-gray-800 prose-p:text-gray-600 prose-a:text-purple-600 prose-a:no-underline hover:prose-a:text-purple-700 prose-img:rounded-lg" dangerouslySetInnerHTML={{ __html: post.content }}>
-          </div>
-          
-          <div className="mt-12 pt-6 border-t flex flex-wrap gap-2">
+          <div className="mt-12 pt-6 border-t border-gray-200 flex flex-wrap gap-2">
             {post.tags.map((tag, index) => (
-              <span key={index} className="bg-purple-100 text-purple-700 text-xs px-3 py-1 rounded-full">
+              <span key={index} className="bg-purple-100 text-purple-800 text-sm px-4 py-2 rounded-full">
                 {tag}
               </span>
             ))}
