@@ -119,7 +119,7 @@ const blogPosts = {
 
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">2. Rectangle Body Type</h2>
-          <img src="https://images.unsplash.com/photo-1469398715555-76331a6c7c9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Rectangle Body Type Styling" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
+          <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Rectangle Body Type Styling" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">
             With a rectangular body type, your shoulders, waist, and hips have similar measurements. Your styling goal might be to create the illusion of curves.
           </p>
