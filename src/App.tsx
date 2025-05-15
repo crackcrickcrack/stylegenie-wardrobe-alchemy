@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,8 +14,10 @@ import ContactUs from "./pages/ContactUs";
 import AIStyleAdvisor from "./pages/AIStyleAdvisor";
 import Pricing from "./pages/Pricing";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import APIDocumentation from "./pages/APIDocumentation";
 import Careers from "./pages/Careers";
+import Testimonials from "./pages/Testimonials";
 
 const queryClient = new QueryClient();
 
@@ -34,8 +37,10 @@ const App = () => (
           <Route path="/ai-style-advisor" element={<AIStyleAdvisor />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/api" element={<APIDocumentation />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/testimonials" element={<Testimonials />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

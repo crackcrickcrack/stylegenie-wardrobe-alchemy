@@ -1,11 +1,13 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Twitter, Instagram, Linkedin, Send } from "lucide-react";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
   
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,6 +17,12 @@ const Footer = () => {
       setEmail("");
       // Here you would typically send this to a backend
     }
+  };
+
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+    window.scrollTo(0, 0);
+    navigate(path);
   };
 
   return (
@@ -45,20 +53,20 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-gray-800 mb-6">Product</h4>
             <ul className="space-y-3">
-              <li><Link to="/ai-style-advisor" className="text-gray-600 hover:text-purple-600 transition-colors">AI Style Advisor</Link></li>
-              <li><Link to="/how-it-works" className="text-gray-600 hover:text-purple-600 transition-colors">How It Works</Link></li>
-              <li><Link to="/pricing" className="text-gray-600 hover:text-purple-600 transition-colors">Pricing</Link></li>
-              <li><Link to="/testimonials" className="text-gray-600 hover:text-purple-600 transition-colors">Testimonials</Link></li>
+              <li><Link to="/ai-style-advisor" onClick={(e) => handleNavigation(e, "/ai-style-advisor")} className="text-gray-600 hover:text-purple-600 transition-colors">AI Style Advisor</Link></li>
+              <li><Link to="/#how-it-works" className="text-gray-600 hover:text-purple-600 transition-colors">How It Works</Link></li>
+              <li><Link to="/pricing" onClick={(e) => handleNavigation(e, "/pricing")} className="text-gray-600 hover:text-purple-600 transition-colors">Pricing</Link></li>
+              <li><Link to="/testimonials" onClick={(e) => handleNavigation(e, "/testimonials")} className="text-gray-600 hover:text-purple-600 transition-colors">Testimonials</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-semibold text-gray-800 mb-6">Resources</h4>
             <ul className="space-y-3">
-              <li><Link to="/help" className="text-gray-600 hover:text-purple-600 transition-colors">Help Center</Link></li>
-              <li><Link to="/blog" className="text-gray-600 hover:text-purple-600 transition-colors">Style Blog</Link></li>
-              <li><Link to="/api" className="text-gray-600 hover:text-purple-600 transition-colors">API Documentation</Link></li>
-              <li><Link to="/careers" className="text-gray-600 hover:text-purple-600 transition-colors">Careers</Link></li>
+              <li><Link to="/help" onClick={(e) => handleNavigation(e, "/help")} className="text-gray-600 hover:text-purple-600 transition-colors">Help Center</Link></li>
+              <li><Link to="/blog" onClick={(e) => handleNavigation(e, "/blog")} className="text-gray-600 hover:text-purple-600 transition-colors">Style Blog</Link></li>
+              <li><Link to="/api" onClick={(e) => handleNavigation(e, "/api")} className="text-gray-600 hover:text-purple-600 transition-colors">API Documentation</Link></li>
+              <li><Link to="/careers" onClick={(e) => handleNavigation(e, "/careers")} className="text-gray-600 hover:text-purple-600 transition-colors">Careers</Link></li>
             </ul>
           </div>
           
@@ -86,9 +94,9 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} StyleGenie. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link to="/privacy" className="text-gray-500 text-sm hover:text-purple-600 transition-colors">Privacy</Link>
-            <Link to="/terms" className="text-gray-500 text-sm hover:text-purple-600 transition-colors">Terms</Link>
-            <Link to="/cookies" className="text-gray-500 text-sm hover:text-purple-600 transition-colors">Cookies</Link>
+            <Link to="/privacy" onClick={(e) => handleNavigation(e, "/privacy")} className="text-gray-500 text-sm hover:text-purple-600 transition-colors">Privacy</Link>
+            <Link to="/terms" onClick={(e) => handleNavigation(e, "/terms")} className="text-gray-500 text-sm hover:text-purple-600 transition-colors">Terms</Link>
+            <Link to="/cookie-policy" onClick={(e) => handleNavigation(e, "/cookie-policy")} className="text-gray-500 text-sm hover:text-purple-600 transition-colors">Cookies</Link>
           </div>
         </div>
       </div>
