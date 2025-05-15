@@ -19,10 +19,11 @@ def lambda_handler(event, context):
         gender = body.get('gender', 'female')
         country = body.get('country', 'global')
         age_range = body.get('age_range', 'adult')
+        extra_details = body.get('extra_details', '')  # Get extra details from request
 
         # Generate outputs
-        outfit_description = generate_outfit_description(body_type, occasion, gender, country, age_range)
-        image_url = generate_outfit_image(outfit_description, body_type, occasion, gender, country, age_range)
+        outfit_description = generate_outfit_description(body_type, occasion, gender, country, age_range, extra_details)
+        image_url = generate_outfit_image(outfit_description, body_type, occasion, gender, country, age_range, extra_details)
 
         return {
             'statusCode': 200,
@@ -48,7 +49,7 @@ def lambda_handler(event, context):
             'body': json.dumps({'error': str(e)})
         }
 
-def generate_outfit_description(body_type, occasion, gender, country, age_range):
+def generate_outfit_description(body_type, occasion, gender, country, age_range, extra_details):
     try:
         country_context = f" Your recommendation should incorporate fashion styles and trends popular in {country}." if country and country != "global" else ""
         age_mapping = {
@@ -59,12 +60,15 @@ def generate_outfit_description(body_type, occasion, gender, country, age_range)
             "senior": "seniors (60+ years)"
         }
         age_context = f" The outfit should be age-appropriate for {age_mapping.get(age_range, 'adults')}."
+        
+        # Add extra details context if provided
+        extra_context = f" Additional preferences: {extra_details}." if extra_details else ""
 
         prompt = (
             f"You are a professional fashion stylist. Suggest a stylish outfit for a {gender} "
             f"with a {body_type} body type, suitable for a {occasion} occasion. "
             f"The outfit should be modern, fashionable, and appropriate for the event."
-            f"{country_context}{age_context}"
+            f"{country_context}{age_context}{extra_context}"
         )
 
         response = bedrock.invoke_model(
@@ -85,7 +89,7 @@ def generate_outfit_description(body_type, occasion, gender, country, age_range)
         print(f"Error generating outfit description: {str(e)}")
         return "A stylish outfit suitable for the occasion."
 
-def generate_outfit_image(outfit_description, body_type, occasion, gender, country, age_range):
+def generate_outfit_image(outfit_description, body_type, occasion, gender, country, age_range, extra_details):
     try:
         country_style = f", {country} fashion style" if country and country != "global" else ""
         age_style_map = {
@@ -96,11 +100,14 @@ def generate_outfit_image(outfit_description, body_type, occasion, gender, count
             "senior": "senior fashion"
         }
         age_style = f", {age_style_map.get(age_range, 'adult fashion')}"
+        
+        # Add extra details to image prompt if provided
+        extra_style = f", {extra_details}" if extra_details else ""
 
         image_prompt = (
             f"A full-body portrait of a {gender} with a {body_type} body type, standing pose, "
             f"visible head to toe, perfect human anatomy, natural lighting, realistic skin texture, DSLR photo, Canon EOS R5, "
-            f"wearing: {outfit_description}. {occasion} theme{country_style}{age_style}, "
+            f"wearing: {outfit_description}. {occasion} theme{country_style}{age_style}{extra_style}, "
             f"high resolution, hyper-realistic, clean background, 85mm lens, fashionable look"
         )
 
