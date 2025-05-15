@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
@@ -25,10 +25,10 @@ outfit_suggestions: OutfitSuggestion[];
 
 // List of potential API endpoints to try
 const API_ENDPOINTS = [
-'https://zkbluoyybf.execute-api.us-east-1.amazonaws.com/prod/StyleGenieAI'  // New working API endpoint
+// 'https://zkbluoyybf.execute-api.us-east-1.amazonaws.com/prod/StyleGenieAI'  // New working API endpoint
 ];
 
-const AIStyleAdvisor: React.FC = () => {
+const AIStyleAdvisor = () => {
 const [occasion, setOccasion] = useState<string>('');
 const [gender, setGender] = useState<string>('');
 const [bodyType, setBodyType] = useState<string>('');
