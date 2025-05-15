@@ -353,53 +353,67 @@ const BlogPost = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
-      <div className="w-full h-96 bg-gradient-to-r from-purple-700 to-indigo-800 relative overflow-hidden">
+      <div className="w-full h-[500px] bg-gradient-to-r from-purple-800 to-indigo-900 relative overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src={post.imageUrl} 
             alt={post.title}
-            className="w-full h-full object-cover opacity-40"
+            className="w-full h-full object-cover opacity-30"
           />
         </div>
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div className="container mx-auto px-4 h-full flex items-end pb-12">
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="container mx-auto px-4 h-full flex items-end pb-16">
           <div className="max-w-3xl text-white">
-            <Link to="/blog" className="inline-flex items-center text-purple-100 hover:text-white mb-4">
+            <Link to="/blog" className="inline-flex items-center text-white hover:text-purple-100 mb-6 font-medium">
               <ArrowLeft className="h-4 w-4 mr-2" /> Back to Blog
             </Link>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
-            <div className="flex flex-wrap gap-4 items-center text-sm text-purple-100">
-              <div className="flex items-center gap-1">
-                <User className="h-4 w-4" />
-                <span>{post.author}</span>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">{post.title}</h1>
+            <div className="flex flex-wrap gap-6 items-center text-base text-white">
+              <div className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                <span className="font-medium">{post.author}</span>
               </div>
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <span>{post.date}</span>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                <span className="font-medium">{post.date}</span>
               </div>
-              <div className="flex items-center gap-1">
-                <Tag className="h-4 w-4" />
-                <span>{post.category}</span>
+              <div className="flex items-center gap-2">
+                <Tag className="h-5 w-5" />
+                <span className="font-medium">{post.category}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
       
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-3xl mx-auto">
-          <div className="prose prose-lg max-w-none prose-headings:text-gray-800 prose-p:text-gray-700 prose-a:text-purple-700 prose-a:no-underline hover:prose-a:text-purple-800 prose-img:rounded-xl prose-img:shadow-lg" dangerouslySetInnerHTML={{ __html: post.content }}>
+          <div className="prose prose-lg max-w-none 
+            prose-headings:text-gray-900 prose-headings:font-bold prose-headings:leading-tight
+            prose-p:text-gray-800 prose-p:leading-relaxed prose-p:text-lg
+            prose-a:text-purple-800 prose-a:no-underline prose-a:font-medium hover:prose-a:text-purple-900
+            prose-img:rounded-xl prose-img:shadow-lg prose-img:my-8
+            prose-strong:text-gray-900 prose-strong:font-semibold
+            prose-ul:text-gray-800 prose-ul:leading-relaxed prose-ul:text-lg
+            prose-li:my-2
+            prose-blockquote:text-gray-700 prose-blockquote:border-l-4 prose-blockquote:border-purple-800 prose-blockquote:pl-4 prose-blockquote:italic
+            prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+            prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4" 
+            dangerouslySetInnerHTML={{ __html: post.content }}>
           </div>
           
-          <div className="mt-12 pt-6 border-t border-gray-200 flex flex-wrap gap-2">
-            {post.tags.map((tag, index) => (
-              <span key={index} className="bg-purple-100 text-purple-800 text-sm px-4 py-2 rounded-full">
-                {tag}
-              </span>
-            ))}
+          <div className="mt-16 pt-8 border-t border-gray-200">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Tags</h3>
+            <div className="flex flex-wrap gap-3">
+              {post.tags.map((tag, index) => (
+                <span key={index} className="bg-purple-100 text-purple-900 text-base px-5 py-2 rounded-full font-medium">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
