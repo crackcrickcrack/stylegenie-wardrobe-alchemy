@@ -488,7 +488,7 @@ Your Style Preferences
 value={extraDetails}
 onChange={handleExtraDetailsChange}
 placeholder="Enter any additional preferences or requirements (max 50 words, separate with commas)"
-className="w-full h-24 px-4 py-2 border border-purple-200 rounded-xl focus:ring-purple-500 focus:border-purple-500 resize-none"
+className="w-full h-24 px-4 py-2 border border-purple-200 rounded-xl focus:ring-purple-500 focus:border-purple-500 resize-none bg-white text-gray-900"
 />
 <p className="text-xs text-gray-500 mt-1">
 {extraDetails.split(/\s+/).filter(word => word.length > 0).length}/50 words
