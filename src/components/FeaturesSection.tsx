@@ -29,15 +29,15 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="py-20 bg-white">
+    <section id="how-it-works" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            AI solutions to <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">boost</span> your style
+            How StyleGenie <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Works</span>
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Powered by advanced AI, we analyze thousands of style combinations to find your perfect look
+            Our AI-powered platform makes it easy to discover your perfect style
           </p>
         </div>
 
