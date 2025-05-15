@@ -202,48 +202,131 @@ const blogPosts = {
   "seasonal-wardrobe-transitions": {
     title: "Seasonal Wardrobe Transitions Made Easy",
     content: `
-      <p>Transitioning your wardrobe between seasons can be challenging, but with the right approach and AI assistance, it can be seamless and enjoyable.</p>
+      <p>Transitioning your wardrobe between seasons can be challenging, but with the right approach and AI assistance, you can create versatile outfits that work year-round.</p>
       
       <h2>Understanding Seasonal Transitions</h2>
-      <p>Each season brings unique challenges and opportunities for your wardrobe. Our AI helps you navigate these transitions by analyzing weather patterns and your personal style preferences.</p>
+      <p>Each season brings unique challenges and opportunities for your wardrobe. The key is to have pieces that can adapt to changing temperatures and conditions while maintaining your personal style.</p>
       
-      <h2>Layering Techniques</h2>
-      <p>Mastering the art of layering is key to successful seasonal transitions. Our AI can suggest layering combinations that work for your body type and style.</p>
+      <h2>Spring to Summer Transition</h2>
+      <ul>
+        <li>Layer lightweight pieces for unpredictable weather</li>
+        <li>Incorporate breathable fabrics like cotton and linen</li>
+        <li>Use accessories to adapt outfits to changing temperatures</li>
+        <li>Build a capsule wardrobe of versatile pieces</li>
+      </ul>
       
-      <h2>Versatile Pieces</h2>
-      <p>Investing in versatile pieces that work across seasons is essential. Our AI helps identify these key items and suggests ways to style them for different weather conditions.</p>
+      <h2>Summer to Fall Transition</h2>
+      <ul>
+        <li>Add lightweight jackets and cardigans to summer outfits</li>
+        <li>Incorporate darker colors gradually</li>
+        <li>Layer summer pieces with autumn essentials</li>
+        <li>Update accessories for cooler weather</li>
+      </ul>
       
-      <h2>Seasonal Color Palettes</h2>
-      <p>Understanding how to adapt your color palette for different seasons can help create cohesive looks year-round.</p>
+      <h2>Fall to Winter Transition</h2>
+      <ul>
+        <li>Layer effectively for warmth and style</li>
+        <li>Incorporate winter accessories gradually</li>
+        <li>Use thermal layers for added warmth</li>
+        <li>Maintain style while staying warm</li>
+      </ul>
+      
+      <h2>Winter to Spring Transition</h2>
+      <ul>
+        <li>Lighten up your color palette</li>
+        <li>Incorporate lighter fabrics gradually</li>
+        <li>Use layering to adapt to changing temperatures</li>
+        <li>Update accessories for spring</li>
+      </ul>
+      
+      <h2>AI-Powered Seasonal Styling</h2>
+      <p>StyleGenie's AI can help you navigate seasonal transitions by:</p>
+      <ul>
+        <li>Analyzing your existing wardrobe</li>
+        <li>Suggesting transitional pieces</li>
+        <li>Creating outfits for changing weather</li>
+        <li>Recommending new pieces to fill gaps</li>
+      </ul>
+      
+      <h2>Building a Versatile Wardrobe</h2>
+      <p>The key to successful seasonal transitions is having a versatile wardrobe with pieces that can work across multiple seasons. Our AI can help you identify these key pieces and suggest ways to style them for different weather conditions.</p>
     `,
-    author: "James Wilson",
-    date: "July 28, 2023",
-    category: "Seasonal Fashion",
-    imageUrl: "https://images.unsplash.com/photo-1614676471928-2ed0ad1061a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    tags: ["Seasonal Fashion", "Wardrobe Planning", "Style Tips", "Fashion Transitions"]
+    author: "Sophie Anderson",
+    date: "July 25, 2023",
+    category: "Seasonal Style",
+    imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    tags: ["Seasonal Style", "Wardrobe Planning", "Fashion Tips", "AI Styling"]
   },
   "dress-for-success-ai-styling": {
     title: "Dress for Success: AI-Powered Professional Styling",
     content: `
-      <p>First impressions matter in professional settings, and your appearance plays a crucial role. Our AI-powered styling system helps you create the perfect professional wardrobe.</p>
+      <p>In today's professional world, your appearance can significantly impact your career success. AI-powered styling tools are revolutionizing how we approach professional dressing, making it easier to look polished and confident in any workplace setting.</p>
       
-      <h2>Understanding Professional Dress Codes</h2>
-      <p>Different industries and companies have different dress codes. Our AI helps you navigate these expectations while maintaining your personal style.</p>
+      <h2>The Importance of Professional Appearance</h2>
+      <p>Your professional appearance can influence:</p>
+      <ul>
+        <li>First impressions</li>
+        <li>Career advancement opportunities</li>
+        <li>Client and colleague relationships</li>
+        <li>Self-confidence and performance</li>
+      </ul>
       
-      <h2>Industry-Specific Recommendations</h2>
-      <p>Whether you're in finance, tech, creative, or healthcare, our AI provides tailored recommendations for your industry's specific needs and expectations.</p>
+      <h2>Understanding Workplace Dress Codes</h2>
+      <p>Different industries and companies have varying dress code expectations. Our AI can help you navigate these requirements while maintaining your personal style:</p>
+      <ul>
+        <li>Business formal</li>
+        <li>Business casual</li>
+        <li>Smart casual</li>
+        <li>Creative professional</li>
+      </ul>
       
       <h2>Building a Professional Wardrobe</h2>
-      <p>Our AI helps you build a versatile professional wardrobe that works for various occasions and settings.</p>
+      <p>StyleGenie's AI can help you build a professional wardrobe by:</p>
+      <ul>
+        <li>Identifying key pieces for your industry</li>
+        <li>Suggesting versatile items that work for multiple occasions</li>
+        <li>Recommending pieces that complement your existing wardrobe</li>
+        <li>Creating outfits for different professional scenarios</li>
+      </ul>
       
-      <h2>Personal Branding Through Style</h2>
-      <p>Your professional style is an extension of your personal brand. Our AI helps you develop a consistent and authentic professional image.</p>
+      <h2>Professional Styling Tips</h2>
+      <p>Our AI-powered styling system considers:</p>
+      <ul>
+        <li>Industry standards and expectations</li>
+        <li>Your body type and coloring</li>
+        <li>Personal style preferences</li>
+        <li>Budget considerations</li>
+        <li>Seasonal appropriateness</li>
+      </ul>
+      
+      <h2>Special Occasions and Events</h2>
+      <p>Professional life includes various special occasions that require specific styling:</p>
+      <ul>
+        <li>Job interviews</li>
+        <li>Client meetings</li>
+        <li>Conference presentations</li>
+        <li>Networking events</li>
+        <li>Company social gatherings</li>
+      </ul>
+      
+      <h2>The Future of Professional Styling</h2>
+      <p>As AI technology continues to evolve, we can expect even more personalized and sophisticated professional styling recommendations. From virtual try-ons to real-time outfit suggestions based on your schedule, the possibilities are endless.</p>
+      
+      <h2>Getting Started with AI Professional Styling</h2>
+      <p>StyleGenie makes it easy to get started with AI-powered professional styling:</p>
+      <ol>
+        <li>Upload photos of your current professional wardrobe</li>
+        <li>Specify your industry and workplace dress code</li>
+        <li>Share your style preferences and concerns</li>
+        <li>Receive personalized outfit recommendations</li>
+        <li>Get ongoing style advice as your career evolves</li>
+      </ol>
     `,
-    author: "Rachel Martinez",
-    date: "July 15, 2023",
+    author: "James Wilson",
+    date: "July 10, 2023",
     category: "Professional Style",
-    imageUrl: "https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    tags: ["Professional Style", "Career Fashion", "Business Attire", "Personal Branding"]
+    imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    tags: ["Professional Style", "Career Development", "Business Fashion", "AI Styling"]
   }
 };
 
