@@ -7,32 +7,44 @@ const blogPosts = {
   "ai-revolutionizing-fashion-industry": {
     title: "How AI is Revolutionizing the Fashion Industry",
     content: `
-      <p>Artificial intelligence is transforming every aspect of the fashion industry, from design and manufacturing to retail and personal styling. This technological revolution is changing how we create, sell, and consume fashion.</p>
-      
-      <h2>Design Innovation</h2>
-      <p>AI algorithms can analyze thousands of design elements, trends, and consumer preferences to generate new design ideas. Some fashion houses are already using AI to assist their creative teams, allowing designers to explore new possibilities they might not have considered otherwise.</p>
-      
-      <p>For example, AI can analyze past successful designs, current runway trends, and consumer purchasing patterns to suggest new collections that balance innovation with marketability. This doesn't replace the human creative process but enhances it with data-driven insights.</p>
-      
-      <h2>Personalized Shopping Experiences</h2>
-      <p>Perhaps the most visible impact of AI in fashion is in the personalization of shopping experiences. Online retailers use recommendation engines to suggest items based on browsing history, purchase patterns, and even body measurements.</p>
-      
-      <p>StyleGenie represents the cutting edge of this trend, offering AI-powered style recommendations tailored to an individual's body type, coloring, style preferences, and lifestyle needs. By analyzing thousands of successful styling combinations, our AI can recommend outfits that work harmoniously for each unique customer.</p>
-      
-      <h2>Virtual Try-On Technology</h2>
-      <p>One of the biggest barriers to online shopping has always been the inability to try clothes on. AI-powered virtual try-on technology is changing that by allowing customers to see how garments would look on their body without physically wearing them.</p>
-      
-      <p>Using computer vision and augmented reality, these systems can overlay clothing items on images or live video of customers, taking into account body measurements, fabric physics, and lighting conditions to create realistic visualizations.</p>
-      
-      <h2>Sustainable Production</h2>
-      <p>AI is also helping the fashion industry address its environmental impact. By predicting demand more accurately, brands can reduce overproduction and waste. AI systems analyze sales data, social media trends, and even weather forecasts to help companies produce only what they're likely to sell.</p>
-      
-      <p>Additionally, AI can optimize supply chains and manufacturing processes to reduce resource consumption and carbon emissions. Some companies are using AI to develop more sustainable materials and production techniques as well.</p>
-      
-      <h2>The Future of Fashion AI</h2>
-      <p>As AI technology continues to evolve, we can expect even more transformative applications in the fashion industry. From completely automated manufacturing to hyper-personalized garments designed specifically for an individual's measurements and preferences, the possibilities are exciting.</p>
-      
-      <p>At StyleGenie, we're committed to staying at the forefront of this technological revolution while maintaining the human touch that makes fashion so special. Our AI tools are designed to empower both designers and consumers, making fashion more accessible, sustainable, and personalized than ever before.</p>
+      <div class="space-y-8">
+        <p class="text-xl font-medium text-gray-900 leading-relaxed">Artificial intelligence is transforming every aspect of the fashion industry, from design and manufacturing to retail and personal styling. This technological revolution is changing how we create, sell, and consume fashion.</p>
+        
+        <div class="space-y-6">
+          <h2 class="text-3xl font-bold text-gray-900">Design Innovation</h2>
+          <p class="text-lg text-gray-800 leading-relaxed">AI algorithms can analyze thousands of design elements, trends, and consumer preferences to generate new design ideas. Some fashion houses are already using AI to assist their creative teams, allowing designers to explore new possibilities they might not have considered otherwise.</p>
+          
+          <p class="text-lg text-gray-800 leading-relaxed">For example, AI can analyze past successful designs, current runway trends, and consumer purchasing patterns to suggest new collections that balance innovation with marketability. This doesn't replace the human creative process but enhances it with data-driven insights.</p>
+        </div>
+        
+        <div class="space-y-6">
+          <h2 class="text-3xl font-bold text-gray-900">Personalized Shopping Experiences</h2>
+          <p class="text-lg text-gray-800 leading-relaxed">Perhaps the most visible impact of AI in fashion is in the personalization of shopping experiences. Online retailers use recommendation engines to suggest items based on browsing history, purchase patterns, and even body measurements.</p>
+          
+          <p class="text-lg text-gray-800 leading-relaxed">StyleGenie represents the cutting edge of this trend, offering AI-powered style recommendations tailored to an individual's body type, coloring, style preferences, and lifestyle needs. By analyzing thousands of successful styling combinations, our AI can recommend outfits that work harmoniously for each unique customer.</p>
+        </div>
+        
+        <div class="space-y-6">
+          <h2 class="text-3xl font-bold text-gray-900">Virtual Try-On Technology</h2>
+          <p class="text-lg text-gray-800 leading-relaxed">One of the biggest barriers to online shopping has always been the inability to try clothes on. AI-powered virtual try-on technology is changing that by allowing customers to see how garments would look on their body without physically wearing them.</p>
+          
+          <p class="text-lg text-gray-800 leading-relaxed">Using computer vision and augmented reality, these systems can overlay clothing items on images or live video of customers, taking into account body measurements, fabric physics, and lighting conditions to create realistic visualizations.</p>
+        </div>
+        
+        <div class="space-y-6">
+          <h2 class="text-3xl font-bold text-gray-900">Sustainable Production</h2>
+          <p class="text-lg text-gray-800 leading-relaxed">AI is also helping the fashion industry address its environmental impact. By predicting demand more accurately, brands can reduce overproduction and waste. AI systems analyze sales data, social media trends, and even weather forecasts to help companies produce only what they're likely to sell.</p>
+          
+          <p class="text-lg text-gray-800 leading-relaxed">Additionally, AI can optimize supply chains and manufacturing processes to reduce resource consumption and carbon emissions. Some companies are using AI to develop more sustainable materials and production techniques as well.</p>
+        </div>
+        
+        <div class="space-y-6">
+          <h2 class="text-3xl font-bold text-gray-900">The Future of Fashion AI</h2>
+          <p class="text-lg text-gray-800 leading-relaxed">As AI technology continues to evolve, we can expect even more transformative applications in the fashion industry. From completely automated manufacturing to hyper-personalized garments designed specifically for an individual's measurements and preferences, the possibilities are exciting.</p>
+          
+          <p class="text-lg text-gray-800 leading-relaxed">At StyleGenie, we're committed to staying at the forefront of this technological revolution while maintaining the human touch that makes fashion so special. Our AI tools are designed to empower both designers and consumers, making fashion more accessible, sustainable, and personalized than ever before.</p>
+        </div>
+      </div>
     `,
     author: "Elena Martinez",
     date: "October 12, 2023",
@@ -401,7 +413,8 @@ const BlogPost = () => {
             prose-li:my-2
             prose-blockquote:text-gray-700 prose-blockquote:border-l-4 prose-blockquote:border-purple-800 prose-blockquote:pl-4 prose-blockquote:italic
             prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-            prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4" 
+            prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4
+            prose-div:space-y-8" 
             dangerouslySetInnerHTML={{ __html: post.content }}>
           </div>
           
