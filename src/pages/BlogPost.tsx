@@ -10,15 +10,20 @@ const blogPosts = {
       <div class="space-y-8">
         <p class="text-xl font-medium text-gray-900 leading-relaxed">Artificial intelligence is transforming every aspect of the fashion industry, from design and manufacturing to retail and personal styling. This technological revolution is changing how we create, sell, and consume fashion.</p>
         
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI in Fashion Design" class="w-full h-[400px] object-cover rounded-xl shadow-lg" />
+        
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">Design Innovation</h2>
           <p class="text-lg text-gray-800 leading-relaxed">AI algorithms can analyze thousands of design elements, trends, and consumer preferences to generate new design ideas. Some fashion houses are already using AI to assist their creative teams, allowing designers to explore new possibilities they might not have considered otherwise.</p>
+          
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Fashion Design Process" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           
           <p class="text-lg text-gray-800 leading-relaxed">For example, AI can analyze past successful designs, current runway trends, and consumer purchasing patterns to suggest new collections that balance innovation with marketability. This doesn't replace the human creative process but enhances it with data-driven insights.</p>
         </div>
         
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">Personalized Shopping Experiences</h2>
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Shopping Experience" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">Perhaps the most visible impact of AI in fashion is in the personalization of shopping experiences. Online retailers use recommendation engines to suggest items based on browsing history, purchase patterns, and even body measurements.</p>
           
           <p class="text-lg text-gray-800 leading-relaxed">StyleGenie represents the cutting edge of this trend, offering AI-powered style recommendations tailored to an individual's body type, coloring, style preferences, and lifestyle needs. By analyzing thousands of successful styling combinations, our AI can recommend outfits that work harmoniously for each unique customer.</p>
@@ -26,6 +31,7 @@ const blogPosts = {
         
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">Virtual Try-On Technology</h2>
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Virtual Try-On Technology" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">One of the biggest barriers to online shopping has always been the inability to try clothes on. AI-powered virtual try-on technology is changing that by allowing customers to see how garments would look on their body without physically wearing them.</p>
           
           <p class="text-lg text-gray-800 leading-relaxed">Using computer vision and augmented reality, these systems can overlay clothing items on images or live video of customers, taking into account body measurements, fabric physics, and lighting conditions to create realistic visualizations.</p>
@@ -33,6 +39,7 @@ const blogPosts = {
         
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">Sustainable Production</h2>
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Sustainable Fashion Production" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">AI is also helping the fashion industry address its environmental impact. By predicting demand more accurately, brands can reduce overproduction and waste. AI systems analyze sales data, social media trends, and even weather forecasts to help companies produce only what they're likely to sell.</p>
           
           <p class="text-lg text-gray-800 leading-relaxed">Additionally, AI can optimize supply chains and manufacturing processes to reduce resource consumption and carbon emissions. Some companies are using AI to develop more sustainable materials and production techniques as well.</p>
@@ -40,6 +47,7 @@ const blogPosts = {
         
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">The Future of Fashion AI</h2>
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Future of Fashion AI" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">As AI technology continues to evolve, we can expect even more transformative applications in the fashion industry. From completely automated manufacturing to hyper-personalized garments designed specifically for an individual's measurements and preferences, the possibilities are exciting.</p>
           
           <p class="text-lg text-gray-800 leading-relaxed">At StyleGenie, we're committed to staying at the forefront of this technological revolution while maintaining the human touch that makes fashion so special. Our AI tools are designed to empower both designers and consumers, making fashion more accessible, sustainable, and personalized than ever before.</p>
@@ -58,14 +66,18 @@ const blogPosts = {
       <div class="space-y-8">
         <p class="text-xl font-medium text-gray-900 leading-relaxed">Understanding your body type is the first step toward creating a wardrobe that makes you look and feel your best. Different silhouettes and styling tricks can highlight your favorite features and create balanced, flattering outfits.</p>
         
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Body Type Styling Guide" class="w-full h-[400px] object-cover rounded-xl shadow-lg" />
+        
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">Identifying Your Body Type</h2>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Body Type Analysis" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">Before diving into specific styling tips, it's important to understand your body type. While everyone is unique, most people fall into broad categories like rectangular, hourglass, pear, apple, or inverted triangle. These classifications are based on the proportions between your shoulders, waist, and hips.</p>
           <p class="text-lg text-gray-800 leading-relaxed">StyleGenie's AI analysis can help identify your body type based on photos and measurements, taking the guesswork out of this crucial first step.</p>
         </div>
 
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">1. Hourglass Body Type</h2>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Hourglass Body Type Styling" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">If you have an hourglass figure with similar shoulder and hip measurements and a defined waist, embrace styles that highlight this natural balance.</p>
           <ul class="list-disc pl-6 space-y-2 text-lg text-gray-800">
             <li>Opt for fitted clothing that follows your curves rather than hiding them</li>
@@ -143,8 +155,11 @@ const blogPosts = {
       <div class="space-y-8">
         <p class="text-xl font-medium text-gray-900 leading-relaxed">The fashion industry is one of the largest polluters in the world, but AI technology is helping to change that. From reducing waste to promoting sustainable materials, artificial intelligence is becoming a powerful tool for ethical fashion.</p>
         
+        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Sustainable Fashion" class="w-full h-[400px] object-cover rounded-xl shadow-lg" />
+        
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">AI-Powered Waste Reduction</h2>
+          <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Waste Reduction" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">One of the biggest challenges in fashion is overproduction. AI algorithms can analyze sales data, social media trends, and even weather patterns to predict demand more accurately, helping brands produce only what they need.</p>
           <p class="text-lg text-gray-800 leading-relaxed">StyleGenie's AI takes this a step further by helping individual consumers make more sustainable choices. Our system can analyze your existing wardrobe and suggest ways to maximize the use of each piece, reducing the need for new purchases.</p>
         </div>
@@ -177,8 +192,11 @@ const blogPosts = {
       <div class="space-y-8">
         <p class="text-xl font-medium text-gray-900 leading-relaxed">Understanding color theory is essential for creating a cohesive and flattering wardrobe. Our AI technology takes this understanding to the next level, helping you discover your perfect color palette.</p>
         
+        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Color Theory in Fashion" class="w-full h-[400px] object-cover rounded-xl shadow-lg" />
+        
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">The Science of Color</h2>
+          <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Color Science" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">Color theory in fashion is based on the principles of how colors interact with each other and with your natural coloring. This includes your skin tone, hair color, and eye color.</p>
         </div>
 
@@ -216,8 +234,11 @@ const blogPosts = {
       <div class="space-y-8">
         <p class="text-xl font-medium text-gray-900 leading-relaxed">AI-generated models are revolutionizing fashion photography, offering new possibilities for creativity and efficiency in the industry.</p>
         
+        <img src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Fashion Photography" class="w-full h-[400px] object-cover rounded-xl shadow-lg" />
+        
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">The Rise of Virtual Models</h2>
+          <img src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Virtual Models" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">Virtual models created by AI are becoming increasingly common in fashion campaigns. These digital avatars can be customized to represent diverse body types, ethnicities, and styles.</p>
         </div>
 
@@ -255,8 +276,11 @@ const blogPosts = {
       <div class="space-y-8">
         <p class="text-xl font-medium text-gray-900 leading-relaxed">Transitioning your wardrobe between seasons can be challenging, but with the right approach and AI assistance, you can create versatile outfits that work year-round.</p>
         
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Seasonal Wardrobe" class="w-full h-[400px] object-cover rounded-xl shadow-lg" />
+        
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">Understanding Seasonal Transitions</h2>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Seasonal Transitions" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">Each season brings unique challenges and opportunities for your wardrobe. The key is to have pieces that can adapt to changing temperatures and conditions while maintaining your personal style.</p>
         </div>
 
@@ -329,8 +353,11 @@ const blogPosts = {
       <div class="space-y-8">
         <p class="text-xl font-medium text-gray-900 leading-relaxed">In today's professional world, your appearance can significantly impact your career success. AI-powered styling tools are revolutionizing how we approach professional dressing, making it easier to look polished and confident in any workplace setting.</p>
         
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Professional Styling" class="w-full h-[400px] object-cover rounded-xl shadow-lg" />
+        
         <div class="space-y-6">
           <h2 class="text-3xl font-bold text-gray-900">The Importance of Professional Appearance</h2>
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Professional Appearance" class="w-full h-[300px] object-cover rounded-xl shadow-lg" />
           <p class="text-lg text-gray-800 leading-relaxed">Your professional appearance can influence:</p>
           <ul class="list-disc pl-6 space-y-2 text-lg text-gray-800">
             <li>First impressions</li>
